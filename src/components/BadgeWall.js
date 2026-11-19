@@ -3,6 +3,7 @@ import { motion, useInView } from 'framer-motion';
 import SceneGuard from './three/SceneGuard';
 import BadgeShareCard, { CARD_SIZES, accentFor } from './BadgeShareCard';
 import { groupBadges } from '../lib/badges';
+import { filterGroups, parseFilter, serializeFilter, filterNoun } from '../lib/badgeFilter';
 import { canRender3D } from '../lib/capabilities';
 import { exportCardPng } from '../lib/exportPng';
 import { communityBuilderBadge } from '../data/curation';
@@ -10,6 +11,21 @@ import badgesData from '../data/generated/badges.json';
 
 // three/r3f live only in this lazy chunk; SceneGuard never renders it on the server.
 const BadgeMedallion = React.lazy(() => import('./three/BadgeMedallion'));
+
+const VENDOR_CHIPS = [['all', 'All'], ['aws', 'AWS'], ['microsoft', 'Microsoft'], ['other', 'Other']];
+const LEVEL_CHIPS = [['all', 'All levels'], ['professional', 'Professional & Specialty'], ['associate', 'Associate'], ['foundational', 'Foundational & Training']];
+
+function Chips({ label, options, value, onChange }) {
+  return (
+    <div role="group" aria-label={label} style={{ display: 'flex', flexWrap: 'wrap', gap: '.5rem', justifyContent: 'center' }}>
+      {options.map(([key, text]) => (
+        <button key={key} type="button" className="bw-btn bw-chip" aria-pressed={value === key} onClick={() => onChange(key)}>
+          {text}
+        </button>
+      ))}
+    </div>
+  );
+}
 
 const FEATURED_GROUPS = ['AWS Professional & Specialty', 'AWS Associate'];
 const MAX_FEATURED = 4;
@@ -41,6 +57,8 @@ const CSS = `
   transition: background .2s, border-color .2s; }
 .bw-btn:hover { background: rgba(0,212,255,0.18); border-color: #00d4ff; }
 .bw-btn[aria-pressed="true"] { background: linear-gradient(135deg, #00d4ff, #00ff88); color: #04121a; border-color: transparent; }
+.bw-chip { padding: .45rem 1rem; font-size: .85rem; }
+.bw-chip[aria-pressed="true"] { background: linear-gradient(135deg, #00d4ff, #00ff88); color: #04121a; }
 .bw-btn:disabled { opacity: .6; cursor: progress; }
 `;
 
@@ -185,7 +203,7 @@ function ScaledPreview({ size, children }) {
   );
 }
 
-function SharePanel({ groups }) {
+function SharePanel({ groups, noun, slug }) {
   const wideRef = useRef(null);
   const squareRef = useRef(null);
   const [busy, setBusy] = useState(null);
@@ -198,7 +216,7 @@ function SharePanel({ groups }) {
     setBusy(size);
     setError('');
     try {
-      await exportCardPng(node, { width, height, filename: `swaroop-credentials-${width}x${height}.png` });
+      await exportCardPng(node, { width, height, filename: `badges-${slug}-${size}.png` });
     } catch (e) {
       console.warn('PNG export failed:', e);
       setError('Export failed. Please try again.');
@@ -210,7 +228,7 @@ function SharePanel({ groups }) {
   const item = (size, ref, label, note) => (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', alignItems: 'flex-start' }}>
       <ScaledPreview size={size}>
-        <BadgeShareCard ref={ref} size={size} groups={groups} />
+        <BadgeShareCard ref={ref} size={size} groups={groups} noun={noun} />
       </ScaledPreview>
       <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', flexWrap: 'wrap' }}>
         <button
@@ -257,7 +275,25 @@ export default function BadgeWall({ badges = badgesData, extraBadges = [communit
     setNow(new Date());
   }, []);
 
-  const groups = useMemo(() => groupBadges([...badges, ...extraBadges], now), [badges, extraBadges, now]);
+  const [filter, setFilter] = useState({ vendor: 'all', level: 'all' });
+  // SSR renders All; the hash is applied after mount so hydration matches.
+  useEffect(() => {
+    setFilter(parseFilter(window.location.hash));
+  }, []);
+  const applyFilter = (next) => {
+    setFilter(next);
+    try {
+      const q = serializeFilter(next);
+      window.history.replaceState(null, '', `${window.location.pathname}${window.location.search}#badges${q ? `?${q}` : ''}`);
+    } catch (e) {
+      /* history unavailable: state still works */
+    }
+  };
+
+  const allGroups = useMemo(() => groupBadges([...badges, ...extraBadges], now), [badges, extraBadges, now]);
+  const groups = useMemo(() => filterGroups(allGroups, filter), [allGroups, filter]);
+  const noun = filterNoun(filter);
+  const slug = filter.vendor === 'all' ? 'all' : filter.vendor === 'aws' && filter.level !== 'all' ? `aws-${filter.level}` : filter.vendor;
   const count = groups.reduce((n, g) => n + g.badges.length, 0);
   const offCredly = groups.flatMap((g) => g.badges).filter((b) => !/credly\.com/.test(b.url || ''));
   const featured = useMemo(
@@ -293,11 +329,22 @@ export default function BadgeWall({ badges = badgesData, extraBadges = [communit
             Badge Wall
           </h2>
           <p style={{ color: 'rgba(255,255,255,0.75)', marginTop: '1rem' }}>
-            <strong style={{ color: '#00ff88' }}>{count} credentials</strong> across {groups.length} groups
-            {offCredly.length > 0
+            <strong style={{ color: '#00ff88' }}>{count} {noun}</strong> across {groups.length} {groups.length === 1 ? 'group' : 'groups'}
+            {count === 0
+              ? ''
+              : offCredly.length > 0
               ? `: ${count - offCredly.length} verified on Credly, plus ${offCredly.map((b) => b.name).join(', ')}`
               : ', verified on Credly'}
           </p>
+          <div style={{ marginTop: '1.5rem', display: 'grid', gap: '.75rem' }}>
+            <Chips label="Filter by vendor" options={VENDOR_CHIPS} value={filter.vendor} onChange={(vendor) => applyFilter({ vendor, level: 'all' })} />
+            {filter.vendor === 'aws' && (
+              <Chips label="Filter AWS by level" options={LEVEL_CHIPS} value={filter.level} onChange={(level) => applyFilter({ vendor: 'aws', level })} />
+            )}
+            <p role="status" aria-live="polite" className="bw-sr" style={{ position: 'absolute', width: 1, height: 1, overflow: 'hidden', clip: 'rect(0 0 0 0)', whiteSpace: 'nowrap' }}>
+              {`Showing ${count} ${noun}`}
+            </p>
+          </div>
           <div style={{ marginTop: '1.5rem' }}>
             <button
               type="button"
@@ -311,8 +358,15 @@ export default function BadgeWall({ badges = badgesData, extraBadges = [communit
           </div>
         </motion.div>
 
-        {shareMode ? (
-          <SharePanel groups={groups} />
+        {count === 0 ? (
+          <div style={{ textAlign: 'center', padding: '3rem 1rem', color: 'rgba(255,255,255,0.75)' }}>
+            <p style={{ marginBottom: '1rem' }}>No badges match this filter.</p>
+            <button type="button" className="bw-btn" onClick={() => applyFilter({ vendor: 'all', level: 'all' })}>
+              Reset filters
+            </button>
+          </div>
+        ) : shareMode ? (
+          <SharePanel groups={groups} noun={noun} slug={slug} />
         ) : (
           <>
             {featured.length > 0 && (

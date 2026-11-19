@@ -147,7 +147,9 @@ export function sourceLabel(groups) {
   const all = groups.flatMap((g) => g.badges);
   const offCredly = all.filter((b) => !/credly\.com/.test(b.url || ''));
   if (offCredly.length === 0) return 'Verified on Credly';
-  if (offCredly.every((b) => /Community Builder/i.test(b.name))) return 'Credly + AWS Community Builder';
+  if (offCredly.every((b) => /Community Builder/i.test(b.name))) {
+    return offCredly.length === all.length ? 'AWS Community Builder' : 'Credly + AWS Community Builder';
+  }
   return `${all.length - offCredly.length} on Credly + ${offCredly.length} more`;
 }
 
@@ -173,7 +175,7 @@ const AccentBar = () => (
   <div style={{ position: 'absolute', left: 0, top: 0, right: 0, height: 6, background: 'linear-gradient(90deg, #00d4ff, #00ff88)' }} />
 );
 
-const BadgeShareCard = forwardRef(function BadgeShareCard({ size = 'wide', groups }, ref) {
+const BadgeShareCard = forwardRef(function BadgeShareCard({ size = 'wide', groups, noun = 'credentials' }, ref) {
   const { width, height } = CARD_SIZES[size] || CARD_SIZES.wide;
   const count = total(groups);
 
@@ -190,7 +192,7 @@ const BadgeShareCard = forwardRef(function BadgeShareCard({ size = 'wide', group
           </div>
           <div style={{ textAlign: 'right' }}>
             <div style={{ fontSize: 112, fontWeight: 900, lineHeight: 0.9, color: '#00ff88' }}>{count}</div>
-            <div style={{ fontSize: 22, color: '#b9c4d4', marginTop: 6 }}>credentials</div>
+            <div style={{ fontSize: 22, color: '#b9c4d4', marginTop: 6 }}>{noun}</div>
           </div>
         </div>
         <div style={{ marginTop: 28, marginBottom: 24 }}>
@@ -215,7 +217,7 @@ const BadgeShareCard = forwardRef(function BadgeShareCard({ size = 'wide', group
         <div style={{ fontSize: 24, fontWeight: 500, color: '#b9c4d4', marginTop: 6 }}>AI/ML Architect</div>
         <div style={{ display: 'flex', alignItems: 'baseline', gap: 12, marginTop: 28 }}>
           <span style={{ fontSize: 88, fontWeight: 900, lineHeight: 0.9, color: '#00ff88' }}>{count}</span>
-          <span style={{ fontSize: 22, color: '#b9c4d4' }}>credentials</span>
+          <span style={{ fontSize: 22, color: '#b9c4d4', lineHeight: 1.15 }}>{noun}</span>
         </div>
         <div style={{ marginTop: 28 }}>
           <Legend groups={groups} fontSize={17} gap={10} />
