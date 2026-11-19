@@ -5,85 +5,40 @@ import CFT from '../images/cft.jpeg'
 import Infy from '../images/infy.jpeg'
 import ACT from '../images/activate.jpeg'
 import '../assets/css/experience-mobile.css'
+import { experiences as experienceData, yearsOfExperience } from '../data/portfolioData'
+
+// Career facts live in portfolioData.js; this file only adds presentation.
+const LOGOS = {
+  'Activate Interactive': ACT,
+  'Infosys Limited': Infy,
+  'Craftveda Technology': CFT,
+  'GoFrugal Technologies': GFT,
+}
+const GRADIENTS = [
+  'linear-gradient(135deg, #00d4ff 0%, #00ff88 100%)',
+  'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+  'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
+  'linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)',
+  'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)',
+  'linear-gradient(135deg, #fa709a 0%, #fee140 100%)',
+]
+const initials = (name) =>
+  name
+    .split(/\s+/)
+    .filter((w) => /^[A-Za-z]/.test(w))
+    .slice(0, 2)
+    .map((w) => w[0].toUpperCase())
+    .join('')
 
 const ExperienceSection = () => {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, margin: '-100px' })
 
-  const experiences = [
-    {
-      company: 'Activate Interactive',
-      logo: ACT,
-      role: 'Senior Application Consultant',
-      period: 'May 2022 - Present',
-      location: 'Singapore',
-      description: 'Promoted to Senior within 18 months. Solutions Architect for government projects including CLOUDBOX, AI Talent Portal, MVX (MHA), CPF DevOps, and CRISP (MOM).',
-      achievements: [
-        'CLOUDBOX Solutions Architect - CDKTF infrastructure provisioning in <30 minutes',
-        'AI Talent Portal Engineer - 60% reduction in CV screening time',
-        'Tech Lead for SG Secure (MHA) - mentored 4+ developers',
-        'Solution Architect for CRISP (MOM) - mentored 2 Tech Leads',
-        'DevOps Engineer for CPF Board - architected CI/CD pipelines',
-        'Co-led SHARE HTX team of 4 - 99.9% uptime',
-        'Maintained Healthy365 serving 2M+ users',
-        'Managed 20+ PR reviews monthly',
-      ],
-      technologies: ['React', 'TypeScript', 'Node.js', 'AWS', 'CDKTF', 'Terraform', 'Docker', 'K8s', 'Python', 'AI/ML'],
-      gradient: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-    },
-    {
-      company: 'Infosys Limited',
-      logo: Infy,
-      role: 'Associate Consultant',
-      period: 'Jun 2021 - May 2022',
-      location: 'Trivandrum, India',
-      description: 'Enterprise software development for Samsung and HPE. Led testing team ensuring zero-defect deliverables.',
-      achievements: [
-        'API Blender for Samsung - 40% efficiency improvement',
-        'Asset Management Tool for HPE - tracking 10K+ devices',
-        'Led testing team of 3 members',
-        'Zero defect handovers across 5+ projects',
-        'Earned 4 professional certifications',
-      ],
-      technologies: ['React', 'TypeScript', 'Node.js', 'Angular', 'MongoDB', 'Azure DevOps'],
-      gradient: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
-    },
-    {
-      company: 'Craftveda Technology',
-      logo: CFT,
-      role: 'Tech Lead - Frontend',
-      period: 'Jun 2020 - May 2021',
-      location: 'Kolkata, India (Remote)',
-      description: 'Promoted to Tech Lead in 4 months. Led R&D for patent-pending healthcare solutions.',
-      achievements: [
-        'Promoted to Tech Lead within 4 months',
-        'Led team of 4 engineers - 3 production apps delivered',
-        'Spearheaded 2 patent-pending healthcare solutions',
-        'Developed PPG heart rate app - 85% accuracy vs clinical devices',
-        'Built cross-platform SDK - 50% development time reduction',
-        'Conducted 100+ code reviews',
-        'Negotiated with 5+ clients for WhiteLabel SDK',
-      ],
-      technologies: ['React', 'React Native', 'TypeScript', 'Node.js', 'Ionic', 'Twilio', 'Flutter', 'Cordova'],
-      gradient: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)',
-    },
-    {
-      company: 'GoFrugal Technologies',
-      logo: GFT,
-      role: 'Member Technical Staff',
-      period: 'Dec 2018 - Apr 2020',
-      location: 'Chennai, India',
-      description: 'Enterprise retail solutions development. CRM maintenance and testing automation.',
-      achievements: [
-        'Upgraded myDelight CRM React 0.16 to v16 - 40% performance boost',
-        'Maintained myGoFrugal - 60% crash rate reduction',
-        'Implemented 200+ automated test cases',
-        'Mastered Cucumber, Capybara, Mocha frameworks',
-      ],
-      technologies: ['React', 'JavaScript', 'Cucumber', 'Capybara', 'Mocha', 'REST APIs'],
-      gradient: 'linear-gradient(135deg, #fa709a 0%, #fee140 100%)',
-    },
-  ]
+  const experiences = experienceData.map((exp, i) => ({
+    ...exp,
+    logo: LOGOS[exp.company],
+    gradient: GRADIENTS[i % GRADIENTS.length],
+  }))
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -164,7 +119,8 @@ const ExperienceSection = () => {
               margin: '0 auto',
             }}
           >
-            6+ years building impactful solutions across government and enterprise
+            {yearsOfExperience} years building and leading enterprise systems for Singapore government agencies and
+            enterprise teams
           </p>
         </motion.div>
 
@@ -190,7 +146,7 @@ const ExperienceSection = () => {
                 borderRadius: '20px',
                 border: '1px solid rgba(255, 255, 255, 0.1)',
                 overflow: 'hidden',
-                cursor: 'pointer',
+                cursor: 'default',
               }}
             >
               <div
@@ -207,23 +163,27 @@ const ExperienceSection = () => {
               <div
                 style={{
                   display: 'grid',
-                  gridTemplateColumns: exp.logo ? 'auto 1fr' : '1fr',
+                  gridTemplateColumns: 'auto minmax(0, 1fr)',
                   gap: '1.5rem',
                   alignItems: 'start',
                 }}
                 className="exp-card-content"
               >
-                {exp.logo && (
-                  <div
-                    style={{
-                      width: '80px',
-                      height: '80px',
-                      borderRadius: '15px',
-                      overflow: 'hidden',
-                      border: '2px solid rgba(255, 255, 255, 0.2)',
-                      flexShrink: 0,
-                    }}
-                  >
+                <div
+                  style={{
+                    width: '80px',
+                    height: '80px',
+                    borderRadius: '15px',
+                    overflow: 'hidden',
+                    border: '2px solid rgba(255, 255, 255, 0.2)',
+                    flexShrink: 0,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    background: exp.logo ? undefined : exp.gradient,
+                  }}
+                >
+                  {exp.logo ? (
                     <img
                       src={exp.logo}
                       alt={exp.company}
@@ -233,8 +193,16 @@ const ExperienceSection = () => {
                         objectFit: 'cover',
                       }}
                     />
-                  </div>
-                )}
+                  ) : (
+                    <span
+                      role="img"
+                      aria-label={exp.company}
+                      style={{ fontWeight: 800, fontSize: '1.6rem', color: '#04121a', letterSpacing: '-0.02em' }}
+                    >
+                      {initials(exp.company)}
+                    </span>
+                  )}
+                </div>
 
                 <div>
                   <div
@@ -301,7 +269,30 @@ const ExperienceSection = () => {
                     {exp.description}
                   </p>
 
-                  {exp.achievements && (
+                  {exp.positions && exp.positions.length > 1 && (
+                    <ol
+                      aria-label={`Roles at ${exp.company}`}
+                      style={{
+                        listStyle: 'none',
+                        margin: '0 0 1rem',
+                        padding: '0 0 0 1rem',
+                        borderLeft: '2px solid rgba(0, 212, 255, 0.3)',
+                        display: 'grid',
+                        gap: '0.35rem',
+                      }}
+                    >
+                      {exp.positions.map((pos) => (
+                        <li key={pos.title} style={{ fontSize: '0.92rem', color: 'rgba(255, 255, 255, 0.85)' }}>
+                          <strong style={{ color: '#fff', fontWeight: 600 }}>{pos.title}</strong>
+                          <span style={{ color: 'rgba(255, 255, 255, 0.55)', fontFamily: 'monospace', fontSize: '0.8rem', marginLeft: '0.6rem' }}>
+                            {pos.period}
+                          </span>
+                        </li>
+                      ))}
+                    </ol>
+                  )}
+
+                  {exp.achievements && exp.achievements.length > 0 && (
                     <ul
                       style={{
                         marginBottom: '1.5rem',
@@ -311,7 +302,7 @@ const ExperienceSection = () => {
                         lineHeight: '1.8',
                       }}
                     >
-                      {exp.achievements.slice(0, 4).map((achievement, idx) => (
+                      {exp.achievements.slice(0, 6).map((achievement, idx) => (
                         <li key={idx}>{achievement}</li>
                       ))}
                     </ul>

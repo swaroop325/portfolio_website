@@ -1,8 +1,8 @@
 module.exports = {
   siteMetadata: {
-    title: 'Swaroop A.S - Full Stack Developer',
+    title: 'Swaroop A.S - AI/ML Architect',
     author: 'Swaroop A.S',
-    description: 'Full Stack Developer | DevOps Enthusiast | Cloud Learner | Servant Leader',
+    description: 'AI/ML Architect at Ingram Micro, Singapore | AWS cloud architecture, AI/ML and GenAI, DevOps | AWS Community Builder',
     image: 'src/images/favicon.ico',
     siteUrl: 'https://swaroop325.web.app',
   },

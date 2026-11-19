@@ -1,55 +1,77 @@
-// Centralized portfolio data
-export const professionalSummary = `Senior Full-Stack Engineer with 6+ years building scalable, secure systems for Singapore government agencies and enterprise clients. Integrate AI, DevOps, and cloud architecture to deliver impactful solutions. Embrace Servant Leadership approach and mentoring teams to achieve technical excellence.`
+// Centralized portfolio data.
+// Source of truth for career facts: the GitHub profile README
+// (github.com/swaroop325/swaroop325). Do not add metrics that are not there.
+export const professionalSummary = `AI/ML Architect at Ingram Micro, Singapore. 7+ years building and leading enterprise systems for Singapore government agencies as a Solution Architect and Engineering Manager: managed 16 engineers and owned presales, RFP/tender strategy and technical proposals. Focus: AWS cloud architecture, AI/ML and GenAI, and DevOps, with a leadership style built around growing engineers and shipping quality software on time.`
+
+export const yearsOfExperience = '7+'
 
 export const experiences = [
   {
-    company: 'Activate Interactive',
-    role: 'Senior Application Consultant',
-    period: 'May 2022 - Present',
+    company: 'Ingram Micro',
+    role: 'AI/ML Architect',
+    period: 'Sep 2026 - Present',
     location: 'Singapore',
+    description: 'AI/ML Architect focused on AWS cloud architecture, AI/ML and GenAI, and DevOps.',
+    achievements: [],
+    technologies: ['AWS', 'AI/ML', 'GenAI', 'DevOps'],
+  },
+  {
+    company: 'Activate Interactive',
+    role: 'Solution Architect',
+    period: 'May 2022 - Sep 2026',
+    location: 'Singapore',
+    description:
+      'Built and led enterprise systems for Singapore government agencies as a Solution Architect and Engineering Manager. Managed 16 engineers, led the organisation-wide AI transformation, and owned presales, RFP/tender strategy and technical proposals.',
+    achievements: [
+      'Managed 16 engineers; grew 2 engineers into Tech Leads',
+      'Led the organisation-wide AI transformation: PR-Agent (automated code review on AWS Bedrock and Claude), myTechLead (secure PR review desktop tool) and a 2-day AI Bootcamp with an adoption roadmap to upskill 30+ engineers',
+      'Owned presales and RFP/tender responses for multi-million dollar government contracts',
+      'CLOUDBOX: CDKTF self-service provisioning portal, deployment time from days to under 30 minutes',
+      'Talent Acquisition Portal: RAG-based CV screening, 60% less manual screening effort',
+      'Tech Lead / Cloud Architect for SG Secure (MHA), CRISP (MOM), CPF Board and GRL@PA: CI/CD pipelines and cloud infrastructure, teams of 4-6',
+    ],
     positions: [
       {
+        title: 'Solution Architect',
+        period: 'Feb 2026 - Sep 2026',
+        achievements: [],
+      },
+      {
         title: 'Senior Application Consultant',
-        period: 'Oct 2023 - Present',
+        period: 'Oct 2023 - Jan 2026',
         achievements: [
-          'Solutions Architect for CLOUDBOX - CDKTF infrastructure provisioning in <30 min',
-          'AI Engineer for Talent Portal - 60% reduction in CV screening time',
-          'Tech Lead for MVX - Ministry of Home Affairs',
-          'DevOps Engineer for CPF Board - Architected CI/CD pipelines',
-          'Solution Architect for CRISP - Ministry of Manpower, mentored 2 Tech Leads',
-          'Tech Lead for SG Secure - National security platform, mentored 4+ developers',
-        ]
+          'Solution Architect for CLOUDBOX: CDKTF infrastructure provisioning in under 30 minutes',
+          'AI Engineer for the Talent Acquisition Portal: 60% less manual CV screening effort',
+          'Tech Lead for MVX HTX (Home Team S&T): led delivery, mentored 5 engineers',
+          'DevOps Engineer for CPF Board: architected CI/CD pipelines',
+          'Solution Architect for CRISP (Ministry of Manpower): mentored 2 Tech Leads',
+          'Tech Lead for SG Secure (Ministry of Home Affairs): mentored 4+ developers',
+        ],
       },
       {
         title: 'Application Consultant',
-        period: 'May 2023 - Sep 2023',
+        period: 'May 2022 - Sep 2023',
+        note: 'Joined on contract (May 2022 - Apr 2023)',
         achievements: [
-          'Co-led team of 4 for SHARE HTX - Singapore Prison Service',
-          'Delivered React/Node.js platform with 99.9% uptime',
-          'Led DevOps for 5-member team, managed 20+ PR reviews monthly',
-        ]
+          'Co-led a team of 4 on SHARE HTX (Singapore Prison Service): React/Node.js platform with 99.9% uptime',
+          'Led DevOps for a 5-member team; managed 20+ PR reviews monthly',
+          'Maintained Healthy365 (Health Promotion Board) for 2M+ users: React TypeScript and Node.js microservices',
+        ],
       },
-      {
-        title: 'Application Consultant - Contract',
-        period: 'May 2022 - Apr 2023',
-        achievements: [
-          'Maintained Healthy365 - Health Promotion Board serving 2M+ users',
-          'React TypeScript, Node.js Microservices architecture',
-        ]
-      }
     ],
-    technologies: ['React', 'TypeScript', 'Node.js', 'AWS', 'CDKTF', 'Terraform', 'Docker', 'Kubernetes', 'Python', 'AI/ML'],
+    technologies: ['AWS', 'AWS Bedrock', 'CDKTF', 'Terraform', 'Docker', 'Kubernetes', 'Python', 'TypeScript', 'React', 'Node.js', 'GitLab CI/CD'],
   },
   {
     company: 'Infosys Limited',
     role: 'Associate Consultant',
     period: 'Jun 2021 - May 2022',
     location: 'Trivandrum, India',
+    description: 'Enterprise software for Samsung and HPE; led the testing team for zero-defect handovers.',
     achievements: [
-      'API Blender for Samsung - 40% efficiency improvement',
-      'Asset Management Tool for HPE - tracking 10K+ devices',
-      'Led testing team of 3 members',
-      'Zero defect product handovers across 5+ deliverables',
+      'API Blender for Samsung: 40% less integration effort',
+      'Asset Management Tool for HPE: tracking 10K+ devices',
+      'Led a testing team of 3 members',
+      'Zero-defect product handovers across 5+ deliverables',
     ],
     technologies: ['React', 'TypeScript', 'Node.js', 'Angular', 'MongoDB', 'Azure'],
   },
@@ -58,6 +80,7 @@ export const experiences = [
     role: 'Freelance Consultant (Part-Time)',
     period: 'Jun 2021 - Mar 2022',
     location: 'Remote',
+    description: 'Part-time consulting: frontend architecture, CI/CD, PR reviews and technical interviews.',
     achievements: [
       'Resolved 20+ high-level blockers',
       'Conducted 25+ technical interviews - 80% hire rate',
@@ -71,6 +94,13 @@ export const experiences = [
     role: 'Tech Lead - Frontend',
     period: 'Jun 2020 - May 2021',
     location: 'Kolkata, India (Remote)',
+    description: 'Promoted to Tech Lead in 4 months. Led R&D for patent-pending healthcare solutions.',
+    achievements: [
+      'Promoted to Tech Lead within 4 months; led a team of 4 engineers',
+      'Spearheaded R&D for 2 patent-pending healthcare solutions',
+      'Built a cross-platform mobile SDK: 50% less integration time',
+      'PPG heart rate measurement app: 85% accuracy vs clinical devices',
+    ],
     positions: [
       {
         title: 'Tech Lead - Frontend',
@@ -91,7 +121,7 @@ export const experiences = [
           'Integrated Twilio SDK',
           'Migrated tech stack from Ionic to React Native',
           'Conducted 100+ code reviews',
-          'Built cross-platform mobile SDK - 50% development time reduction',
+          'Built cross-platform mobile SDK - 50% less integration time',
         ]
       }
     ],
@@ -102,8 +132,9 @@ export const experiences = [
     role: 'Member Technical Staff',
     period: 'Dec 2018 - Apr 2020',
     location: 'Chennai, India',
+    description: 'Enterprise retail software: CRM maintenance and test automation.',
     achievements: [
-      'Upgraded React 0.16 to v16 - 40% performance improvement',
+      'Upgraded myDelight CRM from React 0.16 to v16: 40% better performance',
       'Maintained myGoFrugal - 60% crash rate reduction',
       'Implemented 200+ automated test cases with Cucumber, Capybara, Mocha',
     ],
@@ -111,55 +142,62 @@ export const experiences = [
   },
 ]
 
+// Client case studies (rendered by WorkSection). `impact` is a metric quoted
+// from the profile README; leave it out when the README has none.
 export const projects = [
   {
     title: 'CLOUDBOX',
     client: 'Activate Interactive',
-    description: 'Infrastructure provisioning portal with secure IM8 compliant blueprints. Provisions complex infrastructure in <30 minutes.',
-    technologies: ['CDKTF', 'Terraform', 'Web Portal', 'IM8 Compliance'],
+    description: 'CDKTF self-service infrastructure provisioning portal with IM8-compliant secure blueprints.',
+    impact: 'Days to under 30 minutes',
+    technologies: ['CDKTF', 'Terraform', 'AWS', 'IM8 Compliance'],
     featured: true,
   },
   {
-    title: 'AI Talent Portal',
+    title: 'Talent Acquisition Portal',
     client: 'Activate Interactive',
-    description: 'HR management with AI insights. Reduced CV screening time by 60%.',
-    technologies: ['Python', 'Streamlit', 'OpenAI API'],
+    description: 'AI recruitment platform with RAG-based CV screening.',
+    impact: '60% less manual screening',
+    technologies: ['Python', 'Streamlit', 'OpenAI API', 'RAG'],
     featured: true,
   },
   {
-    title: 'CRISP',
-    client: 'Ministry of Manpower',
-    description: 'Employment tracking system serving citizens. Cloud provisioning platform.',
-    technologies: ['React.js', 'Node.js', 'AWS', 'GitLab CI/CD'],
+    title: 'PR-Agent and myTechLead',
+    client: 'Activate Interactive (AI transformation)',
+    description: 'Part of the organisation-wide AI transformation: PR-Agent automates code review with AWS Bedrock and Claude; myTechLead is a secure PR review desktop tool. Rolled out with a 2-day AI Bootcamp (LLMs, RAG, GenAI tooling).',
+    technologies: ['AWS Bedrock', 'Claude', 'LLMs', 'RAG'],
+    featured: true,
+  },
+  {
+    title: 'MVX HTX',
+    client: 'Home Team Science & Technology',
+    description: 'Full-stack law enforcement platform. Led delivery and mentored 5 engineers.',
+    technologies: ['React.js', 'Node.js', 'AWS Connect', 'AWS'],
+  },
+  {
+    title: 'SHARE HTX',
+    client: 'Singapore Prison Service',
+    description: 'Rehabilitation management platform on React Portal, React Native and Node.js MVC.',
+    impact: '99.9% uptime',
+    technologies: ['React', 'React Native', 'Node.js MVC'],
   },
   {
     title: 'Healthy365',
     client: 'Health Promotion Board',
-    description: 'Health tracking mobile application serving 2M+ users.',
-    technologies: ['React Native', 'Node.js Microservices', 'AWS'],
+    description: 'High-availability platform on React TypeScript and Node.js microservices.',
+    impact: '2M+ users',
+    technologies: ['React', 'TypeScript', 'Node.js Microservices'],
   },
   {
-    title: 'SHARE',
-    client: 'Singapore Prison Services',
-    description: 'Rehabilitation management system with 99.9% uptime.',
-    technologies: ['React Portal', 'React Native', 'Node.js MVC'],
-  },
-  {
-    title: 'HTX MVX',
-    client: 'Home Team Science & Technology',
-    description: 'Law enforcement communication platform.',
-    technologies: ['React.js', 'Node.js', 'AWS Lambda', 'AWS Connect'],
-  },
-  {
-    title: 'SGSecure',
-    client: 'Ministry of Home Affairs',
-    description: 'National security reporting platform.',
-    technologies: ['React.js', 'Node.js', 'AWS'],
+    title: 'SG Secure, CRISP, CPF Board, GRL@PA',
+    client: 'Singapore government agencies',
+    description: 'Tech Lead / Cloud Architect: CI/CD pipelines and cloud infrastructure. Led teams of 4-6 and grew 2 engineers into Tech Leads.',
+    technologies: ['AWS', 'GitLab CI/CD', 'React.js', 'Node.js'],
   },
   {
     title: 'CarePlixVitals SDK',
     client: 'CarePlix',
-    description: 'Health monitoring SDK library for whitelabel solutions.',
+    description: 'White-label health monitoring SDK library with PPG signal processing.',
     technologies: ['Native iOS/Android SDK', 'PPG Signal Processing'],
   },
 ]
@@ -194,30 +232,6 @@ export const skills = {
     items: ['Git', 'Docker', 'Nginx', 'AWS CDK', 'TDD', 'Agile/Scrum', 'System Design']
   }
 }
-
-export const certifications = [
-  { title: 'Professional Scrum Master™ I (PSM I)', issuer: 'Scrum.org', year: '2025', category: 'Leadership' },
-  { title: 'GitLab CI Fundamentals', issuer: 'GitLab', year: '2025', category: 'DevOps' },
-  { title: 'AWS Certified AI Practitioner', issuer: 'AWS', year: '2024-2027', category: 'Cloud' },
-  { title: 'Machine Learning Specialization', issuer: 'Stanford University', year: '2024', category: 'AI/ML' },
-  { title: 'ICT Assessment - Solution Architect', issuer: 'GovTech/NUS-ISS', year: '2024-2027', category: 'Architecture' },
-  { title: 'AWS Certified Developer - Associate', issuer: 'AWS', year: '2024-2027', category: 'Cloud' },
-  { title: 'AWS Certified Solutions Architect - Associate', issuer: 'AWS', year: '2024-2027', category: 'Cloud' },
-  { title: 'AWS Certified Cloud Practitioner', issuer: 'AWS', year: '2023-2026', category: 'Cloud' },
-  { title: 'ICT Assessment - Software Developer', issuer: 'GovTech/NUS-ISS', year: '2023', category: 'Development' },
-  { title: 'Infosys Certified MongoDB Developer', issuer: 'Infosys', year: '2021', category: 'Database' },
-  { title: 'Infosys Certified Node.js Professional', issuer: 'Infosys', year: '2021', category: 'Backend' },
-  { title: 'Infosys Certified Angular Professional', issuer: 'Infosys', year: '2021', category: 'Frontend' },
-  { title: 'Infosys Certified React Professional', issuer: 'Infosys', year: '2021', category: 'Frontend' },
-  { title: 'Microsoft Azure AI Fundamentals', issuer: 'Microsoft', year: '2021', category: 'AI/ML' },
-  { title: 'Microsoft Azure Data Fundamentals', issuer: 'Microsoft', year: '2021', category: 'Cloud' },
-  { title: 'Microsoft Azure Fundamentals', issuer: 'Microsoft', year: '2021', category: 'Cloud' },
-  { title: 'Microsoft Security, Compliance & Identity', issuer: 'Microsoft', year: '2022', category: 'Security' },
-  { title: 'Front-End Web Development with React', issuer: 'HKUST', year: '2020', category: 'Frontend' },
-  { title: 'React Native Development', issuer: 'HKUST', year: '2020', category: 'Mobile' },
-  { title: 'Introduction to UI Design', issuer: 'University of Minnesota', year: '2020', category: 'Design' },
-  { title: 'Fundamentals of Digital Marketing', issuer: 'Google', year: '2020', category: 'Marketing' },
-]
 
 export const education = {
   degree: 'Bachelor of Engineering',
