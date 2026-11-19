@@ -107,6 +107,23 @@
 - [ ] **Step 4: Run** the tests, then `npm run develop` and visually confirm: wall renders with 3D on; reduced motion shows 2D; both PNG downloads have the correct pixel dimensions (1200×627, 1080×1080 at 1x).
 - [ ] **Step 5: Commit** `feat: badge wall with share mode`.
 
+### Task 4b: Badge filters (added after user request)
+
+**Files:**
+- Create: `src/lib/badgeFilter.js`, `src/lib/__tests__/badgeFilter.test.js`
+- Modify: `src/components/BadgeWall.js`, `src/components/BadgeShareCard.js` (only to accept already-filtered groups and counts)
+
+**Interfaces:**
+- Consumes: `groupBadges` output `{title, badges}[]` (group titles exactly `AWS Professional & Specialty`, `AWS Associate`, `AWS Foundational & Training`, `Microsoft`, `Other`).
+- Produces (CommonJS): `filterGroups(groups, {vendor: 'all'|'aws'|'microsoft'|'other', level: 'all'|'professional'|'associate'|'foundational'}) -> groups` (`vendor` selects groups whose title starts with `AWS`, equals `Microsoft`, or equals `Other`; `level` only applies when vendor is `aws`); `parseFilter(hash) -> {vendor, level}` (unknown or malformed input -> all/all); `serializeFilter({vendor, level}) -> string` (e.g. `filter=aws&level=professional`, empty string for all/all).
+
+- [ ] **Step 1: Write failing tests**: `filterGroups(g, {vendor:'aws'})` keeps exactly the three AWS groups and removes Microsoft and Other; `{vendor:'aws', level:'professional'}` keeps only `AWS Professional & Specialty`; `level` is ignored when vendor is `microsoft`; `{vendor:'all'}` returns the input unchanged; an unknown vendor yields all; `parseFilter('#badges?filter=aws')` -> `{vendor:'aws', level:'all'}`; garbage -> all/all; serialize/parse round trip.
+- [ ] **Step 2: Run** `npm test` and expect FAIL.
+- [ ] **Step 3: Implement** `badgeFilter.js`.
+- [ ] **Step 4: Run** `npm test` and expect PASS.
+- [ ] **Step 5: UI**: filter chips (All, AWS, Microsoft, Other) above the wall; when AWS is selected, a second chip row for level. Chips are real buttons with `aria-pressed`, keyboard operable, visible focus. State initialises from `window.location.hash` after mount (SSR renders All) and updates it with `history.replaceState`. The share card, its counts (e.g. "20 AWS credentials") and its source wording derive from the filtered groups, and an empty filter result shows a friendly empty state with a reset button; exported filename includes the filter (e.g. `badges-aws-wide.png`). Verify in headless Chrome that AWS-only produces a PNG containing only AWS badges.
+- [ ] **Step 6: Commit** `feat: badge filters`.
+
 ### Task 5: Hero scene and visual system
 
 **Files:**
