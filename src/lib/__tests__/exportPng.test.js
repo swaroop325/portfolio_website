@@ -62,3 +62,14 @@ test('data: URLs are left alone without calling the loader', async () => {
   assert.strictEqual(calls, 0);
   assert.strictEqual(a.src, 'data:image/png;base64,ZZZ');
 });
+
+test('export options default to pixelRatio 1 so the PNG is exactly width x height', () => {
+  const { buildToPngOptions } = require('../exportPng');
+  const wide = buildToPngOptions({ width: 1200, height: 627 });
+  assert.strictEqual(wide.pixelRatio, 1);
+  assert.strictEqual(wide.width * wide.pixelRatio, 1200);
+  assert.strictEqual(wide.height * wide.pixelRatio, 627);
+  const sq = buildToPngOptions({ width: 1080, height: 1080 });
+  assert.deepStrictEqual([sq.width, sq.height, sq.pixelRatio], [1080, 1080, 1]);
+  assert.strictEqual(buildToPngOptions({ width: 10, height: 10, pixelRatio: 2 }).pixelRatio, 2);
+});

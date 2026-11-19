@@ -90,10 +90,25 @@ function triggerDownload(dataUrl, filename) {
   a.remove();
 }
 
-// Exports `node` as a PNG of exactly width x height CSS pixels (rendered at
-// pixelRatio, default 2) and triggers a download. Works on an off-screen
-// clone so the visible card is never mutated.
-async function exportCardPng(node, { width, height, filename = 'badges.png', pixelRatio = 2, loader = defaultLoader } = {}) {
+// html-to-image options. pixelRatio defaults to 1 so the downloaded file is
+// exactly width x height pixels (the advertised 1200x627 / 1080x1080).
+function buildToPngOptions({ width, height, pixelRatio = 1 }) {
+  return {
+    width,
+    height,
+    pixelRatio,
+    canvasWidth: width,
+    canvasHeight: height,
+    cacheBust: false,
+    skipFonts: true,
+    style: { transform: 'none', margin: '0' },
+  };
+}
+
+// Exports `node` as a PNG of width x height CSS pixels times pixelRatio
+// (default 1) and triggers a download. Works on an off-screen clone so the
+// visible card is never mutated.
+async function exportCardPng(node, { width, height, filename = 'badges.png', pixelRatio = 1, loader = defaultLoader } = {}) {
   const { toPng } = await import('html-to-image');
 
   const host = document.createElement('div');
@@ -113,18 +128,11 @@ async function exportCardPng(node, { width, height, filename = 'badges.png', pix
 
   try {
     await inlineImagesOrPlaceholder(clone, loader);
-    const dataUrl = await toPng(clone, {
-      width,
-      height,
-      pixelRatio,
-      cacheBust: false,
-      skipFonts: true,
-      style: { transform: 'none', margin: '0' },
-    });
+    const dataUrl = await toPng(clone, buildToPngOptions({ width, height, pixelRatio }));
     triggerDownload(dataUrl, filename);
   } finally {
     host.remove();
   }
 }
 
-module.exports = { inlineImagesOrPlaceholder, exportCardPng, defaultLoader };
+module.exports = { inlineImagesOrPlaceholder, exportCardPng, buildToPngOptions, defaultLoader };

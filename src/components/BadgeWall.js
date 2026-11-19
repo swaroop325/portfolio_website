@@ -133,7 +133,7 @@ function BadgeTile({ badge, accent, can3D, size = 110 }) {
   );
 }
 
-function FeaturedMedallion({ badge, accent }) {
+function FeaturedMedallion({ badge, accent, live }) {
   const size = 170;
   return (
     <a
@@ -145,9 +145,13 @@ function FeaturedMedallion({ badge, accent }) {
       style={{ '--accent': accent, padding: '1.4rem 1rem 1.2rem', boxShadow: `0 0 40px ${accent}1f` }}
     >
       <div style={{ width: size, height: size }}>
-        <SceneGuard fallback={<BadgeImage badge={badge} size={size} />}>
-          {badge.image ? <BadgeMedallion badge={badge} accent={accent} size={size} /> : <BadgeImage badge={badge} size={size} />}
-        </SceneGuard>
+        {live && badge.image ? (
+          <SceneGuard fallback={<BadgeImage badge={badge} size={size} />}>
+            <BadgeMedallion badge={badge} accent={accent} size={size} />
+          </SceneGuard>
+        ) : (
+          <BadgeImage badge={badge} size={size} />
+        )}
       </div>
       <div style={{ fontSize: '.95rem', fontWeight: 700, textAlign: 'center', lineHeight: 1.3, maxWidth: 220 }}>{badge.name}</div>
       {showDate(badge) && (
@@ -239,6 +243,9 @@ function SharePanel({ groups }) {
 export default function BadgeWall({ badges = badgesData, extraBadges = [communityBuilderBadge] }) {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-100px' });
+  // Mount the featured 3D medallions (and fetch the three chunk) only once the
+  // section is near the viewport. Server render and first paint stay 2D.
+  const nearView = useInView(ref, { once: true, margin: '600px 0px' });
   const [shareMode, setShareMode] = useState(false);
   const [can3D, setCan3D] = useState(false);
   // SSR and the first client render must agree, so start from a date derived
@@ -252,6 +259,7 @@ export default function BadgeWall({ badges = badgesData, extraBadges = [communit
 
   const groups = useMemo(() => groupBadges([...badges, ...extraBadges], now), [badges, extraBadges, now]);
   const count = groups.reduce((n, g) => n + g.badges.length, 0);
+  const offCredly = groups.flatMap((g) => g.badges).filter((b) => !/credly\.com/.test(b.url || ''));
   const featured = useMemo(
     () =>
       groups
@@ -285,7 +293,10 @@ export default function BadgeWall({ badges = badgesData, extraBadges = [communit
             Badge Wall
           </h2>
           <p style={{ color: 'rgba(255,255,255,0.75)', marginTop: '1rem' }}>
-            <strong style={{ color: '#00ff88' }}>{count} credentials</strong> across {groups.length} groups, verified on Credly
+            <strong style={{ color: '#00ff88' }}>{count} credentials</strong> across {groups.length} groups
+            {offCredly.length > 0
+              ? `: ${count - offCredly.length} verified on Credly, plus ${offCredly.map((b) => b.name).join(', ')}`
+              : ', verified on Credly'}
           </p>
           <div style={{ marginTop: '1.5rem' }}>
             <button
@@ -309,7 +320,7 @@ export default function BadgeWall({ badges = badgesData, extraBadges = [communit
                 style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '1.25rem', marginBottom: '3.5rem' }}
               >
                 {featured.map(({ b, accent }) => (
-                  <FeaturedMedallion key={b.id} badge={b} accent={accent} />
+                  <FeaturedMedallion key={b.id} badge={b} accent={accent} live={nearView} />
                 ))}
               </div>
             )}

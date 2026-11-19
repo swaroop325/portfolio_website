@@ -141,10 +141,31 @@ const Eyebrow = ({ size }) => (
   <div style={{ fontFamily: MONO, fontSize: size, color: '#00d4ff', letterSpacing: 1 }}>{'<verified-credentials />'}</div>
 );
 
-const Footer = ({ size }) => (
-  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: size, color: '#8a96a8' }}>
-    <span style={{ fontFamily: MONO }}>{SITE}</span>
-    <span>Verified on Credly</span>
+// True statement of where the counted credentials come from: Credly badges,
+// plus any hand-set (non-Credly) ones such as AWS Community Builder.
+export function sourceLabel(groups) {
+  const all = groups.flatMap((g) => g.badges);
+  const offCredly = all.filter((b) => !/credly\.com/.test(b.url || ''));
+  if (offCredly.length === 0) return 'Verified on Credly';
+  if (offCredly.every((b) => /Community Builder/i.test(b.name))) return 'Credly + AWS Community Builder';
+  return `${all.length - offCredly.length} on Credly + ${offCredly.length} more`;
+}
+
+const Footer = ({ size, groups, stacked = false }) => (
+  <div
+    style={{
+      display: 'flex',
+      flexDirection: stacked ? 'column-reverse' : 'row',
+      justifyContent: 'space-between',
+      alignItems: stacked ? 'flex-start' : 'center',
+      gap: stacked ? 6 : 24,
+      fontSize: size,
+      color: '#8a96a8',
+      whiteSpace: 'nowrap',
+    }}
+  >
+    <span style={{ fontFamily: MONO, color: stacked ? '#cfd8e6' : undefined }}>{SITE}</span>
+    <span>{sourceLabel(groups)}</span>
   </div>
 );
 
@@ -177,7 +198,7 @@ const BadgeShareCard = forwardRef(function BadgeShareCard({ size = 'wide', group
         </div>
         <Legend groups={groups} fontSize={20} gap={14} direction="row" />
         <div style={{ marginTop: 'auto' }}>
-          <Footer size={20} />
+          <Footer size={20} groups={groups} />
         </div>
       </div>
     );
@@ -200,7 +221,7 @@ const BadgeShareCard = forwardRef(function BadgeShareCard({ size = 'wide', group
           <Legend groups={groups} fontSize={17} gap={10} />
         </div>
         <div style={{ marginTop: 'auto' }}>
-          <Footer size={16} />
+          <Footer size={16} groups={groups} stacked />
         </div>
       </div>
       <Grid groups={groups} w={width - pad * 2 - left - 48} h={height - pad * 2} gap={14} />
