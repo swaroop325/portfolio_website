@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0" xmlns:cc="http://cyber.law.harvard.edu/rss/creativeCommonsRssModule.html">
+    <channel>
+        <title><![CDATA[Stories by Swaroop Anand on Medium]]></title>
+        <description><![CDATA[Stories by Swaroop Anand on Medium]]></description>
+        <link>https://medium.com/@swaroop325?source=rss-1249cc3717b------2</link>
+        <image>
+            <url>https://cdn-images-1.medium.com/fit/c/150/150/1*T4TQqoSz-dHGfpdLkxBjhg.jpeg</url>
+            <title>Stories by Swaroop Anand on Medium</title>
+            <link>https://medium.com/@swaroop325?source=rss-1249cc3717b------2</link>
+        </image>
+        <generator>Medium</generator>
+        <lastBuildDate>Thu, 19 Nov 2026 08:20:49 GMT</lastBuildDate>
+        <atom:link href="https://medium.com/@swaroop325/feed" rel="self" type="application/rss+xml"/>
+        <webMaster><![CDATA[yourfriends@medium.com]]></webMaster>
+        <atom:link href="http://medium.superfeedr.com" rel="hub"/>
+        <item>
+            <title><![CDATA[AWS Experience-Based Acceleration: Turning Cloud Ambitions into Working Solutions in Two Days]]></title>
+            <link>https://medium.com/@swaroop325/aws-experience-based-acceleration-turning-cloud-ambitions-into-working-solutions-in-two-days-216cf81a679c?source=rss-1249cc3717b------2</link>
+            <guid isPermaLink="false">https://medium.com/p/216cf81a679c</guid>
+            <category><![CDATA[eba]]></category>
+            <category><![CDATA[ai]]></category>
+            <category><![CDATA[aws]]></category>
+            <dc:creator><![CDATA[Swaroop Anand]]></dc:creator>
+            <pubDate>Tue, 17 Nov 2026 09:17:34 GMT</pubDate>
+            <atom:updated>2026-11-17T09:17:34.047Z</atom:updated>
+            <content:encoded><![CDATA[<h3>When the right people, tools and experience come together, transformation moves faster</h3><p>Imagine building a house.</p><p>You have the architect, the builders, the electricians and all the materials. Everyone knows what needs to be done, but progress is slow because people are working independently. The architect is waiting for approval, the electrician needs clarification, and the builders cannot move forward until someone resolves a dependency.</p><p>Now imagine a different situation. <img src="https://medium.com/_/stat?event=post.clientViewed&referrerSource=full_rss&postId=216cf81a679c" width="1" height="1" alt="">]]></content:encoded>
+        </item>
+<item>
+            <title><![CDATA[I Almost Hired an Intern. Then Claude Code Showed Up.]]></title>
+            <link>https://medium.com/@swaroop325/i-almost-hired-an-intern-then-claude-code-showed-up-d8eb444e194b?source=rss-1249cc3717b------2</link>
+            <guid isPermaLink="false">https://medium.com/p/d8eb444e194b</guid>
+            <category><![CDATA[ai]]></category>
+            <category><![CDATA[anthropic-claude]]></category>
+            <category><![CDATA[software-development]]></category>
+            <category><![CDATA[chatgpt]]></category>
+            <category><![CDATA[aws]]></category>
+            <dc:creator><![CDATA[Swaroop Anand]]></dc:creator>
+            <pubDate>Thu, 02 Jul 2026 03:27:39 GMT</pubDate>
+            <atom:updated>2026-07-03T02:46:06.189Z</atom:updated>
+            <content:encoded><![CDATA[<figure><img alt="" src="https://cdn-images-1.medium.com/max/1024/1*dacpK1DzpwPG6DFQGeFtXw.png" /></figure><p>I’ve been building things for as long as I can remember.</p><p>Back in college, I was the hackathon kid. The one dragging teammates into weekend competitions, chasing side hustles between lectures, and coming home with wins. Not because it looked good on a resume. Because I couldn’t *not* build.</p><p>Seven years later, that instinct hasn’t changed. My GitHub has <strong>91 public repos ]]></content:encoded>
+        </item>
+<item>
+            <title><![CDATA[I don’t read financial news. So I built a system that reads it for me.]]></title>
+            <link>https://medium.com/@swaroop325/i-dont-read-financial-news-so-i-built-a-system-that-reads-it-for-me-d6d4fdc8a1d4?source=rss-1249cc3717b------2</link>
+            <guid isPermaLink="false">https://medium.com/p/d6d4fdc8a1d4</guid>
+            <category><![CDATA[aws]]></category>
+            <category><![CDATA[trading]]></category>
+            <dc:creator><![CDATA[Swaroop Anand]]></dc:creator>
+            <pubDate>Sat, 06 Jun 2026 13:34:57 GMT</pubDate>
+            <atom:updated>2026-06-06T13:40:19.312Z</atom:updated>
+            <content:encoded><![CDATA[<figure><img alt="" src="https://cdn-images-1.medium.com/max/1024/1*hx9i3lE51esHOi0yNkSEsQ.png" /></figure><p>Gold crashed 3.1% on Friday. I found out an hour later when I randomly checked my broker app. By then the move was done.</p><p>That was the last straw.</p><p>I don’t follow financial Twitter. I don’t watch Bloomberg. I don’t refresh ForexFactory. I don’t read news at all. But I trade gold, and I keep missing the moves that matter because nobody tells me in time.</p><p>So that same evenin]]></content:encoded>
+        </item>
+<item>
+            <title><![CDATA[Why I Started Using AWS Lightsail for My Side Projects]]></title>
+            <link>https://medium.com/@swaroop325/why-i-started-using-aws-lightsail-for-my-side-projects-649baaee1815?source=rss-1249cc3717b------2</link>
+            <guid isPermaLink="false">https://medium.com/p/649baaee1815</guid>
+            <category><![CDATA[servers]]></category>
+            <category><![CDATA[aws-lightsail]]></category>
+            <category><![CDATA[amazon-web-services]]></category>
+            <category><![CDATA[aws-ec2]]></category>
+            <category><![CDATA[aws]]></category>
+            <dc:creator><![CDATA[Swaroop Anand]]></dc:creator>
+            <pubDate>Wed, 04 Mar 2026 07:06:40 GMT</pubDate>
+            <atom:updated>2026-11-18T13:54:08.475Z</atom:updated>
+            <content:encoded><![CDATA[<figure><img alt="" src="https://cdn-images-1.medium.com/max/496/0*8sOrHhFvFK33Kyaw.png" /></figure><p>For the longest time, whenever I wanted to spin up a quick proof-of-concept or host a small application, my default choice was <strong>EC2</strong>.</p><p>It works. It’s flexible. It’s powerful.</p><p>But if you’ve used EC2 long enough, you’ll know the trade-off:<br>there’s a lot of setup overhead for something that might just be a small side project or experiment.</p><p>Security groups, instan]]></content:encoded>
+        </item>
+</channel>
+</rss>

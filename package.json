@@ -27,10 +27,12 @@
   ],
   "license": "MIT",
   "scripts": {
+    "prebuild": "node scripts/fetch-content.js",
     "build": "gatsby build",
+    "fetch-content": "node scripts/fetch-content.js",
     "develop": "gatsby develop",
     "format": "prettier --write '**/*.js'",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node --test \"scripts/**/*.test.js\" \"src/**/*.test.js\""
   },
   "devDependencies": {
     "prettier": "^1.19.1"

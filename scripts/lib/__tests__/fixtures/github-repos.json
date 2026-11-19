@@ -1,0 +1,122 @@
+[
+ {
+  "name": "android-apps",
+  "description": "Mad lab applications to practise the various utilities and types for learning to develop android applications",
+  "language": null,
+  "stargazers_count": 0,
+  "html_url": "https://github.com/swaroop325/android-apps",
+  "fork": false,
+  "pushed_at": "2018-08-23T10:32:51Z",
+  "topics": []
+ },
+ {
+  "name": "audio-detection-",
+  "description": "audio detection system with multiple options which can be used for sound analysis and imaging",
+  "language": "JavaScript",
+  "stargazers_count": 1,
+  "html_url": "https://github.com/swaroop325/audio-detection-",
+  "fork": false,
+  "pushed_at": "2018-08-23T11:13:01Z",
+  "topics": []
+ },
+ {
+  "name": "backend_mern_profile",
+  "description": null,
+  "language": "JavaScript",
+  "stargazers_count": 0,
+  "html_url": "https://github.com/swaroop325/backend_mern_profile",
+  "fork": false,
+  "pushed_at": "2021-02-04T17:05:51Z",
+  "topics": []
+ },
+ {
+  "name": "background-subtraction",
+  "description": null,
+  "language": "Python",
+  "stargazers_count": 0,
+  "html_url": "https://github.com/swaroop325/background-subtraction",
+  "fork": false,
+  "pushed_at": "2018-10-13T18:35:54Z",
+  "topics": []
+ },
+ {
+  "name": "breast-cancer",
+  "description": null,
+  "language": "JavaScript",
+  "stargazers_count": 0,
+  "html_url": "https://github.com/swaroop325/breast-cancer",
+  "fork": false,
+  "pushed_at": "2018-09-21T21:11:28Z",
+  "topics": []
+ },
+ {
+  "name": "browser-object-recognition",
+  "description": "using tensorflow.js browser is used to capture and detect the objects present",
+  "language": "JavaScript",
+  "stargazers_count": 2,
+  "html_url": "https://github.com/swaroop325/browser-object-recognition",
+  "fork": false,
+  "pushed_at": "2022-02-12T14:17:33Z",
+  "topics": []
+ },
+ {
+  "name": "camera-hack-detection",
+  "description": "A android app to detect the use of camera and display an alert message if the camera is found to be active",
+  "language": "Java",
+  "stargazers_count": 0,
+  "html_url": "https://github.com/swaroop325/camera-hack-detection",
+  "fork": false,
+  "pushed_at": "2018-09-07T21:25:08Z",
+  "topics": []
+ },
+ {
+  "name": "canvasjs",
+  "description": null,
+  "language": null,
+  "stargazers_count": 0,
+  "html_url": "https://github.com/swaroop325/canvasjs",
+  "fork": true,
+  "pushed_at": "2020-09-16T04:47:54Z",
+  "topics": []
+ },
+ {
+  "name": "ClaraVerse",
+  "description": "Clara – Privacy-first, client-side AI assistant for Ollama with tool calling & mini n8n-style flow builder. No backend. No data leaks. 100% yours. Shoutout to Don ☕💙 for contributing to this project.",
+  "language": null,
+  "stargazers_count": 0,
+  "html_url": "https://github.com/swaroop325/ClaraVerse",
+  "fork": true,
+  "pushed_at": "2025-04-21T08:14:57Z",
+  "topics": []
+ },
+ {
+  "name": "claude-certified-architect",
+  "description": "Guided labs for the CCA Foundations certification exam. 6 scenarios, 5 domains, 30 tasks.",
+  "language": null,
+  "stargazers_count": 0,
+  "html_url": "https://github.com/swaroop325/claude-certified-architect",
+  "fork": true,
+  "pushed_at": "2026-04-11T16:58:34Z",
+  "topics": []
+ },
+ {
+  "name": "cloudbox",
+  "description": null,
+  "language": "TypeScript",
+  "stargazers_count": 0,
+  "html_url": "https://github.com/swaroop325/cloudbox",
+  "fork": false,
+  "pushed_at": "2025-02-04T14:35:27Z",
+  "topics": []
+ },
+ {
+  "name": "cnvitals-cordova-sdk",
+  "description": "carenowvitals sdk for detecting vitals from phone camera",
+  "language": "Objective-C",
+  "stargazers_count": 0,
+  "html_url": "https://github.com/swaroop325/cnvitals-cordova-sdk",
+  "fork": false,
+  "pushed_at": "2022-01-04T07:17:10Z",
+  "topics": []
+ }
+]

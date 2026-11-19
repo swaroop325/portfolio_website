@@ -1,0 +1,82 @@
+[
+  {
+    "title": "Building an Intelligent Assistant: My Architect's View of Amazon Bedrock AgentCore",
+    "url": "https://dev.to/aws-builders/building-an-intelligent-assistant-my-architects-view-of-amazon-bedrock-agentcore-5h8h",
+    "date": "2026-11-18T07:39:57.000Z",
+    "source": "devto",
+    "image": "https://media2.dev.to/dynamic/image/width=1000,height=420,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2F5jt35mxicnd9jbij5ql1.jpg",
+    "excerpt": "Have you ever gone shopping for a dress for a special occasion? You walk into a shop, explore..."
+  },
+  {
+    "title": "AWS Experience-Based Acceleration: Turning Cloud Ambitions into Working Solutions in Two Days",
+    "url": "https://medium.com/@swaroop325/aws-experience-based-acceleration-turning-cloud-ambitions-into-working-solutions-in-two-days-216cf81a679c",
+    "date": "2026-11-17T09:17:34.000Z",
+    "source": "medium",
+    "image": "https://medium.com/_/stat?event=post.clientViewed&referrerSource=full_rss&postId=216cf81a679c",
+    "excerpt": "When the right people, tools and experience come together, transformation moves faster Imagine building a house. You have the architect, the builders, the electricians and all the materials. Everyone…"
+  },
+  {
+    "title": "I Almost Hired an Intern. Then Claude Code Showed Up.",
+    "url": "https://medium.com/@swaroop325/i-almost-hired-an-intern-then-claude-code-showed-up-d8eb444e194b",
+    "date": "2026-07-02T03:27:39.000Z",
+    "source": "medium",
+    "image": "https://cdn-images-1.medium.com/max/1024/1*dacpK1DzpwPG6DFQGeFtXw.png",
+    "excerpt": "I’ve been building things for as long as I can remember. Back in college, I was the hackathon kid. The one dragging teammates into weekend competitions, chasing side hustles between lectures, and com…"
+  },
+  {
+    "title": "I don’t read financial news. So I built a system that reads it for me.",
+    "url": "https://medium.com/@swaroop325/i-dont-read-financial-news-so-i-built-a-system-that-reads-it-for-me-d6d4fdc8a1d4",
+    "date": "2026-06-06T13:34:57.000Z",
+    "source": "medium",
+    "image": "https://cdn-images-1.medium.com/max/1024/1*hx9i3lE51esHOi0yNkSEsQ.png",
+    "excerpt": "Gold crashed 3.1% on Friday. I found out an hour later when I randomly checked my broker app. By then the move was done. That was the last straw. I don’t follow financial Twitter. I don’t watch Bloom…"
+  },
+  {
+    "title": "Why I Started Using AWS Lightsail for My Side Projects",
+    "url": "https://medium.com/@swaroop325/why-i-started-using-aws-lightsail-for-my-side-projects-649baaee1815",
+    "date": "2026-03-04T07:06:40.000Z",
+    "source": "medium",
+    "image": "https://cdn-images-1.medium.com/max/496/0*8sOrHhFvFK33Kyaw.png",
+    "excerpt": "For the longest time, whenever I wanted to spin up a quick proof-of-concept or host a small application, my default choice was EC2 . It works. It’s flexible. It’s powerful. But if you’ve used EC2 lon…"
+  },
+  {
+    "title": "MyTutor: Building a Personalized Learning Platform That Adapts to You",
+    "url": "https://medium.com/@swaroop325/mytutor-building-a-personalized-learning-platform-that-adapts-to-you-69d63ccc481d",
+    "date": "2025-10-10T18:21:08.000Z",
+    "source": "medium",
+    "image": "https://cdn-images-1.medium.com/max/1024/1*p1ANFmG6e4QjtY-fm5Fgag.png",
+    "excerpt": "💡 The Spark “Finding the right course is harder than taking the course itself.” If you’ve ever tried learning something online, you know this pain. I’ve spent hours jumping between Udemy, Coursera,…"
+  },
+  {
+    "title": "Embracing Containerization: Lifting and Shifting Applications the Smart Way with AWS ECS",
+    "url": "https://medium.com/@swaroop325/embracing-containerization-lifting-and-shifting-applications-the-smart-way-with-aws-ecs-642e65935132",
+    "date": "2025-04-18T14:06:06.000Z",
+    "source": "medium",
+    "image": "https://cdn-images-1.medium.com/max/1024/1*RyC9CtSQrb0THjlVmZcBxQ.png",
+    "excerpt": "In today’s fast-paced development world, agility is everything. Whether you’re a startup or an enterprise, one common goal persists — delivering software faster, more reliably, and with consistent en…"
+  },
+  {
+    "title": "Scaling a DevOps-Driven Application from Zero to Hero with AWS CDKTF and GitLab CI/CD",
+    "url": "https://medium.com/@swaroop325/scaling-a-devops-driven-application-from-zero-to-hero-with-aws-cdktf-and-gitlab-ci-cd-cdd79b6aec1f",
+    "date": "2025-04-05T13:30:14.000Z",
+    "source": "medium",
+    "image": "https://cdn-images-1.medium.com/max/1024/0*6_VT-Py3U3lYSA2l",
+    "excerpt": "DevOps isn’t just about pipelines anymore. In a world where infrastructure evolves as fast as code, the ability to treat your infra like software is no longer optional — it’s essential. In this artic…"
+  },
+  {
+    "title": "Zero cost website creation technique",
+    "url": "https://medium.com/@swaroop325/zero-cost-website-creation-technique-d75d7b582908",
+    "date": "2020-08-17T06:40:34.000Z",
+    "source": "medium",
+    "image": "https://cdn-images-1.medium.com/max/300/1*iEZj6IBGKBnVeuelHD6zIA.jpeg",
+    "excerpt": "Have you ever thought of creating a website for yourself? So here is a technique which you can use to create a website at the cost of zero penny!! But how?? Lets see this little technique to do that……"
+  },
+  {
+    "title": "Playing with GIT — Cheatsheet",
+    "url": "https://medium.com/@swaroop325/playing-with-git-cheatsheet-e6431ec328cb",
+    "date": "2020-08-14T09:43:46.000Z",
+    "source": "medium",
+    "image": "https://cdn-images-1.medium.com/max/1000/1*tpyjInxM0BK_5XyGckkTrA.png",
+    "excerpt": "Playing with GIT — CheatSheet We developers get struck at sometimes when we want to do some stunts with git… So if you are looking for some cheatsheet for GIT then this is exactly what you are lookin…"
+  }
+]
