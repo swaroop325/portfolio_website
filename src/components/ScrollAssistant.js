@@ -6,11 +6,14 @@ const ScrollAssistant = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [activeSection, setActiveSection] = useState('hero');
 
+  // Real section ids rendered by src/pages/index.js. 'badges' is the BadgeWall id.
   const sections = [
     { id: 'hero', label: 'Home', icon: '🏠' },
-    { id: 'about', label: 'About', icon: '👨‍💻' },
     { id: 'experience', label: 'Experience', icon: '💼' },
-    { id: 'projects', label: 'Projects', icon: '🚀' },
+    { id: 'skills', label: 'Skills', icon: '🧠' },
+    { id: 'work', label: 'Work', icon: '🚀' },
+    { id: 'writing', label: 'Writing', icon: '✍️' },
+    { id: 'badges', label: 'Badges', icon: '🏅' },
     { id: 'contact', label: 'Contact', icon: '📧' }
   ];
 
