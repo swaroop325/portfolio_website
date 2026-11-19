@@ -8,6 +8,7 @@ import ExperienceSection from '../components/ExperienceSection'
 import SkillsSection from '../components/SkillsSection'
 import ProjectsSection from '../components/ProjectsSection'
 import CertificationsSection from '../components/CertificationsSection'
+import BadgeWall from '../components/BadgeWall'
 import ContactSection from '../components/ContactSection'
 import SharingModal from '../components/SharingModal'
 import ScrollAssistant from '../components/ScrollAssistant'
@@ -22,7 +23,7 @@ const IndexPage = () => {
     if (typeof window === 'undefined') return
 
     const handleScroll = () => {
-      const sections = ['hero', 'experience', 'skills', 'projects', 'certifications', 'contact']
+      const sections = ['hero', 'experience', 'skills', 'projects', 'certifications', 'badges', 'contact']
       const scrollPosition = window.scrollY + window.innerHeight / 2
 
       for (const section of sections) {
@@ -66,6 +67,7 @@ const IndexPage = () => {
         <SkillsSection />
         <ProjectsSection />
         <CertificationsSection />
+        <BadgeWall />
         <ContactSection />
       </motion.div>
 
