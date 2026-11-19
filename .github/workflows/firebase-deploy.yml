@@ -7,6 +7,16 @@ on:
   pull_request:
     branches:
       - master
+  schedule:
+    # Daily at 01:00 UTC: rebuild so fetched content (e.g. badges) stays fresh
+    - cron: '0 1 * * *'
+  workflow_dispatch:
+
+# Serialize runs per ref so overlapping deploys do not race.
+# Only PR preview runs are cancellable; live deploys always run to completion.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
   build-and-deploy:
@@ -19,20 +29,27 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '22'
           cache: 'npm'
 
       - name: Install dependencies
         run: npm ci --legacy-peer-deps
 
+      - name: Run tests
+        run: npm test
+
+      # `npm run build` runs `prebuild` (scripts/fetch-content.js), which never
+      # fails the build; the generated JSON committed in the repo is the
+      # fallback. CI must NOT commit regenerated JSON back to the repo.
       - name: Build Gatsby site
         run: npm run build
         env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NODE_ENV: production
           CI: true
 
       - name: Deploy to Firebase Hosting
-        if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+        if: (github.event_name == 'push' || github.event_name == 'schedule' || github.event_name == 'workflow_dispatch') && github.ref == 'refs/heads/master'
         uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
