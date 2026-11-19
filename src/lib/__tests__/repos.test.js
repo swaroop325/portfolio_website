@@ -34,3 +34,13 @@ test('caps at 9', () => {
   const repos = Array.from({ length: 15 }, (_, i) => r('r' + i, { pushedAt: `2024-01-${String(i + 1).padStart(2, '0')}` }));
   assert.strictEqual(curateRepos(repos, cur()).length, 9);
 });
+
+test('real curation denies profile/site repos and describes every pinned repo it overrides', () => {
+  const { curation } = require('../../data/curation');
+  assert.ok(curation.deny.includes('swaroop325') && curation.deny.includes('portfolio_website'));
+  for (const [name, o] of Object.entries(curation.overrides)) {
+    assert.ok(curation.pinned.includes(name) && o.description.length <= 115, name);
+  }
+  const out = curateRepos([r('swaroop325'), r('portfolio_website'), r('llmonaws', { description: null })], curation);
+  assert.deepStrictEqual(out.map((x) => x.name), ['llmonaws']);
+});
