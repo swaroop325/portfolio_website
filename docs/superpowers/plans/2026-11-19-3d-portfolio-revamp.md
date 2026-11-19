@@ -169,6 +169,22 @@
 - [ ] **Step 2:** Keep the PR preview and push-to-master deploy conditions; the scheduled run deploys to `live` like a push on master.
 - [ ] **Step 3: Verify** with `act` or by pushing a branch PR: the workflow passes, and the preview URL shows the badge wall. Commit `ci: daily content refresh`.
 
+### Task 10: Interactive Skills, Experience and Contact (added after user request)
+
+The user found the lower sections too textual and the old Certifications section redundant with the badge wall (already removed in Task 7). Replace plain text with interactive elements, sharing the hero/badge-wall visual language.
+
+**Files:** modify `src/components/SkillsSection.js`, `ExperienceSection.js`, `ContactSection.js`; create `src/components/three/SkillConstellation.js` (lazy), `src/lib/skills.js` + `src/lib/__tests__/skills.test.js`, `src/lib/vcard.js` + test.
+
+**Interfaces:**
+- Produces (CommonJS): `buildSkillGraph(skills, {badges, repos}) -> {nodes:[{id,label,category,weight}], links:[{source,target}]}` where `weight` comes from evidence (number of matching badges/repo languages), never from invented percentages; `matchRolesByTech(experiences, tech) -> string[]` (company names using that tech); `buildVCard({name,title,email,phone,url,org}) -> string` (valid vCard 3.0, escapes `,;\\` and newlines).
+
+- [ ] **Step 1: Write failing tests** for the three pure functions: graph has one node per distinct skill with the category links; weights derive from badge/repo matches (a skill with no evidence gets weight 1, not 0 and not a made-up value); `matchRolesByTech` is case-insensitive; `buildVCard` output begins `BEGIN:VCARD`, ends `END:VCARD`, escapes a comma in the title.
+- [ ] **Step 2: Run** `npm test`, expect FAIL. **Step 3: Implement.** **Step 4: Run**, expect PASS.
+- [ ] **Step 5: Skills:** drop the self-rated percentage bars (unverifiable numbers). Show a skill constellation: a lazy `react-three-fiber` scene (via `SceneGuard`) of category clusters whose nodes are sized by evidence weight; hovering/clicking a category highlights its nodes and shows matching badges and repos beneath. Fallback (no WebGL, reduced motion, SSR): interactive category chips that reveal the same lists.
+- [ ] **Step 6: Experience:** an interactive timeline: scroll-linked progress line, role cards that expand on click/Enter to show achievements, and tech chips that, when selected, highlight the roles using that tech (`matchRolesByTech`). Keyboard operable, `aria-expanded`, reduced motion respected. Data from `portfolioData.js`.
+- [ ] **Step 7: Contact:** cards with copy-to-clipboard (email, with a visible "Copied" confirmation and `aria-live`), a "Save contact" vCard download (`buildVCard`), links to LinkedIn, GitHub, Medium, dev.to, Credly and the AWS Community Builder profile, plus the existing QR/share entry points. Magnetic hover on buttons only when reduced motion is off.
+- [ ] **Step 8: Verify** (private build copy, headless Chrome at 390 and 1440): no horizontal scroll, no console or hydration errors, keyboard-only use of every control, `npm test` passes, Lighthouse mobile performance does not drop below 80. Commit `feat: interactive skills, experience, contact`.
+
 ### Task 9: Performance and accessibility pass
 
 - [ ] **Step 1:** Confirm the three.js chunk loads only after the first paint (check the network panel), and total JS stays under 350 KB gzipped before the 3D chunk.
