@@ -27,11 +27,11 @@ const Layout = ({ children }) => {
               { name: 'twitter:card', content: 'summary_large_image' },
               { name: 'twitter:site', content: '@swaroop26390917' },
               { name: 'twitter:creator', content: '@swaroop26390917' },
-              { name: 'twitter:title', content: 'Swaroop A.S - Full Stack Developer' },
+              { name: 'twitter:title', content: 'Swaroop A.S - AI/ML Architect @ Ingram Micro' },
               { name: 'twitter:description', content: data.site.siteMetadata.description },
               { name: 'twitter:image', content: ProfileImage },
 
-              { property: 'og:title', content: 'Swaroop A.S - Full Stack Developer' },
+              { property: 'og:title', content: 'Swaroop A.S - AI/ML Architect @ Ingram Micro' },
               { property: 'og:type', content: 'website' },
               { property: 'og:url', content: 'https://swaroop325.web.app/' },
               { property: 'og:description', content: data.site.siteMetadata.description },

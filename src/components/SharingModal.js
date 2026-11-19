@@ -40,7 +40,7 @@ EMAIL:${contactData.email}
 URL:https://${contactData.website}
 URL:https://github.com/${contactData.github}
 URL:${contactData.linkedin}
-NOTE:Software Engineer | Full Stack Developer
+NOTE:AI/ML Architect @ Ingram Micro
 END:VCARD`;
   };
 
