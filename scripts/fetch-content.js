@@ -1,6 +1,6 @@
 const fs = require('node:fs');
 const path = require('node:path');
-const { normalizeBadges, normalizeRepos, normalizePosts } = require('./lib/normalize');
+const { normalizeBadges, normalizeRepos, normalizePosts, mergePosts } = require('./lib/normalize');
 
 const OUT_DIR = path.join(__dirname, '..', 'src', 'data', 'generated');
 const TIMEOUT_MS = 15000;
@@ -60,10 +60,16 @@ async function main() {
     ]);
     if (medium.status === 'rejected') console.warn(`[fetch-content] WARN medium: ${medium.reason.message}`);
     if (devto.status === 'rejected') console.warn(`[fetch-content] WARN devto: ${devto.reason.message}`);
-    return normalizePosts(
-      medium.status === 'fulfilled' ? medium.value : '',
-      devto.status === 'fulfilled' ? devto.value : []
-    );
+    const mediumXml = medium.status === 'fulfilled' ? medium.value : '';
+    const devtoJson = devto.status === 'fulfilled' ? devto.value : [];
+    const fresh = normalizePosts(mediumXml, devtoJson);
+    const failed = ['medium', 'devto'].filter(src => !fresh.some(p => p.source === src));
+    let existing = [];
+    try {
+      existing = JSON.parse(fs.readFileSync(path.join(OUT_DIR, 'posts.json'), 'utf8'));
+    } catch (e) {}
+    if (failed.length) console.warn(`[fetch-content] WARN keeping existing posts for: ${failed.join(', ')}`);
+    return mergePosts(fresh, existing, failed);
   });
 }
 

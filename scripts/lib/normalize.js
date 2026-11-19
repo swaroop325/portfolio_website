@@ -72,7 +72,10 @@ function parseMedium(xml) {
   return items
     .map(item => {
       const content = tagValue(item, 'content:encoded');
-      const img = /<img[^>]*\ssrc=["']([^"']+)["']/i.exec(content);
+      const srcs = [...content.matchAll(/<img[^>]*\ssrc=["']([^"']+)["']/gi)]
+        .map(m => decodeEntities(m[1]))
+        .filter(u => !u.includes('/_/stat'));
+      const image = srcs.find(u => u.includes('cdn-images')) || srcs[0] || null;
       const link = tagValue(item, 'link').trim();
       const date = new Date(tagValue(item, 'pubDate'));
       return {
@@ -80,7 +83,7 @@ function parseMedium(xml) {
         url: link.split('?')[0],
         date: isNaN(date) ? null : date.toISOString(),
         source: 'medium',
-        image: img ? decodeEntities(img[1]) : null,
+        image,
         excerpt: excerptFrom(content),
       };
     })
@@ -110,4 +113,15 @@ function normalizePosts(mediumXml, devtoJson) {
   );
 }
 
-module.exports = { normalizeBadges, normalizeRepos, normalizePosts, decodeEntities };
+const byDateDesc = (a, b) => new Date(b.date || 0) - new Date(a.date || 0);
+
+// Keeps existing posts from any source that failed or came back empty.
+// failedSources: array of 'medium' | 'devto'.
+function mergePosts(fresh, existing, failedSources) {
+  const failed = new Set(failedSources || []);
+  if (failed.has('medium') && failed.has('devto')) return []; // caller skips the write
+  const kept = (Array.isArray(existing) ? existing : []).filter(p => failed.has(p.source));
+  return [...(fresh || []).filter(p => !failed.has(p.source)), ...kept].sort(byDateDesc);
+}
+
+module.exports = { normalizeBadges, normalizeRepos, normalizePosts, mergePosts, decodeEntities };
