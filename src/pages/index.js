@@ -56,12 +56,9 @@ const IndexPage = () => {
       <CodeBackground />
       <ModernNav activeSection={activeSection} />
 
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 1 }}
-        style={{ position: 'relative', zIndex: 1 }}
-      >
+      {/* No page-level fade-in: it server-rendered every section at opacity 0
+          and held the hero's LCP until hydration. Sections animate themselves. */}
+      <div style={{ position: 'relative', zIndex: 1 }}>
         <HeroSection onOpenShareModal={() => setIsShareModalOpen(true)} />
         <ExperienceSection />
         <SkillsSection />
@@ -69,7 +66,7 @@ const IndexPage = () => {
         <CertificationsSection />
         <BadgeWall />
         <ContactSection />
-      </motion.div>
+      </div>
 
       {/* Scroll Progress Indicator */}
       <motion.div

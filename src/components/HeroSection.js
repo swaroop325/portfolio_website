@@ -1,303 +1,117 @@
-import React from 'react'
-import { motion } from 'framer-motion'
+import React, { useRef } from 'react'
+import SceneGuard from './three/SceneGuard'
 import ProfileImage from '../images/profile.jpeg'
 
-const HeroSection = ({ onOpenShareModal }) => {
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.2,
-        delayChildren: 0.3,
-      },
-    },
-  }
+// three/r3f live only in this lazy chunk; SceneGuard never renders it on the server.
+const HeroScene = React.lazy(() => import('./three/HeroScene'))
 
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.6 },
-    },
-  }
+const ANIM_CSS = `
+@media (prefers-reduced-motion: no-preference) {
+  .hx-rise { animation: hx-rise .8s var(--ease-out) both; animation-delay: var(--d, 0s); }
+  .hx-rise-soft { animation: hx-rise-soft .9s var(--ease-out) both; animation-delay: var(--d, 0s); }
+  .hx-stage canvas { animation: hx-fade 1.4s ease-out both; }
+}
+@keyframes hx-rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+@keyframes hx-rise-soft { from { transform: translateY(10px); } to { transform: none; } }
+@keyframes hx-fade { from { opacity: 0; } to { opacity: 1; } }
+`
+
+// Scroll to the first section that exists. `#work` arrives in a later task;
+// until then "See my work" falls back to `#projects`.
+const scrollToFirst = (ids) => (e) => {
+  if (typeof document === 'undefined') return
+  const el = ids.map((id) => document.getElementById(id)).find(Boolean)
+  if (!el) return
+  e.preventDefault()
+  const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  el.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' })
+  if (window.history && window.history.replaceState) window.history.replaceState(null, '', `#${el.id}`)
+}
+
+const Arrow = () => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <path d="M5 12h14M13 6l6 6-6 6" />
+  </svg>
+)
+const Medal = () => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <circle cx="12" cy="9" r="6" />
+    <path d="M8.5 14 7 22l5-3 5 3-1.5-8" />
+  </svg>
+)
+const Share = () => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <circle cx="18" cy="5" r="3" />
+    <circle cx="6" cy="12" r="3" />
+    <circle cx="18" cy="19" r="3" />
+    <path d="m8.6 13.5 6.8 4M15.4 6.5l-6.8 4" />
+  </svg>
+)
+
+const HeroSection = ({ onOpenShareModal }) => {
+  const sectionRef = useRef(null)
+  const portraitRef = useRef(null)
 
   return (
-    <section
-      id="hero"
-      style={{
-        minHeight: '100vh',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        padding: '2rem 1rem',
-        paddingTop: '6rem',
-        position: 'relative',
-        overflow: 'hidden',
-      }}
-    >
-      <motion.div
-        variants={containerVariants}
-        initial="hidden"
-        animate="visible"
-        style={{
-          maxWidth: '1200px',
-          width: '100%',
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-          gap: '3rem',
-          alignItems: 'center',
-        }}
-      >
-        {/* Left Side - Text Content */}
-        <motion.div variants={itemVariants}>
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6 }}
-            style={{
-              fontSize: '1rem',
-              color: '#00d4ff',
-              marginBottom: '1rem',
-              fontFamily: 'monospace',
-            }}
-          >
-            &lt;hello world&gt;
-          </motion.div>
+    <section id="hero" ref={sectionRef} className="hx" aria-labelledby="hero-name">
+      <style dangerouslySetInnerHTML={{ __html: ANIM_CSS }} />
+      <SceneGuard fallback={<div className="hx-stage" aria-hidden="true"><div className="hx-mesh" data-hero-fallback="" /></div>}>
+        <HeroScene targetRef={sectionRef} anchorRef={portraitRef} />
+      </SceneGuard>
 
-          <motion.h1
-            variants={itemVariants}
-            style={{
-              fontSize: 'clamp(2rem, 7vw, 5rem)',
-              fontWeight: 'bold',
-              marginBottom: '1rem',
-              background: 'linear-gradient(135deg, #fff, #00d4ff)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              lineHeight: '1.3',
-              wordBreak: 'keep-all',
-            }}
-          >
-            I'm Swaroop
-          </motion.h1>
+      <div className="hx-inner">
+        <div>
+          <div className="hx-eyebrow hx-rise" style={{ '--d': '0.05s' }}>
+            <span className="hx-dot" aria-hidden="true" />
+            AWS Community Builder · Singapore
+          </div>
 
-          <motion.h2
-            variants={itemVariants}
-            style={{
-              fontSize: 'clamp(1.5rem, 4vw, 2.5rem)',
-              color: '#00ff88',
-              marginBottom: '1.5rem',
-              fontWeight: '600',
-            }}
-          >
-            Full Stack Developer
-          </motion.h2>
+          <h1 id="hero-name" className="hx-name hx-rise-soft">
+            Swaroop <span className="hx-grad">A.S</span>
+          </h1>
 
-          <motion.p
-            variants={itemVariants}
-            style={{
-              fontSize: '1.1rem',
-              color: 'rgba(255, 255, 255, 0.8)',
-              lineHeight: '1.8',
-              marginBottom: '2rem',
-              maxWidth: '600px',
-            }}
-          >
-            <strong>6+ years</strong> building scalable, secure systems for <strong>Singapore government agencies</strong> and enterprise clients.
-            <br />
-            <span style={{ color: 'rgba(255, 255, 255, 0.7)', marginTop: '0.5rem', display: 'block' }}>
-              DevOps Enthusiast | AI Integration | Cloud Architecture | Servant Leader
-            </span>
-            <span style={{ color: 'rgba(255, 255, 255, 0.6)', marginTop: '0.5rem', display: 'block' }}>
-              Aspiring Solution Architect empowering organizations at scale
-            </span>
-          </motion.p>
+          <p className="hx-role hx-rise-soft" style={{ '--d': '0.15s' }}>
+            AI/ML Architect <span className="hx-at">@</span> Ingram Micro
+          </p>
 
-          <motion.div
-            variants={itemVariants}
-            style={{
-              display: 'flex',
-              gap: '1rem',
-              flexWrap: 'wrap',
-            }}
-          >
-            <motion.a
-              href="#contact"
-              whileHover={{ scale: 1.05, boxShadow: '0 0 20px rgba(0, 212, 255, 0.5)' }}
-              whileTap={{ scale: 0.95 }}
-              style={{
-                padding: '1rem 2rem',
-                background: 'linear-gradient(135deg, #00d4ff, #00ff88)',
-                border: 'none',
-                borderRadius: '10px',
-                color: '#0a0a19',
-                fontSize: '1rem',
-                fontWeight: 'bold',
-                cursor: 'pointer',
-                textDecoration: 'none',
-                display: 'inline-block',
-              }}
-            >
-              Get In Touch
-            </motion.a>
+          <p className="hx-hook hx-rise-soft" style={{ '--d': '0.25s' }}>
+            I design and build <strong>AI-powered cloud systems on AWS</strong>, from ML and generative AI
+            platforms to the DevOps that ships them. 7+ years delivering for{' '}
+            <strong>Singapore government agencies</strong> and enterprise teams.
+          </p>
 
-            <motion.button
-              onClick={onOpenShareModal}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              style={{
-                padding: '1rem 2rem',
-                background: 'transparent',
-                border: '2px solid #00d4ff',
-                borderRadius: '10px',
-                color: '#00d4ff',
-                fontSize: '1rem',
-                fontWeight: 'bold',
-                cursor: 'pointer',
-                textDecoration: 'none',
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '0.5rem',
-              }}
-            >
-              Share Contact
-            </motion.button>
-          </motion.div>
+          <div className="hx-ctas hx-rise" style={{ '--d': '0.35s' }}>
+            <a className="hx-btn hx-btn-primary" href="#work" onClick={scrollToFirst(['work', 'projects'])}>
+              See my work <Arrow />
+            </a>
+            <a className="hx-btn hx-btn-secondary" href="#badges" onClick={scrollToFirst(['badges'])}>
+              <Medal /> Credentials
+            </a>
+            <button type="button" className="hx-btn hx-btn-ghost" onClick={onOpenShareModal}>
+              <Share /> Share contact
+            </button>
+          </div>
 
-          {/* Tech Stack Icons */}
-          <motion.div
-            variants={itemVariants}
-            style={{
-              marginTop: '3rem',
-              display: 'flex',
-              flexWrap: 'wrap',
-              gap: '1rem',
-            }}
-          >
-            {['React', 'Node.js', 'AWS', 'TypeScript', 'Python', 'Kubernetes', 'Terraform', 'AI/ML'].map(
-              (tech, index) => (
-                <motion.div
-                  key={tech}
-                  initial={{ opacity: 0, scale: 0 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: 1 + index * 0.1 }}
-                  whileHover={{ scale: 1.1, y: -5 }}
-                  style={{
-                    padding: '0.5rem 1rem',
-                    background: 'rgba(0, 212, 255, 0.1)',
-                    border: '1px solid rgba(0, 212, 255, 0.3)',
-                    borderRadius: '8px',
-                    fontSize: '0.9rem',
-                    color: '#00d4ff',
-                  }}
-                >
-                  {tech}
-                </motion.div>
-              )
-            )}
-          </motion.div>
-        </motion.div>
+          <ul className="hx-facts hx-rise" style={{ '--d': '0.45s' }} aria-label="Focus areas">
+            <li><b>AWS</b> cloud architecture</li>
+            <li><b>AI/ML</b> &amp; GenAI</li>
+            <li><b>DevOps</b> &amp; platform</li>
+          </ul>
+        </div>
 
-        {/* Right Side - Image */}
-        <motion.div
-          variants={itemVariants}
-          style={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}
-        >
-          <motion.div
-            initial={{ scale: 0.8, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.5 }}
-            whileHover={{ scale: 1.05 }}
-            style={{
-              position: 'relative',
-              width: '100%',
-              maxWidth: '400px',
-            }}
-          >
-            {/* Glowing Background */}
-            <div
-              style={{
-                position: 'absolute',
-                top: '50%',
-                left: '50%',
-                transform: 'translate(-50%, -50%)',
-                width: '120%',
-                height: '120%',
-                background: 'radial-gradient(circle, rgba(0, 212, 255, 0.3), transparent)',
-                filter: 'blur(40px)',
-                zIndex: -1,
-              }}
-            />
+        <div ref={portraitRef} className="hx-portrait hx-rise-soft" style={{ '--d': '0.2s' }}>
+          <div className="hx-ring" aria-hidden="true" />
+          <img className="hx-photo" src={ProfileImage} alt="Swaroop A.S" width="400" height="400" fetchpriority="high" />
+          <div className="hx-tag" aria-hidden="true">
+            <i>●</i> building with AWS + AI
+          </div>
+        </div>
+      </div>
 
-            {/* Image Container */}
-            <div
-              style={{
-                position: 'relative',
-                borderRadius: '20px',
-                padding: '0.5rem',
-                background: 'linear-gradient(135deg, rgba(0, 212, 255, 0.3), rgba(0, 255, 136, 0.3))',
-                backdropFilter: 'blur(10px)',
-                border: '2px solid rgba(0, 212, 255, 0.5)',
-              }}
-            >
-              <img
-                src={ProfileImage}
-                alt="Swaroop A.S"
-                style={{
-                  width: '100%',
-                  borderRadius: '15px',
-                  display: 'block',
-                }}
-              />
-            </div>
-          </motion.div>
-        </motion.div>
-      </motion.div>
-
-      {/* Scroll Indicator */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 2 }}
-        style={{
-          position: 'absolute',
-          bottom: '2rem',
-          left: '50%',
-          transform: 'translateX(-50%)',
-        }}
-      >
-        <motion.div
-          animate={{ y: [0, 10, 0] }}
-          transition={{ duration: 1.5, repeat: Infinity }}
-          style={{
-            width: '30px',
-            height: '50px',
-            border: '2px solid rgba(0, 212, 255, 0.5)',
-            borderRadius: '20px',
-            position: 'relative',
-          }}
-        >
-          <motion.div
-            animate={{ y: [0, 15, 0] }}
-            transition={{ duration: 1.5, repeat: Infinity }}
-            style={{
-              width: '6px',
-              height: '10px',
-              background: '#00d4ff',
-              borderRadius: '3px',
-              position: 'absolute',
-              top: '8px',
-              left: '50%',
-              transform: 'translateX(-50%)',
-            }}
-          />
-        </motion.div>
-      </motion.div>
+      <div className="hx-scroll" aria-hidden="true">
+        scroll
+        <span />
+      </div>
     </section>
   )
 }

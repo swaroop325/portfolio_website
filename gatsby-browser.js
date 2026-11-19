@@ -4,4 +4,6 @@
  * See: https://www.gatsbyjs.org/docs/browser-apis/
  */
 
-// You can delete this file if you're not using it
+// Global visual system (CSS variables + hero styles). Gatsby inlines this into
+// the server-rendered <head>, so it applies before hydration.
+import './src/assets/css/theme.css'

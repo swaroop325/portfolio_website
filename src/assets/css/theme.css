@@ -1,0 +1,385 @@
+/*
+ * Visual system for the 3D revamp.
+ * Dark, high-contrast, one accent gradient (cyan -> mint) shared with the
+ * badge wall. Type: Space Grotesk (display) + JetBrains Mono (labels/code);
+ * body text stays on the system stack for speed and readability.
+ */
+:root {
+  --bg: #07070f;
+  --bg-2: #0a0a19;
+  --fg: #f4f7fb;
+  --fg-muted: #b4bfd0;      /* 10.6:1 on --bg */
+  --fg-subtle: #8792a6;     /* 6.3:1 on --bg */
+  --surface: #11121f;
+  --surface-2: rgba(255, 255, 255, 0.04);
+  --border: rgba(255, 255, 255, 0.1);
+  --accent-a: #00d4ff;
+  --accent-b: #00ff88;
+  --accent-gradient: linear-gradient(120deg, var(--accent-a) 0%, var(--accent-b) 100%);
+  --on-accent: #04121a;
+  --font-display: 'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --font-body: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+  --radius: 14px;
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  color-scheme: dark;
+}
+
+::selection {
+  background: rgba(0, 212, 255, 0.35);
+  color: #fff;
+}
+
+/* ---------- Hero ---------- */
+.hx {
+  position: relative;
+  min-height: 100vh;
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
+  padding: 7rem 1.5rem 5rem;
+  overflow: hidden;
+  isolation: isolate;
+  /* Transparent: the fixed page backdrop shows through, so there is no seam
+     where the hero meets the next section. */
+  background: transparent;
+}
+
+.hx-stage {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  /* Feather the bottom edge so particles dissolve instead of being clipped. */
+  -webkit-mask-image: linear-gradient(180deg, #000 72%, transparent 100%);
+  mask-image: linear-gradient(180deg, #000 72%, transparent 100%);
+}
+.hx-stage canvas {
+  display: block;
+}
+
+.hx-inner {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+  gap: 3rem;
+  align-items: center;
+}
+
+.hx-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+  padding: 0.4rem 0.8rem;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: rgba(7, 7, 15, 0.55);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+.hx-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent-b);
+  box-shadow: 0 0 10px var(--accent-b);
+  flex: none;
+}
+
+.hx-name {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(2.9rem, 9vw, 6.4rem);
+  line-height: 0.95;
+  letter-spacing: -0.035em;
+  margin: 1.4rem 0 1rem;
+  color: var(--fg);
+}
+.hx-name .hx-grad {
+  background: var(--accent-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+
+.hx-role {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(1.2rem, 2.6vw, 1.7rem);
+  letter-spacing: -0.01em;
+  color: var(--fg);
+  margin: 0 0 1.25rem;
+}
+.hx-role .hx-at {
+  color: var(--accent-a);
+}
+
+.hx-hook {
+  font-family: var(--font-body);
+  font-size: clamp(1rem, 1.6vw, 1.15rem);
+  line-height: 1.65;
+  color: var(--fg-muted);
+  max-width: 34rem;
+  margin: 0 0 2rem;
+}
+.hx-hook strong {
+  color: var(--fg);
+  font-weight: 600;
+}
+
+.hx-ctas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.hx-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  min-height: 48px;
+  padding: 0 1.4rem;
+  border-radius: 12px;
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.005em;
+  text-decoration: none;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: transform 0.2s var(--ease-out), box-shadow 0.2s var(--ease-out), background 0.2s, border-color 0.2s, color 0.2s;
+  touch-action: manipulation;
+}
+.hx-btn svg {
+  width: 18px;
+  height: 18px;
+  flex: none;
+}
+.hx-btn-primary {
+  background: var(--accent-gradient);
+  color: var(--on-accent);
+  box-shadow: 0 8px 30px -8px rgba(0, 212, 255, 0.55);
+}
+.hx-btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 40px -10px rgba(0, 255, 136, 0.6);
+}
+.hx-btn-secondary {
+  background: rgba(7, 7, 15, 0.55);
+  color: var(--fg);
+  border-color: rgba(0, 212, 255, 0.45);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+.hx-btn-secondary:hover {
+  border-color: var(--accent-a);
+  background: rgba(0, 212, 255, 0.1);
+  transform: translateY(-2px);
+}
+.hx-btn-ghost {
+  background: transparent;
+  color: var(--fg-muted);
+  padding: 0 0.9rem;
+}
+.hx-btn-ghost:hover {
+  color: var(--fg);
+}
+.hx-btn:focus-visible {
+  outline: 3px solid var(--accent-a);
+  outline-offset: 3px;
+}
+.hx-btn:active {
+  transform: scale(0.97);
+}
+
+.hx-facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.4rem;
+  margin: 2.4rem 0 0;
+  padding: 0;
+  list-style: none;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--fg-subtle);
+}
+.hx-facts b {
+  color: var(--fg);
+  font-weight: 600;
+}
+
+/* Portrait: circular frame on a slow conic ring, sitting at the core of the field. */
+.hx-portrait {
+  justify-self: center;
+  position: relative;
+  width: min(340px, 72vw);
+  aspect-ratio: 1;
+}
+.hx-ring {
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  background: conic-gradient(from 0deg, var(--accent-a), var(--accent-b), transparent 55%, var(--accent-a));
+  filter: drop-shadow(0 0 22px rgba(0, 212, 255, 0.35));
+}
+.hx-ring::after {
+  content: '';
+  position: absolute;
+  inset: 3px;
+  border-radius: 50%;
+  background: var(--bg);
+}
+.hx-photo {
+  position: absolute;
+  inset: 8px;
+  width: calc(100% - 16px);
+  height: calc(100% - 16px);
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
+}
+.hx-tag {
+  position: absolute;
+  right: -4%;
+  bottom: 9%;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--fg);
+  padding: 0.45rem 0.7rem;
+  border-radius: 10px;
+  background: rgba(17, 18, 31, 0.85);
+  border: 1px solid rgba(0, 255, 136, 0.35);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  white-space: nowrap;
+}
+.hx-tag i {
+  font-style: normal;
+  color: var(--accent-b);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .hx-ring {
+    animation: hx-spin 14s linear infinite;
+  }
+}
+@keyframes hx-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.hx-scroll {
+  position: absolute;
+  z-index: 1;
+  left: 50%;
+  bottom: 1.6rem;
+  transform: translateX(-50%);
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--fg-subtle);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+}
+.hx-scroll span {
+  width: 1px;
+  height: 36px;
+  background: linear-gradient(180deg, var(--accent-a), transparent);
+}
+
+/* ---------- Fallback: CSS gradient mesh (no WebGL, reduced motion, SSR) ---------- */
+.hx-mesh {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background:
+    radial-gradient(38% 46% at 74% 46%, rgba(0, 212, 255, 0.22), transparent 70%),
+    radial-gradient(30% 36% at 84% 70%, rgba(0, 255, 136, 0.16), transparent 70%),
+    radial-gradient(40% 50% at 12% 18%, rgba(0, 120, 255, 0.12), transparent 70%),
+    radial-gradient(60% 60% at 50% 110%, rgba(0, 212, 255, 0.1), transparent 70%);
+}
+/* A faint dotted lattice so the fallback reads as a deliberate texture. */
+.hx-mesh::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(rgba(180, 220, 255, 0.22) 1px, transparent 1.2px);
+  background-size: 26px 26px;
+  -webkit-mask-image: radial-gradient(55% 60% at 74% 52%, #000 0%, transparent 75%);
+  mask-image: radial-gradient(55% 60% at 74% 52%, #000 0%, transparent 75%);
+}
+/* Orbit rings echoing the 3D crystal. */
+.hx-mesh::after {
+  content: '';
+  position: absolute;
+  width: min(620px, 110vw);
+  aspect-ratio: 1;
+  left: 74%;
+  top: 52%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  border: 1px solid rgba(0, 212, 255, 0.16);
+  box-shadow:
+    0 0 0 70px rgba(0, 212, 255, 0.025),
+    inset 0 0 0 60px rgba(0, 255, 136, 0.025),
+    inset 0 0 120px rgba(0, 212, 255, 0.12);
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 899px) {
+  .hx {
+    padding: 6.5rem 1.25rem 5rem;
+    align-items: flex-start;
+  }
+  .hx-inner {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 2.25rem;
+  }
+  .hx-portrait {
+    order: -1;
+    justify-self: center;
+    width: 148px;
+    margin: 0.5rem 0 0.75rem;
+  }
+  .hx-tag {
+    display: none;
+  }
+  .hx-name {
+    margin-top: 1.1rem;
+  }
+  .hx-mesh::before,
+  .hx-mesh::after {
+    left: 50%;
+  }
+  .hx-mesh::after {
+    top: 30%;
+  }
+  .hx-scroll {
+    display: none;
+  }
+}
+
+@media (max-width: 420px) {
+  .hx-btn {
+    flex: 1 1 auto;
+  }
+  .hx-btn-ghost {
+    flex: 0 0 auto;
+  }
+}
