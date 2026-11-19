@@ -2,20 +2,20 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import '../assets/css/ScrollAssistant.css';
 
+// Real section ids rendered by src/pages/index.js. 'badges' is the BadgeWall id.
+const SECTIONS = [
+  { id: 'hero', label: 'Home', icon: '🏠' },
+  { id: 'experience', label: 'Experience', icon: '💼' },
+  { id: 'skills', label: 'Skills', icon: '🧠' },
+  { id: 'work', label: 'Work', icon: '🚀' },
+  { id: 'writing', label: 'Writing', icon: '✍️' },
+  { id: 'badges', label: 'Badges', icon: '🏅' },
+  { id: 'contact', label: 'Contact', icon: '📧' }
+];
+
 const ScrollAssistant = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [activeSection, setActiveSection] = useState('hero');
-
-  // Real section ids rendered by src/pages/index.js. 'badges' is the BadgeWall id.
-  const sections = [
-    { id: 'hero', label: 'Home', icon: '🏠' },
-    { id: 'experience', label: 'Experience', icon: '💼' },
-    { id: 'skills', label: 'Skills', icon: '🧠' },
-    { id: 'work', label: 'Work', icon: '🚀' },
-    { id: 'writing', label: 'Writing', icon: '✍️' },
-    { id: 'badges', label: 'Badges', icon: '🏅' },
-    { id: 'contact', label: 'Contact', icon: '📧' }
-  ];
 
   useEffect(() => {
     const handleScroll = () => {
@@ -25,7 +25,7 @@ const ScrollAssistant = () => {
       // Detect active section
       const scrollPosition = window.scrollY + 200;
 
-      for (const section of sections) {
+      for (const section of SECTIONS) {
         const element = document.getElementById(section.id);
         if (element) {
           const offsetTop = element.offsetTop;
@@ -95,7 +95,7 @@ const ScrollAssistant = () => {
               alignItems: 'center'
             }}
           >
-            {sections.map((section) => (
+            {SECTIONS.map((section) => (
               <motion.button
                 key={section.id}
                 onClick={() => scrollToSection(section.id)}
