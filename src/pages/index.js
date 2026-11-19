@@ -2,17 +2,25 @@ import React, { useState, useEffect } from 'react'
 import { motion, useScroll } from 'framer-motion'
 import Layout from '../components/layout'
 import CodeBackground from '../components/CodeBackground'
-import ModernNav from '../components/ModernNav'
+import ModernNav, { DEFAULT_NAV_ITEMS } from '../components/ModernNav'
 import HeroSection from '../components/HeroSection'
 import ExperienceSection from '../components/ExperienceSection'
 import SkillsSection from '../components/SkillsSection'
-import ProjectsSection from '../components/ProjectsSection'
-import CertificationsSection from '../components/CertificationsSection'
+import WorkSection from '../components/WorkSection'
+import WritingSection from '../components/WritingSection'
 import BadgeWall from '../components/BadgeWall'
 import ContactSection from '../components/ContactSection'
 import SharingModal from '../components/SharingModal'
 import ScrollAssistant from '../components/ScrollAssistant'
 import { contact } from '../data/portfolioData'
+import { hasWriting } from '../lib/writing'
+import postsData from '../data/generated/posts.json'
+import linkedinData from '../data/linkedin-posts.json'
+
+// One list drives both the nav and scroll-spy, so their ids always match the
+// rendered sections. Writing hides itself when there is nothing to show.
+const SECTIONS = DEFAULT_NAV_ITEMS.filter((s) => s.id !== 'writing' || hasWriting(postsData, linkedinData))
+const SECTION_IDS = SECTIONS.map((s) => s.id)
 
 const IndexPage = () => {
   const [activeSection, setActiveSection] = useState('hero')
@@ -23,10 +31,9 @@ const IndexPage = () => {
     if (typeof window === 'undefined') return
 
     const handleScroll = () => {
-      const sections = ['hero', 'experience', 'skills', 'projects', 'certifications', 'badges', 'contact']
       const scrollPosition = window.scrollY + window.innerHeight / 2
 
-      for (const section of sections) {
+      for (const section of SECTION_IDS) {
         const element = document.getElementById(section)
         if (element) {
           const { offsetTop, offsetHeight } = element
@@ -38,7 +45,8 @@ const IndexPage = () => {
       }
     }
 
-    window.addEventListener('scroll', handleScroll)
+    handleScroll()
+    window.addEventListener('scroll', handleScroll, { passive: true })
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
@@ -54,7 +62,7 @@ const IndexPage = () => {
   return (
     <Layout location={typeof window !== 'undefined' ? window.location : {}}>
       <CodeBackground />
-      <ModernNav activeSection={activeSection} />
+      <ModernNav activeSection={activeSection} items={SECTIONS} />
 
       {/* No page-level fade-in: it server-rendered every section at opacity 0
           and held the hero's LCP until hydration. Sections animate themselves. */}
@@ -62,8 +70,8 @@ const IndexPage = () => {
         <HeroSection onOpenShareModal={() => setIsShareModalOpen(true)} />
         <ExperienceSection />
         <SkillsSection />
-        <ProjectsSection />
-        <CertificationsSection />
+        <WorkSection />
+        <WritingSection posts={postsData} linkedin={linkedinData} />
         <BadgeWall />
         <ContactSection />
       </div>

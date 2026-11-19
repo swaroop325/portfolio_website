@@ -1,7 +1,21 @@
 import React, { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 
-const ModernNav = ({ activeSection }) => {
+export const DEFAULT_NAV_ITEMS = [
+  { id: 'hero', label: 'Home' },
+  { id: 'experience', label: 'Experience' },
+  { id: 'skills', label: 'Skills' },
+  { id: 'work', label: 'Work' },
+  { id: 'writing', label: 'Writing' },
+  { id: 'badges', label: 'Credentials' },
+  { id: 'contact', label: 'Contact' },
+]
+
+// `items` must list real section ids; index.js passes the same list it uses
+// for scroll-spy, minus any section that is not rendered.
+const ModernNav = ({ activeSection, items = DEFAULT_NAV_ITEMS }) => {
+  const navItems = items
+
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
@@ -19,19 +33,11 @@ const ModernNav = ({ activeSection }) => {
     if (typeof document === 'undefined') return
     const element = document.getElementById(sectionId)
     if (element) {
-      element.scrollIntoView({ behavior: 'smooth' })
+      const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches
+      element.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth' })
       setIsMobileMenuOpen(false) // Close mobile menu after navigation
     }
   }
-
-  const navItems = [
-    { id: 'hero', label: 'Home' },
-    { id: 'experience', label: 'Experience' },
-    { id: 'skills', label: 'Skills' },
-    { id: 'projects', label: 'Projects' },
-    { id: 'certifications', label: 'Certifications' },
-    { id: 'contact', label: 'Contact' },
-  ]
 
   return (
     <motion.nav
@@ -74,6 +80,10 @@ const ModernNav = ({ activeSection }) => {
             cursor: 'pointer',
           }}
           onClick={() => scrollToSection('hero')}
+          role="button"
+          tabIndex={0}
+          aria-label="Back to top"
+          onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && (e.preventDefault(), scrollToSection('hero'))}
         >
           &lt;Swaroop.dev /&gt;
         </motion.div>
@@ -91,6 +101,7 @@ const ModernNav = ({ activeSection }) => {
             <motion.button
               key={item.id}
               onClick={() => scrollToSection(item.id)}
+              aria-current={activeSection === item.id ? 'true' : undefined}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               style={{
@@ -121,6 +132,9 @@ const ModernNav = ({ activeSection }) => {
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.9 }}
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          aria-label={isMobileMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
+          aria-expanded={isMobileMenuOpen}
+          aria-controls="mobile-nav-menu"
           style={{
             display: 'none',
             background: 'rgba(0, 212, 255, 0.2)',
@@ -140,6 +154,8 @@ const ModernNav = ({ activeSection }) => {
       {/* Mobile Menu Dropdown */}
       {isMobileMenuOpen && (
         <motion.div
+          id="mobile-nav-menu"
+          className="mobile-nav-menu"
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -20 }}
@@ -161,6 +177,7 @@ const ModernNav = ({ activeSection }) => {
             <motion.button
               key={item.id}
               onClick={() => scrollToSection(item.id)}
+              aria-current={activeSection === item.id ? 'true' : undefined}
               whileTap={{ scale: 0.95 }}
               style={{
                 padding: '1rem',
@@ -188,16 +205,12 @@ const ModernNav = ({ activeSection }) => {
       )}
 
       {/* Mobile Navigation Styles */}
-      <style jsx>{`
-        @media (max-width: 768px) {
-          .desktop-nav {
-            display: none !important;
-          }
-          .mobile-menu-btn {
-            display: block !important;
-          }
-        }
-      `}</style>
+      <style
+        dangerouslySetInnerHTML={{
+          __html:
+            '@media (max-width: 1023px) { .desktop-nav { display: none !important; } .mobile-menu-btn { display: block !important; } }',
+        }}
+      />
     </motion.nav>
   )
 }

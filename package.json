@@ -34,6 +34,7 @@
     "prebuild": "node scripts/fetch-content.js",
     "build": "gatsby build",
     "fetch-content": "node scripts/fetch-content.js",
+    "add-linkedin": "node scripts/add-linkedin.js",
     "develop": "gatsby develop",
     "format": "prettier --write '**/*.js'",
     "test": "node --test \"scripts/**/*.test.js\" \"src/**/*.test.js\""
