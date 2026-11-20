@@ -112,3 +112,21 @@ test('mergePosts returns empty (no write) when both sources fail', () => {
   const existing = [P('medium', '2026-01-01'), P('devto', '2026-02-01')];
   assert.deepStrictEqual(mergePosts([], existing, ['medium', 'devto']), []);
 });
+
+test('non-https urls and images from fetched sources are dropped', () => {
+  const bad = 'javascript:alert(1)';
+  const badges = normalizeBadges({ data: [{ id: 'x1', image_url: bad, badge_template: { name: 'n', url: bad } }] });
+  assert.strictEqual(badges[0].image, null);
+  assert.strictEqual(badges[0].url, 'https://www.credly.com/badges/x1');
+  const reposOut = normalizeRepos([
+    { name: 'ok', html_url: 'https://github.com/a/ok' },
+    { name: 'bad', html_url: bad },
+  ]);
+  assert.deepStrictEqual(reposOut.map(r => r.name), ['ok']);
+  const posts = normalizePosts('', [
+    { title: 'Good', url: 'https://dev.to/g', published_at: '2026-01-01T00:00:00Z', cover_image: bad },
+    { title: 'Evil', url: bad, published_at: '2026-01-01T00:00:00Z' },
+  ]);
+  assert.strictEqual(posts.length, 1);
+  assert.strictEqual(posts[0].image, null);
+});

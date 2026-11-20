@@ -31,7 +31,7 @@ function validLinkedIn(list) {
     .filter((p) => p && typeof p.urn === 'string')
     .map((p) => {
       const parsed = parseLinkedInUrl(p.urn);
-      return parsed ? { ...p, urn: parsed.urn, url: p.url || parsed.url, embedUrl: parsed.embedUrl } : null;
+      return parsed ? { ...p, urn: parsed.urn, url: parsed.url, embedUrl: parsed.embedUrl } : null;
     })
     .filter(Boolean);
 }

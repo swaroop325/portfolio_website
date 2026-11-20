@@ -51,3 +51,8 @@ test('hasWriting is false only when there is nothing at all', () => {
   assert.strictEqual(hasWriting([post('medium', '2026-01-01')], []), true);
   assert.strictEqual(hasWriting([], [{ urn: 'urn:li:share:1234567890123' }]), true);
 });
+
+test('validLinkedIn always uses the url rebuilt from the validated urn', () => {
+  const [item] = validLinkedIn([{ urn: 'urn:li:activity:1234567890123', url: 'javascript:alert(1)' }]);
+  assert.match(item.url, /^https:\/\/www\.linkedin\.com\//);
+});

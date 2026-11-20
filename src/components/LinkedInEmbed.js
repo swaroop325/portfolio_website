@@ -13,7 +13,7 @@ export default function LinkedInEmbed({ post }) {
     <figure ref={ref} className="wr-li">
       <div className="wr-li-frame">
         {near ? (
-          <iframe src={post.embedUrl} title={label} loading="lazy" allowFullScreen referrerPolicy="strict-origin-when-cross-origin" />
+          <iframe src={post.embedUrl} title={label} loading="lazy" sandbox="allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox" allowFullScreen referrerPolicy="strict-origin-when-cross-origin" />
         ) : (
           <div className="wr-li-wait" aria-hidden="true">
             Loading LinkedIn post…

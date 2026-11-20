@@ -20,6 +20,11 @@ function tagValue(block, tag) {
   return cdata ? text : decodeEntities(text);
 }
 
+// Fetched URLs end up in href/src, so only https is accepted.
+function safeUrl(u) {
+  return typeof u === 'string' && /^https:\/\//i.test(u.trim()) ? u.trim() : null;
+}
+
 function toIsoDate(value) {
   const d = new Date(value);
   return isNaN(d) ? null : d.toISOString().slice(0, 10);
@@ -39,8 +44,8 @@ function normalizeBadges(credlyJson) {
       issuer: entity.name || '',
       issuedAt: b.issued_at_date || toIsoDate(b.issued_at),
       expiresAt: b.expires_at_date || null,
-      image: b.image_url || (tpl.image_url || null),
-      url: tpl.url || `https://www.credly.com/badges/${b.id}`,
+      image: safeUrl(b.image_url || tpl.image_url),
+      url: safeUrl(tpl.url) || `https://www.credly.com/badges/${b.id}`,
     };
   });
 }
@@ -52,11 +57,11 @@ function normalizeRepos(ghJson) {
     description: r.description || null,
     language: r.language || null,
     stars: r.stargazers_count || 0,
-    url: r.html_url,
+    url: safeUrl(r.html_url),
     fork: !!r.fork,
     pushedAt: r.pushed_at || null,
     topics: Array.isArray(r.topics) ? r.topics : [],
-  }));
+  })).filter(r => r.url);
 }
 
 function excerptFrom(html, max = 200) {
@@ -80,10 +85,10 @@ function parseMedium(xml) {
       const date = new Date(tagValue(item, 'pubDate'));
       return {
         title: decodeEntities(tagValue(item, 'title')).trim(),
-        url: link.split('?')[0],
+        url: safeUrl(link.split('?')[0]),
         date: isNaN(date) ? null : date.toISOString(),
         source: 'medium',
-        image,
+        image: safeUrl(image),
         excerpt: excerptFrom(content),
       };
     })
@@ -97,10 +102,10 @@ function parseDevto(json) {
       const date = new Date(a.published_at || a.published_timestamp);
       return {
         title: decodeEntities(a.title).trim(),
-        url: a.url,
+        url: safeUrl(a.url),
         date: isNaN(date) ? null : date.toISOString(),
         source: 'devto',
-        image: a.cover_image || a.social_image || null,
+        image: safeUrl(a.cover_image || a.social_image),
         excerpt: excerptFrom(a.description),
       };
     })
