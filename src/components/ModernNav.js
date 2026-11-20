@@ -82,7 +82,7 @@ const ModernNav = ({ activeSection, items = DEFAULT_NAV_ITEMS }) => {
           onClick={() => scrollToSection('hero')}
           role="button"
           tabIndex={0}
-          aria-label="Back to top"
+          aria-label="Swaroop.dev, back to top"
           onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && (e.preventDefault(), scrollToSection('hero'))}
         >
           &lt;Swaroop.dev /&gt;

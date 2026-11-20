@@ -236,7 +236,7 @@ function SharePanel({ groups, noun, slug }) {
           className="bw-btn"
           onClick={() => download(size)}
           disabled={busy !== null}
-          aria-label={`Download ${label} credential card as PNG`}
+          aria-label={`Download PNG (${label}) credential card`}
         >
           {busy === size ? 'Rendering…' : `Download PNG (${label})`}
         </button>
@@ -349,8 +349,7 @@ export default function BadgeWall({ badges = badgesData, extraBadges = [communit
             <button
               type="button"
               className="bw-btn"
-              aria-pressed={shareMode}
-              aria-label={shareMode ? 'Exit share mode' : 'Enter share mode to download a shareable credential card'}
+              aria-expanded={shareMode}
               onClick={() => setShareMode((s) => !s)}
             >
               {shareMode ? 'Back to wall' : 'Share mode'}

@@ -52,7 +52,7 @@ function PostCard({ post }) {
           <span className={`wr-src wr-src-${post.source}`}>{source}</span>
           {date && <time dateTime={post.date}>{date}</time>}
         </div>
-        <h4>{post.title}</h4>
+        <h3>{post.title}</h3>
         {post.excerpt && <p>{post.excerpt}</p>}
       </div>
     </TiltCard>
@@ -91,7 +91,7 @@ export default function WritingSection({ posts = postsData, linkedin = linkedinD
           <h2 id="writing-heading" className="sx-title">
             Writing
           </h2>
-          <p className="sx-lede">Notes from building on AWS, GenAI and DevOps, cross-posted to Medium and dev.to.</p>
+          <p className="sx-lede">Notes from building on AWS, GenAI and DevOps, published on Medium and dev.to.</p>
         </motion.header>
 
         {filters.length > 2 && (

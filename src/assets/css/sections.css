@@ -407,7 +407,7 @@ a.tc:focus-visible,
 .wr-src-devto {
   color: #9db2ff;
 }
-.wr-card h4 {
+.wr-card h3 {
   font-family: var(--font-display);
   font-size: 1.12rem;
   font-weight: 700;
