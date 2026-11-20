@@ -1,4 +1,4 @@
-import React, { forwardRef } from 'react';
+import React, { forwardRef, useEffect, useRef, useState } from 'react';
 
 // Fixed-size, export-ready credential card. All sizes are inline pixels so
 // html-to-image output is deterministic. No 3D, no animation, system fonts.
@@ -32,6 +32,50 @@ export function fitGrid(n, w, h, gap) {
   return best;
 }
 
+// Share-card artwork. Always eager (never lazy: the card sits in a scaled,
+// often off-screen box where lazy images may never load). Requests with CORS
+// first; if that errors (e.g. a cached non-CORS copy), retries as a plain
+// image; if that also fails, shows the badge name as a text placeholder.
+function MedalImage({ badge, accent, size }) {
+  const [cors, setCors] = useState(true);
+  const [failed, setFailed] = useState(false);
+  const ref = useRef(null);
+  const px = Math.round(size * 0.78);
+  const fail = () => (cors ? setCors(false) : setFailed(true));
+  useEffect(() => {
+    // An error can fire before hydration attaches onError.
+    const el = ref.current;
+    if (el && el.complete && el.naturalWidth === 0) fail();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [cors]);
+  if (failed) {
+    return (
+      <div
+        role="img"
+        aria-label={badge.name}
+        style={{ color: '#fff', textAlign: 'center', fontFamily: FONT, fontSize: Math.max(8, Math.round(size * 0.1)), fontWeight: 600, lineHeight: 1.1, padding: size * 0.1 }}
+      >
+        {badge.name}
+      </div>
+    );
+  }
+  return (
+    <img
+      key={cors ? 'cors' : 'plain'}
+      ref={ref}
+      src={badge.image}
+      alt={badge.name}
+      loading="eager"
+      decoding="sync"
+      crossOrigin={cors ? 'anonymous' : undefined}
+      onError={fail}
+      width={px}
+      height={px}
+      style={{ width: px, height: px, objectFit: 'contain', display: 'block' }}
+    />
+  );
+}
+
 function Medal({ badge, accent, size }) {
   const ring = Math.max(2, Math.round(size * 0.035));
   return (
@@ -52,14 +96,7 @@ function Medal({ badge, accent, size }) {
       }}
     >
       {badge.image ? (
-        <img
-          src={badge.image}
-          alt={badge.name}
-          crossOrigin="anonymous"
-          width={Math.round(size * 0.78)}
-          height={Math.round(size * 0.78)}
-          style={{ width: Math.round(size * 0.78), height: Math.round(size * 0.78), objectFit: 'contain', display: 'block' }}
-        />
+        <MedalImage badge={badge} accent={accent} size={size} />
       ) : (
         <div
           role="img"

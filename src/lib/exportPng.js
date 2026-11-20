@@ -105,10 +105,24 @@ function buildToPngOptions({ width, height, pixelRatio = 1 }) {
   };
 }
 
-// Exports `node` as a PNG of width x height CSS pixels times pixelRatio
-// (default 1) and triggers a download. Works on an off-screen clone so the
-// visible card is never mutated.
-async function exportCardPng(node, { width, height, filename = 'badges.png', pixelRatio = 1, loader = defaultLoader } = {}) {
+// Runs `render` once to warm up and discards the result, then runs it again
+// for the real output. iOS Safari is known to drop images from the first
+// html-to-image render. A failing warm-up is ignored; the real render's
+// outcome (value or error) is what the caller sees.
+async function renderWithWarmup(render, warmups = 1) {
+  for (let i = 0; i < warmups; i += 1) {
+    try {
+      await render();
+    } catch (e) {
+      /* warm-up only */
+    }
+  }
+  return render();
+}
+
+// Renders `node` off-screen (on a clone, so the visible card is never mutated)
+// and resolves to a PNG data URL of width x height CSS pixels times pixelRatio.
+async function renderCardDataUrl(node, { width, height, pixelRatio = 1, loader = defaultLoader } = {}) {
   const { toPng } = await import('html-to-image');
 
   const host = document.createElement('div');
@@ -128,11 +142,23 @@ async function exportCardPng(node, { width, height, filename = 'badges.png', pix
 
   try {
     await inlineImagesOrPlaceholder(clone, loader);
-    const dataUrl = await toPng(clone, buildToPngOptions({ width, height, pixelRatio }));
-    triggerDownload(dataUrl, filename);
+    return await renderWithWarmup(() => toPng(clone, buildToPngOptions({ width, height, pixelRatio })));
   } finally {
     host.remove();
   }
 }
 
-module.exports = { inlineImagesOrPlaceholder, exportCardPng, buildToPngOptions, defaultLoader };
+// Exports `node` as a PNG of width x height CSS pixels times pixelRatio
+// (default 1) and triggers a download.
+async function exportCardPng(node, { filename = 'badges.png', ...opts } = {}) {
+  const dataUrl = await renderCardDataUrl(node, opts);
+  triggerDownload(dataUrl, filename);
+}
+
+// Same render, resolved as a PNG Blob (for navigator.share).
+async function exportCardBlob(node, opts = {}) {
+  const dataUrl = await renderCardDataUrl(node, opts);
+  return (await fetch(dataUrl)).blob();
+}
+
+module.exports = { inlineImagesOrPlaceholder, exportCardPng, exportCardBlob, renderWithWarmup, buildToPngOptions, defaultLoader };

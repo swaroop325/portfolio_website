@@ -1,11 +1,12 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { motion, useInView } from 'framer-motion';
 import SceneGuard from './three/SceneGuard';
 import BadgeShareCard, { CARD_SIZES, accentFor } from './BadgeShareCard';
 import { groupBadges } from '../lib/badges';
 import { filterGroups, parseFilter, serializeFilter, filterNoun } from '../lib/badgeFilter';
 import { canRender3D } from '../lib/capabilities';
-import { exportCardPng } from '../lib/exportPng';
+import { exportCardPng, exportCardBlob } from '../lib/exportPng';
+import { computeScale, canShareFiles, isAbortError } from '../lib/shareLayout';
 import { communityBuilderBadge } from '../data/curation';
 import badgesData from '../data/generated/badges.json';
 
@@ -27,6 +28,7 @@ function Chips({ label, options, value, onChange }) {
   );
 }
 
+const SHARE_SITE = 'swaroop325.web.app';
 const FEATURED_GROUPS = ['AWS Professional & Specialty', 'AWS Associate'];
 const MAX_FEATURED = 4;
 
@@ -60,6 +62,10 @@ const CSS = `
 .bw-chip { padding: .45rem 1rem; font-size: .85rem; }
 .bw-chip[aria-pressed="true"] { background: linear-gradient(135deg, #00d4ff, #00ff88); color: #04121a; }
 .bw-btn:disabled { opacity: .6; cursor: progress; }
+.bw-share-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 2.5rem; margin-bottom: 3rem; }
+.bw-share-item { min-width: 0; display: flex; flex-direction: column; gap: 1rem; align-items: flex-start; }
+.bw-share-square { max-width: 560px; width: 100%; min-width: 0; }
+@media (max-width: 699px) { .bw-share-square { order: -1; } }
 `;
 
 function BadgeImage({ badge, size }) {
@@ -180,24 +186,30 @@ function FeaturedMedallion({ badge, accent, live }) {
 }
 
 // Scales a fixed-size card down to fit its container without touching the card itself.
+// The measured box (`box`) is sized only by its parent (width: 100%, min-width: 0),
+// never by the scaled content, so the scale can shrink as well as grow.
 function ScaledPreview({ size, children }) {
   const { width, height } = CARD_SIZES[size];
   const box = useRef(null);
-  const [scale, setScale] = useState(0.5);
-  useEffect(() => {
+  const [scale, setScale] = useState(null);
+  useLayoutEffect(() => {
     const el = box.current;
     if (!el) return undefined;
-    const update = () => setScale(Math.min(1, el.clientWidth / width));
+    const update = () => setScale(computeScale(el.getBoundingClientRect().width, width));
     update();
-    if (typeof ResizeObserver === 'undefined') return undefined;
+    if (typeof ResizeObserver === 'undefined') {
+      window.addEventListener('resize', update);
+      return () => window.removeEventListener('resize', update);
+    }
     const ro = new ResizeObserver(update);
     ro.observe(el);
     return () => ro.disconnect();
   }, [width]);
+  const s = scale === null ? 1 : scale;
   return (
-    <div ref={box} style={{ width: '100%', maxWidth: width }}>
-      <div style={{ width: width * scale, height: height * scale, overflow: 'hidden', borderRadius: 12, boxShadow: '0 20px 60px rgba(0,0,0,0.5)' }}>
-        <div style={{ width, height, transform: `scale(${scale})`, transformOrigin: '0 0' }}>{children}</div>
+    <div ref={box} style={{ width: '100%', maxWidth: width, minWidth: 0, overflow: 'hidden', borderRadius: 12, boxShadow: '0 20px 60px rgba(0,0,0,0.5)', visibility: scale === null ? 'hidden' : 'visible' }}>
+      <div style={{ width: width * s, height: height * s, overflow: 'hidden' }}>
+        <div style={{ width, height, transform: `scale(${s})`, transformOrigin: '0 0' }}>{children}</div>
       </div>
     </div>
   );
@@ -208,9 +220,20 @@ function SharePanel({ groups, noun, slug }) {
   const squareRef = useRef(null);
   const [busy, setBusy] = useState(null);
   const [error, setError] = useState('');
+  // Web Share with files is checked after mount; SSR and first render show no Share button.
+  const [canShare, setCanShare] = useState(false);
+  useEffect(() => {
+    try {
+      setCanShare(canShareFiles(navigator, new File([], 'badges.png', { type: 'image/png' })));
+    } catch (e) {
+      setCanShare(false);
+    }
+  }, []);
+
+  const nodeFor = (size) => (size === 'wide' ? wideRef.current : squareRef.current);
 
   const download = async (size) => {
-    const node = size === 'wide' ? wideRef.current : squareRef.current;
+    const node = nodeFor(size);
     if (!node) return;
     const { width, height } = CARD_SIZES[size];
     setBusy(size);
@@ -225,12 +248,40 @@ function SharePanel({ groups, noun, slug }) {
     }
   };
 
+  const share = async (size) => {
+    const node = nodeFor(size);
+    if (!node) return;
+    const { width, height } = CARD_SIZES[size];
+    const filename = `badges-${slug}-${size}.png`;
+    setBusy(size);
+    setError('');
+    try {
+      const blob = await exportCardBlob(node, { width, height });
+      const file = new File([blob], filename, { type: 'image/png' });
+      if (canShareFiles(navigator, file)) {
+        try {
+          await navigator.share({ files: [file], title: 'Swaroop A.S credentials', text: `${noun} - ${SHARE_SITE}` });
+          return;
+        } catch (e) {
+          if (isAbortError(e)) return; // user closed the share sheet
+          // Other failures (e.g. activation expired while rendering): fall back to download.
+        }
+      }
+      await exportCardPng(node, { width, height, filename });
+    } catch (e) {
+      console.warn('PNG share failed:', e);
+      setError('Share failed. Please try again.');
+    } finally {
+      setBusy(null);
+    }
+  };
+
   const item = (size, ref, label, note) => (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', alignItems: 'flex-start' }}>
+    <div className="bw-share-item">
       <ScaledPreview size={size}>
         <BadgeShareCard ref={ref} size={size} groups={groups} noun={noun} />
       </ScaledPreview>
-      <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', flexWrap: 'wrap' }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '.75rem 1rem', flexWrap: 'wrap', maxWidth: '100%' }}>
         <button
           type="button"
           className="bw-btn"
@@ -240,19 +291,26 @@ function SharePanel({ groups, noun, slug }) {
         >
           {busy === size ? 'Rendering…' : `Download PNG (${label})`}
         </button>
-        <span style={{ fontSize: '.8rem', color: 'rgba(255,255,255,0.55)' }}>{note}</span>
+        {canShare && (
+          <button
+            type="button"
+            className="bw-btn"
+            onClick={() => share(size)}
+            disabled={busy !== null}
+            aria-label={`Share ${label} credential card`}
+          >
+            Share
+          </button>
+        )}
+        <span style={{ fontSize: '.8rem', color: 'rgba(255,255,255,0.55)', flex: '1 1 100%' }}>{note}</span>
       </div>
     </div>
   );
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 16 }}
-      animate={{ opacity: 1, y: 0 }}
-      style={{ display: 'grid', gap: '2.5rem', marginBottom: '3rem' }}
-    >
-      {item('wide', wideRef, '1200×627', 'LinkedIn post / link preview')}
-      <div style={{ maxWidth: 560, width: '100%' }}>{item('square', squareRef, '1080×1080', 'LinkedIn / Instagram square')}</div>
+    <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} className="bw-share-grid">
+      <div className="bw-share-wide" style={{ minWidth: 0 }}>{item('wide', wideRef, '1200×627', 'LinkedIn post / link preview')}</div>
+      <div className="bw-share-square">{item('square', squareRef, '1080×1080', 'LinkedIn / Instagram square')}</div>
       <p role="status" aria-live="polite" style={{ color: '#ff8a8a', minHeight: '1.2em', margin: 0 }}>{error}</p>
     </motion.div>
   );
