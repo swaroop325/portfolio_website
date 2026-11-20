@@ -43,12 +43,29 @@ async function run(label, file, task) {
   }
 }
 
+// Credly pages at 48 badges; follow metadata.next_page_url (bounded). A failure
+// on any page throws, so the caller keeps the existing file rather than writing
+// a silently truncated list.
+async function getAllCredly(maxPages = 10) {
+  const first = await get(URLS.credly);
+  const data = Array.isArray(first && first.data) ? [...first.data] : [];
+  let next = first && first.metadata && first.metadata.next_page_url;
+  for (let page = 1; next && page < maxPages; page++) {
+    const url = new URL(next, URLS.credly).href;
+    if (new URL(url).origin !== new URL(URLS.credly).origin) break;
+    const json = await get(url);
+    if (Array.isArray(json && json.data)) data.push(...json.data);
+    next = json && json.metadata && json.metadata.next_page_url;
+  }
+  return { data };
+}
+
 async function main() {
   const ghHeaders = { Accept: 'application/vnd.github+json' };
   if (process.env.GITHUB_TOKEN) ghHeaders.Authorization = `Bearer ${process.env.GITHUB_TOKEN}`;
 
   await run('badges (Credly)', 'badges.json', async () =>
-    normalizeBadges(await get(URLS.credly))
+    normalizeBadges(await getAllCredly())
   );
   await run('repos (GitHub)', 'repos.json', async () =>
     normalizeRepos(await get(URLS.github, { headers: ghHeaders }))
