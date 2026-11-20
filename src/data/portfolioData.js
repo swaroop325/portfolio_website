@@ -17,7 +17,7 @@ export const experiences = [
   },
   {
     company: 'Activate Interactive',
-    role: 'Solution Architect',
+    role: 'Application Consultant to Solution Architect',
     period: 'May 2022 - Sep 2026',
     location: 'Singapore',
     description:

@@ -333,7 +333,7 @@ const SkillsSection = () => {
             <div className="sx-tag">{'<skills>'}</div>
             <h2 id="skills-title" className="sx-title">Skills, by evidence</h2>
             <p className="sx-lede">
-              {m.skillNodes.length} skills in {m.hubs.length} clusters. A node grows with public proof (active Credly
+              {m.skillNodes.length} skills in {m.hubs.length} clusters. A node grows with public proof (active
               badges and GitHub repos that use it), not with self-ratings. Pick a cluster to see the proof.
             </p>
           </motion.div>

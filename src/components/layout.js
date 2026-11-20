@@ -23,7 +23,7 @@ const Layout = ({ children }) => {
             title={data.site.siteMetadata.title}
             meta={[
               { name: 'description', content: data.site.siteMetadata.description },
-              { name: 'keywords', content: 'full stack developer, react, node.js, aws, devops, swaroop, web developer, singapore' },
+              { name: 'keywords', content: 'ai/ml architect, aws, genai, devops, cloud architecture, swaroop, singapore' },
               { name: 'twitter:card', content: 'summary_large_image' },
               { name: 'twitter:site', content: '@swaroop26390917' },
               { name: 'twitter:creator', content: '@swaroop26390917' },
