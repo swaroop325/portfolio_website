@@ -2,18 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import '../assets/css/ScrollAssistant.css';
 
-// Real section ids rendered by src/pages/index.js. 'badges' is the BadgeWall id.
-const SECTIONS = [
-  { id: 'hero', label: 'Home', icon: '🏠' },
-  { id: 'experience', label: 'Experience', icon: '💼' },
-  { id: 'skills', label: 'Skills', icon: '🧠' },
-  { id: 'work', label: 'Work', icon: '🚀' },
-  { id: 'writing', label: 'Writing', icon: '✍️' },
-  { id: 'badges', label: 'Badges', icon: '🏅' },
-  { id: 'contact', label: 'Contact', icon: '📧' }
-];
+import { DEFAULT_NAV_ITEMS } from './ModernNav';
 
-const ScrollAssistant = () => {
+const ICONS = { hero: '🏠', experience: '💼', skills: '🧠', work: '🚀', writing: '✍️', badges: '🏅', contact: '📧' };
+
+const ScrollAssistant = ({ items = DEFAULT_NAV_ITEMS }) => {
+  const SECTIONS = items.map((s) => ({ ...s, icon: ICONS[s.id] || '•' }));
   const [isVisible, setIsVisible] = useState(false);
   const [activeSection, setActiveSection] = useState('hero');
 

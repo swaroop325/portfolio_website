@@ -21,6 +21,9 @@ exports.onRenderBody = ({ setHeadComponents }) => {
         __html: `(function(){var l=document.createElement('link');l.rel='stylesheet';l.href='${FONTS_HREF}';document.head.appendChild(l);})();`,
       }}
     />,
+    <noscript key="no-js-reveal">
+      <style>{`[style*="opacity:0"],[style*="opacity: 0"]{opacity:1!important;transform:none!important}`}</style>
+    </noscript>,
     <noscript key="gf-ns">
       <link rel="stylesheet" href={FONTS_HREF} />
     </noscript>,

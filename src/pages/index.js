@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { motion, useScroll } from 'framer-motion'
+import { motion, useScroll, MotionConfig } from 'framer-motion'
 import Layout from '../components/layout'
 import CodeBackground from '../components/CodeBackground'
 import ModernNav, { DEFAULT_NAV_ITEMS } from '../components/ModernNav'
@@ -60,6 +60,7 @@ const IndexPage = () => {
   }
 
   return (
+    <MotionConfig reducedMotion="user">
     <Layout location={typeof window !== 'undefined' ? window.location : {}}>
       <CodeBackground />
       <ModernNav activeSection={activeSection} items={SECTIONS} />
@@ -92,7 +93,7 @@ const IndexPage = () => {
       />
 
       {/* Scroll Assistant - Quick navigation between sections */}
-      <ScrollAssistant />
+      <ScrollAssistant items={SECTIONS} />
 
       {/* Sharing Modal - Rendered at root level to avoid z-index issues */}
       <SharingModal
@@ -101,6 +102,7 @@ const IndexPage = () => {
         contactData={contactData}
       />
     </Layout>
+    </MotionConfig>
   )
 }
 
