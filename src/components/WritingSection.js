@@ -7,10 +7,11 @@ import postsData from '../data/generated/posts.json'
 import linkedinData from '../data/linkedin-posts.json'
 import '../assets/css/sections.css'
 
-const SOURCE_LABEL = { medium: 'Medium', devto: 'dev.to' }
+const SOURCE_LABEL = { medium: 'Medium', devto: 'dev.to', builder: 'AWS Builder Center' }
 const PROFILES = [
   { href: 'https://medium.com/@swaroop325', label: 'More on Medium' },
   { href: 'https://dev.to/swaroop325', label: 'More on dev.to' },
+  { href: 'https://builder.aws.com/community/@swaroop325', label: 'More on AWS Builder Center' },
 ]
 
 const Arrow = () => (

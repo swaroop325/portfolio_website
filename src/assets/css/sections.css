@@ -404,6 +404,9 @@ a.tc:focus-visible,
 .wr-src-medium {
   color: #e8edf5;
 }
+.wr-src-builder {
+  color: #ff9900;
+}
 .wr-src-devto {
   color: #9db2ff;
 }

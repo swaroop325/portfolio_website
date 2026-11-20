@@ -23,7 +23,7 @@ const communityBuilderBadge = {
   issuer: 'Amazon Web Services',
   issuedAt: '2024-01-01',
   expiresAt: null,
-  image: null,
+  image: '/badges/aws-community-builders.png',
   url: 'https://builder.aws.com/community/@swaroop325',
   group: 'Other',
   hideDate: true,

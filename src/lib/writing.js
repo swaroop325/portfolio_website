@@ -40,6 +40,7 @@ const FILTERS = [
   { id: 'all', label: 'All' },
   { id: 'medium', label: 'Medium' },
   { id: 'devto', label: 'dev.to' },
+  { id: 'builder', label: 'AWS Builder' },
   { id: 'linkedin', label: 'LinkedIn' },
 ];
 
@@ -48,6 +49,7 @@ function availableFilters(posts, linkedin) {
   const counts = {
     medium: list.filter((p) => p && p.source === 'medium').length,
     devto: list.filter((p) => p && p.source === 'devto').length,
+    builder: list.filter((p) => p && p.source === 'builder').length,
     linkedin: validLinkedIn(linkedin).length,
   };
   return FILTERS.filter((f) => f.id === 'all' || counts[f.id] > 0);

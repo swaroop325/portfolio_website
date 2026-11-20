@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { motion, useInView } from 'framer-motion';
 import SceneGuard from './three/SceneGuard';
 import BadgeShareCard, { CARD_SIZES, accentFor } from './BadgeShareCard';
@@ -50,6 +50,16 @@ const CSS = `
 .bw-tile:hover { background: rgba(255,255,255,0.07); border-color: var(--accent); }
 .bw-tile:focus-visible, .bw-btn:focus-visible { outline: 3px solid #00d4ff; outline-offset: 3px; }
 .bw-btn:focus:not(:focus-visible) { outline: none; }
+.bw-stage { position: relative; display: flex; align-items: center; justify-content: center; }
+.bw-3d { position: absolute; inset: 0; opacity: 0; }
+.bw-3d.is-on { opacity: 1; }
+@media (prefers-reduced-motion: no-preference) {
+  .bw-flat { transition: opacity .35s ease, transform .45s cubic-bezier(.2,.7,.2,1); }
+  .bw-flat.is-off { opacity: 0; transform: scale(.66); }
+  .bw-3d { transform: scale(1.18); transition: opacity .35s ease, transform .5s cubic-bezier(.2,.7,.2,1); }
+  .bw-3d.is-on { transform: none; }
+}
+@media (prefers-reduced-motion: reduce) { .bw-flat.is-off { opacity: 0; } }
 @media (prefers-reduced-motion: no-preference) {
   .bw-tilt { transform: perspective(700px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
     transition: transform .12s ease-out, border-color .2s, background .2s; will-change: transform; }
@@ -106,9 +116,15 @@ function BadgeImage({ badge, size }) {
 }
 
 function BadgeTile({ badge, accent, can3D, size = 110 }) {
-  const [hover, setHover] = useState(false);
+  // mounted: the canvas exists; live: it has drawn its first frame and is
+  // cross-faded in. The flat image stays underneath, so nothing ever pops.
+  const [mounted, setMounted] = useState(false);
+  const [live, setLive] = useState(false);
   const ref = useRef(null);
-  const use3D = can3D && hover && Boolean(badge.image);
+  const timer = useRef(null);
+  const use3D = can3D && mounted && Boolean(badge.image);
+  const onReady = useCallback(() => setLive(true), []);
+  useEffect(() => () => clearTimeout(timer.current), []);
 
   const onMove = (e) => {
     if (can3D || !ref.current) return;
@@ -118,8 +134,16 @@ function BadgeTile({ badge, accent, can3D, size = 110 }) {
     ref.current.style.setProperty('--rx', `${(-y * 14).toFixed(2)}deg`);
     ref.current.style.setProperty('--ry', `${(x * 14).toFixed(2)}deg`);
   };
+  const onEnter = (e) => {
+    if (e.pointerType !== 'mouse') return;
+    clearTimeout(timer.current);
+    setMounted(true);
+  };
   const onLeave = () => {
-    setHover(false);
+    // Fade back to the flat badge first, then free the WebGL context.
+    setLive(false);
+    clearTimeout(timer.current);
+    timer.current = setTimeout(() => setMounted(false), 450);
     if (ref.current) {
       ref.current.style.setProperty('--rx', '0deg');
       ref.current.style.setProperty('--ry', '0deg');
@@ -144,17 +168,18 @@ function BadgeTile({ badge, accent, can3D, size = 110 }) {
       {...linkProps}
       className={`bw-tile${can3D ? '' : ' bw-tilt'}`}
       style={{ '--accent': accent }}
-      onPointerEnter={(e) => e.pointerType === 'mouse' && setHover(true)}
+      onPointerEnter={onEnter}
       onPointerMove={onMove}
       onPointerLeave={onLeave}
     >
-      <div style={{ width: size, height: size, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-        {use3D ? (
-          <SceneGuard fallback={img}>
-            <BadgeMedallion badge={badge} accent={accent} size={size} />
-          </SceneGuard>
-        ) : (
-          img
+      <div className="bw-stage" style={{ width: size, height: size }}>
+        <div className={`bw-flat${live ? ' is-off' : ''}`}>{img}</div>
+        {use3D && (
+          <div className={`bw-3d${live ? ' is-on' : ''}`}>
+            <SceneGuard fallback={null}>
+              <BadgeMedallion badge={badge} accent={accent} size={size} onReady={onReady} />
+            </SceneGuard>
+          </div>
         )}
       </div>
       <div style={{ fontSize: '.82rem', fontWeight: 600, textAlign: 'center', lineHeight: 1.3, color: '#fff' }}>{badge.name}</div>
@@ -337,7 +362,10 @@ export default function BadgeWall({ badges = badgesData, extraBadges = handSetBa
   const [now, setNow] = useState(() => dataDate(badges));
 
   useEffect(() => {
-    setCan3D(canRender3D({ win: window }));
+    const ok = canRender3D({ win: window });
+    setCan3D(ok);
+    // Fetch the 3D chunk ahead of time so the first hover doesn't wait on it.
+    if (ok) import('./three/BadgeMedallion').catch(() => {});
     setNow(new Date());
   }, []);
 

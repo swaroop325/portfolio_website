@@ -1,19 +1,29 @@
 // Loaded ONLY through React.lazy behind <SceneGuard>: this is the one module
 // in the badge wall allowed to import three / r3f / drei.
-import React, { useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import * as THREE from 'three';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { useTexture } from '@react-three/drei';
 
 const MAX_TILT = 0.45; // radians
 
-function Medallion({ image, accent, target, invalidateRef }) {
+function Medallion({ image, accent, target, invalidateRef, onReady }) {
   const group = useRef();
   const texture = useTexture(image);
   texture.colorSpace = THREE.SRGBColorSpace;
   texture.anisotropy = 4;
   const invalidate = useThree((s) => s.invalidate);
   invalidateRef.current = invalidate;
+
+  // The texture has loaded (useTexture suspends until then). Wait two frames so
+  // the first render is on screen before the tile cross-fades to the canvas.
+  useEffect(() => {
+    invalidate();
+    let a = requestAnimationFrame(() => {
+      a = requestAnimationFrame(() => onReady && onReady());
+    });
+    return () => cancelAnimationFrame(a);
+  }, [invalidate, onReady]);
 
   // frameloop="demand": keep rendering only while the tilt is still easing.
   useFrame((state, delta) => {
@@ -42,13 +52,13 @@ function Medallion({ image, accent, target, invalidateRef }) {
       {/* Badge face */}
       <mesh position={[0, 0, 0.075]}>
         <planeGeometry args={[1.42, 1.42]} />
-        <meshStandardMaterial map={texture} transparent alphaTest={0.02} metalness={0.15} roughness={0.55} />
+        <meshStandardMaterial map={texture} emissiveMap={texture} emissive="#ffffff" emissiveIntensity={0.5} transparent alphaTest={0.02} metalness={0} roughness={0.9} />
       </mesh>
     </group>
   );
 }
 
-export default function BadgeMedallion({ badge, accent = '#00d4ff', size = 160 }) {
+export default function BadgeMedallion({ badge, accent = '#00d4ff', size = 160, onReady }) {
   const target = useRef({ x: 0, y: 0 });
   const invalidateRef = useRef(null);
 
@@ -76,14 +86,14 @@ export default function BadgeMedallion({ badge, accent = '#00d4ff', size = 160 }
       <Canvas
         frameloop="demand"
         dpr={[1, 2]}
-        camera={{ position: [0, 0, 3.1], fov: 40 }}
+        camera={{ position: [0, 0, 3.0], fov: 40 }}
         gl={{ antialias: true, alpha: true, powerPreference: 'low-power' }}
         style={{ width: '100%', height: '100%' }}
       >
         <ambientLight intensity={0.7} />
         <directionalLight position={[2, 3, 4]} intensity={2.2} />
         <pointLight position={[-3, -2, 2]} intensity={6} color={accent} />
-        <Medallion image={badge.image} accent={accent} target={target} invalidateRef={invalidateRef} />
+        <Medallion image={badge.image} accent={accent} target={target} invalidateRef={invalidateRef} onReady={onReady} />
       </Canvas>
     </div>
   );

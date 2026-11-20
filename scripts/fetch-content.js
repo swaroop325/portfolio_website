@@ -1,6 +1,7 @@
 const fs = require('node:fs');
 const path = require('node:path');
 const { localizeBadgeImages } = require('./lib/localizeBadgeImages');
+const { parseBuilderEntry, parseBuilderPage } = require('./lib/builder');
 const { normalizeBadges, normalizeRepos, normalizePosts, mergePosts } = require('./lib/normalize');
 
 const OUT_DIR = path.join(__dirname, '..', 'src', 'data', 'generated');
@@ -115,7 +116,26 @@ async function main() {
       existing = JSON.parse(fs.readFileSync(path.join(OUT_DIR, 'posts.json'), 'utf8'));
     } catch (e) {}
     if (failed.length) console.warn(`[fetch-content] WARN keeping existing posts for: ${failed.join(', ')}`);
-    return mergePosts(fresh, existing, failed);
+    const merged = mergePosts(fresh, existing, failed);
+    // AWS Builder Center: owner-listed URLs, each read from its public meta tags.
+    let list = [];
+    try { list = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'src', 'data', 'builder-posts.json'), 'utf8')); } catch (e) {}
+    const entries = (Array.isArray(list) ? list : []).map(parseBuilderEntry).filter(Boolean);
+    const prev = (Array.isArray(existing) ? existing : []).filter(p => p.source === 'builder');
+    const builder = [];
+    for (const entry of entries) {
+      try {
+        const post = parseBuilderPage(await get(entry.url, { json: false }), entry);
+        if (!post) throw new Error('no title');
+        builder.push(post);
+      } catch (e) {
+        console.warn(`[fetch-content] WARN builder ${entry.url}: ${e.message}`);
+        const old = prev.find(p => p.url === entry.url);
+        if (old) builder.push(old);
+      }
+    }
+    return [...merged.filter(p => p.source !== 'builder'), ...builder]
+      .sort((a, b) => new Date(b.date || 0) - new Date(a.date || 0));
   });
 }
 
