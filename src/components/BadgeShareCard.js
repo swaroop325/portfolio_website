@@ -17,6 +17,8 @@ export const GROUP_ACCENTS = {
 };
 export const accentFor = (title) => GROUP_ACCENTS[title] || '#00d4ff';
 
+import { sourceLabel as sourceLabelOf } from '../lib/badgeLabels';
+
 const SITE = 'swaroop325.web.app';
 const FONT = "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif";
 const MONO = "ui-monospace, SFMono-Regular, Menlo, Consolas, monospace";
@@ -178,17 +180,7 @@ const Eyebrow = ({ size }) => (
   <div style={{ fontFamily: MONO, fontSize: size, color: '#00d4ff', letterSpacing: 1 }}>{'<verified-credentials />'}</div>
 );
 
-// True statement of where the counted credentials come from: Credly badges,
-// plus any hand-set (non-Credly) ones such as AWS Community Builder.
-export function sourceLabel(groups) {
-  const all = groups.flatMap((g) => g.badges);
-  const offCredly = all.filter((b) => !/credly\.com/.test(b.url || ''));
-  if (offCredly.length === 0) return 'Verified on Credly';
-  if (offCredly.every((b) => /Community Builder/i.test(b.name))) {
-    return offCredly.length === all.length ? 'AWS Community Builder' : 'Credly + AWS Community Builder';
-  }
-  return `${all.length - offCredly.length} on Credly + ${offCredly.length} more`;
-}
+export const sourceLabel = (groups) => sourceLabelOf(groups.flatMap((g) => g.badges));
 
 const Footer = ({ size, groups, stacked = false }) => (
   <div

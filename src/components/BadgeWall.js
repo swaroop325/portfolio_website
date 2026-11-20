@@ -7,7 +7,7 @@ import { filterGroups, parseFilter, serializeFilter, filterNoun } from '../lib/b
 import { canRender3D } from '../lib/capabilities';
 import { exportCardPng, exportCardBlob } from '../lib/exportPng';
 import { computeScale, canShareFiles, isAbortError } from '../lib/shareLayout';
-import { communityBuilderBadge } from '../data/curation';
+import { handSetBadges } from '../data/curation';
 import badgesData from '../data/generated/badges.json';
 
 // three/r3f live only in this lazy chunk; SceneGuard never renders it on the server.
@@ -32,8 +32,8 @@ const SHARE_SITE = 'swaroop325.web.app';
 const FEATURED_GROUPS = ['AWS Professional & Specialty', 'AWS Associate'];
 const MAX_FEATURED = 4;
 
-// The Community Builder issuedAt is a placeholder: never show its date.
-const showDate = (b) => b.id !== communityBuilderBadge.id && Boolean(b.issuedAt);
+// Hand-set badges (hideDate) carry a placeholder issuedAt: never show its date.
+const showDate = (b) => !b.hideDate && Boolean(b.issuedAt);
 const fmtDate = (iso) => {
   const d = new Date(iso);
   return Number.isNaN(d.getTime()) ? '' : d.toLocaleDateString('en-US', { month: 'short', year: 'numeric', timeZone: 'UTC' });
@@ -127,13 +127,21 @@ function BadgeTile({ badge, accent, can3D, size = 110 }) {
   };
 
   const img = <BadgeImage badge={badge} size={size} />;
+  // Hand-set badges without a public page (url: null) render as plain,
+  // non-focusable tiles: no empty href, name comes from the visible text.
+  const linkProps = badge.url
+    ? {
+        href: badge.url,
+        target: '_blank',
+        rel: 'noopener noreferrer',
+        'aria-label': `${badge.name}, issued by ${badge.issuer} (opens in a new tab)`,
+      }
+    : {};
+  const Tag = badge.url ? 'a' : 'div';
   return (
-    <a
+    <Tag
       ref={ref}
-      href={badge.url}
-      target="_blank"
-      rel="noopener noreferrer"
-      aria-label={`${badge.name}, issued by ${badge.issuer} (opens in a new tab)`}
+      {...linkProps}
       className={`bw-tile${can3D ? '' : ' bw-tilt'}`}
       style={{ '--accent': accent }}
       onPointerEnter={(e) => e.pointerType === 'mouse' && setHover(true)}
@@ -153,7 +161,7 @@ function BadgeTile({ badge, accent, can3D, size = 110 }) {
       {showDate(badge) && (
         <div style={{ fontSize: '.72rem', color: 'rgba(255,255,255,0.55)', fontFamily: 'monospace' }}>{fmtDate(badge.issuedAt)}</div>
       )}
-    </a>
+    </Tag>
   );
 }
 
@@ -316,7 +324,7 @@ function SharePanel({ groups, noun, slug }) {
   );
 }
 
-export default function BadgeWall({ badges = badgesData, extraBadges = [communityBuilderBadge] }) {
+export default function BadgeWall({ badges = badgesData, extraBadges = handSetBadges }) {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-100px' });
   // Mount the featured 3D medallions (and fetch the three chunk) only once the

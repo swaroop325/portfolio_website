@@ -9,6 +9,7 @@ const GROUP_TITLES = [
 const isAws = (b) => /Amazon Web Services|^AWS\b/i.test(b.issuer || '');
 
 function classify(b) {
+  if (GROUP_TITLES.includes(b.group)) return b.group;
   const name = b.name || '';
   if (/Community Builder/i.test(name)) return 'Other';
   if (isAws(b)) {

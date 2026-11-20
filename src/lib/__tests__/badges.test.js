@@ -77,3 +77,13 @@ test('real generated badges group sensibly', () => {
   assert.strictEqual(groups.reduce((n, g) => n + g.badges.length, 0), live.length);
   assert.ok(groups.every((g) => g.badges.every((x) => !x.expiresAt || new Date(x.expiresAt) > now)));
 });
+
+test('hand-set badges (Community Builder, New Voices) both land in Other and are not dropped', () => {
+  const { handSetBadges, awsNewVoicesBadge } = require('../../data/curation');
+  const groups = groupBadges([b('AWS Certified Cloud Practitioner', AWS), ...handSetBadges], NOW);
+  const other = groups.find((g) => g.title === 'Other');
+  assert.deepStrictEqual(other.badges.map((x) => x.id).sort(), handSetBadges.map((x) => x.id).sort());
+  assert.strictEqual(titleOf(groups, 'AWS New Voices'), 'Other');
+  assert.strictEqual(awsNewVoicesBadge.url, null);
+  assert.ok(handSetBadges.every((x) => x.hideDate === true));
+});

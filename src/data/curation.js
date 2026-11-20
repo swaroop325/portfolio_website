@@ -25,6 +25,25 @@ const communityBuilderBadge = {
   expiresAt: null,
   image: null,
   url: 'https://builder.aws.com/community/@swaroop325',
+  group: 'Other',
+  hideDate: true,
 };
 
-module.exports = { curation, communityBuilderBadge };
+// Hand-set, not on Credly. No date, description or link supplied by the owner:
+// issuedAt is a placeholder used only for ordering and is never shown.
+const awsNewVoicesBadge = {
+  id: 'aws-new-voices',
+  name: 'AWS New Voices',
+  issuer: 'Amazon Web Services',
+  issuedAt: '2024-01-01',
+  expiresAt: null,
+  image: '/badges/aws-new-voices.avif',
+  url: null,
+  group: 'Other',
+  hideDate: true,
+};
+
+// Badges that exist outside Credly.
+const handSetBadges = [communityBuilderBadge, awsNewVoicesBadge];
+
+module.exports = { curation, communityBuilderBadge, awsNewVoicesBadge, handSetBadges };
