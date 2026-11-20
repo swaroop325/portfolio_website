@@ -118,7 +118,7 @@ const CSS = `
 }
 @keyframes sk-pulse { 50% { transform: scale(1.18); opacity: .35; } }
 .sk-panel { padding: 1.6rem 1.5rem; border-radius: 22px; background: var(--surface-2); border: 1px solid var(--border);
-  -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); position: relative; overflow: hidden; min-height: 100%; }
+  -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); position: relative; overflow: hidden; }
 .sk-panel::before { content: ''; position: absolute; inset: 0 0 auto; height: 3px; background: linear-gradient(90deg, var(--c), transparent); }
 .sk-kicker { font: .72rem var(--font-mono); letter-spacing: .1em; text-transform: uppercase; color: var(--c); }
 .sk-panel h3 { font: 700 1.6rem/1.15 var(--font-display); letter-spacing: -.02em; color: var(--fg); margin: .35rem 0 .5rem; }
@@ -146,6 +146,10 @@ const CSS = `
 .sk-sr { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; font-style: normal; }
 .sk-cb { font: 700 .62rem var(--font-mono); display: flex; height: 100%; align-items: center; justify-content: center; text-align: center; }
 .sk-none { color: var(--fg-muted); font-size: .9rem; line-height: 1.55; padding: .9rem 1rem; border-radius: 12px; border: 1px dashed var(--border); margin: 0 0 1rem; }
+@media (max-width: 640px) {
+  .sk-chips { margin-left: -1rem !important; margin-right: -1rem !important; padding-left: 1rem !important; padding-right: 1rem !important; }
+}
+.sk-panel { align-self: start; }
 @media (max-width: 899px) {
   .sk-grid { grid-template-columns: minmax(0, 1fr); }
   .sk-stage { aspect-ratio: 1 / 1; }
@@ -190,10 +194,13 @@ function FlatConstellation({ m, active, preview, onSelect, onPreview }) {
         const r = nodeRadius(n.weight) * 0.55
         return (
           <g key={n.id} opacity={on ? 1 : 0.35}>
+            <title>{`${n.label}: ${n.evidence.badges.length + n.evidence.repos.length} public proof`}</title>
             {n.weight > 1 && <circle cx={p.x} cy={p.y} r={r * 2.6} fill={`url(#skg-${hubIndex[n.category]})`} />}
             <circle cx={p.x} cy={p.y} r={r} fill={m.colors[n.category]} />
-            {on && (
-              <text x={p.x} y={p.y - r - 0.025} textAnchor="middle" fontSize="0.052" fill="#f4f7fb">
+            {on && n.evidence.badges.length + n.evidence.repos.length > 0 && (
+              <text x={p.x + p.lx * (r + 0.025)} y={p.y + p.ly * (r + 0.025) + 0.018}
+                textAnchor={Math.abs(p.lx) < 0.35 ? 'middle' : p.lx > 0 ? 'start' : 'end'} fontSize="0.056" fill="#f4f7fb"
+                stroke="#07070f" strokeWidth="0.012" paintOrder="stroke">
                 {shortSkill(n.label)}
               </text>
             )}
@@ -211,8 +218,8 @@ function FlatConstellation({ m, active, preview, onSelect, onPreview }) {
             <circle className={on ? 'hub-ring' : undefined} cx={p.x} cy={p.y} r={0.075} fill="none" stroke={m.colors[h.category]} strokeWidth="0.006" />
             <circle cx={p.x} cy={p.y} r={on ? 0.05 : 0.04} fill={m.colors[h.category]} />
             <circle cx={p.x} cy={p.y} r={0.13} fill="transparent" />
-            <text x={p.x} y={p.y + (p.y > 0.3 ? 0.14 : -0.1)} textAnchor="middle" fontSize="0.068" fontWeight="700"
-              fill={on ? '#ffffff' : '#b4bfd0'}>
+            <text x={p.x + p.lx * 0.13} y={p.y + p.ly * 0.13 + 0.024} textAnchor="middle" fontSize="0.072" fontWeight="700"
+              fill={on ? '#ffffff' : '#b4bfd0'} stroke="#07070f" strokeWidth="0.014" paintOrder="stroke">
               {SHORT[h.category] || h.category}
             </text>
           </g>
@@ -281,17 +288,18 @@ function EvidencePanel({ m, category }) {
           <ul className="sk-repos">
             {shownRepos.map((r) => (
               <li key={r.name}>
-                <a className="sk-repo" href={r.url} target="_blank" rel="noopener noreferrer" aria-label={`${r.name} on GitHub (opens in a new tab)`}>
+                <a className="sk-repo" href={r.url} target="_blank" rel="noopener noreferrer">
                   <span>{r.name}</span>
                   {r.language && <small>{r.language}</small>}
+                  <em className="sk-sr"> on GitHub (opens in a new tab)</em>
                 </a>
               </li>
             ))}
           </ul>
           {ev.repos.length > shownRepos.length && (
-            <a className="sk-link" href="https://github.com/swaroop325?tab=repositories" target="_blank" rel="noopener noreferrer"
-              aria-label={`${ev.repos.length - shownRepos.length} more repositories on GitHub (opens in a new tab)`}>
+            <a className="sk-link" href="https://github.com/swaroop325?tab=repositories" target="_blank" rel="noopener noreferrer">
               +{ev.repos.length - shownRepos.length} more on GitHub
+              <em className="sk-sr"> (opens in a new tab)</em>
             </a>
           )}
         </>

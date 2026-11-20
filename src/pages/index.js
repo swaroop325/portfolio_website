@@ -56,7 +56,7 @@ const IndexPage = () => {
     email: contact.email,
     website: contact.website,
     github: contact.github,
-    linkedin: 'https://www.linkedin.com/in/swaroop-as',
+    linkedin: 'https://www.linkedin.com/in/swaroop-a-s-7ab296b8/',
   }
 
   return (
@@ -73,7 +73,7 @@ const IndexPage = () => {
         <WorkSection />
         <WritingSection posts={postsData} linkedin={linkedinData} />
         <BadgeWall />
-        <ContactSection />
+        <ContactSection onOpenShareModal={() => setIsShareModalOpen(true)} />
       </div>
 
       {/* Scroll Progress Indicator */}

@@ -100,30 +100,37 @@ function unit(str) {
 }
 
 /**
- * layoutConstellation(graph) -> {[nodeId]: {x, y, z}} in [-1, 1].
- * Hubs sit on a ring; each hub's skills fan outward from it so clusters read
- * as separate constellations.
+ * layoutConstellation(graph) -> {[nodeId]: {x, y, z, lx, ly}} with x, y in [-1, 1].
+ * Hubs sit on a ring; each hub's skills fan OUTWARD from it on two alternating
+ * radii so clusters read as separate constellations. (lx, ly) is a unit
+ * direction for placing the node's label: skills label away from their hub,
+ * hubs label toward the centre.
  */
 function layoutConstellation(graph) {
   const hubs = graph.nodes.filter((n) => n.kind === 'category');
   const pos = {};
-  const R = 0.56;
+  const R = 0.6;
   hubs.forEach((h, i) => {
-    const a = -Math.PI / 2 + (i / Math.max(1, hubs.length)) * Math.PI * 2;
-    pos[h.id] = { x: Math.cos(a) * R, y: Math.sin(a) * R, z: 0, angle: a };
+    // Offset half a step so one hub sits at the bottom and two share the top.
+    const n = Math.max(1, hubs.length);
+    const a = -Math.PI / 2 + Math.PI / n + (i / n) * Math.PI * 2;
+    pos[h.id] = { x: Math.cos(a) * R, y: Math.sin(a) * R, z: 0, lx: -Math.cos(a), ly: -Math.sin(a), angle: a };
   });
+  const clamp = (v) => Math.max(-1, Math.min(1, v));
   for (const h of hubs) {
     const members = graph.nodes.filter((n) => n.kind === 'skill' && n.category === h.category);
     const { x, y, angle } = pos[h.id];
-    const spread = Math.min(Math.PI * 1.25, 0.5 * members.length);
+    const spread = Math.min(1.7, 0.24 * members.length);
     members.forEach((m, j) => {
       const t = members.length === 1 ? 0 : j / (members.length - 1) - 0.5;
       const a = angle + t * spread;
-      const r = 0.2 + 0.1 * unit(m.id);
+      const r = (j % 2 ? 0.34 : 0.23) + 0.03 * unit(m.id);
       pos[m.id] = {
-        x: Math.max(-1, Math.min(1, x + Math.cos(a) * r)),
-        y: Math.max(-1, Math.min(1, y + Math.sin(a) * r)),
-        z: (unit(`${m.id}z`) - 0.5) * 0.4,
+        x: clamp(x + Math.cos(a) * r),
+        y: clamp(y + Math.sin(a) * r),
+        z: (unit(`${m.id}z`) - 0.5) * 0.9,
+        lx: Math.cos(a),
+        ly: Math.sin(a),
       };
     });
   }

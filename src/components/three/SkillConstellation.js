@@ -53,8 +53,8 @@ function Constellation({ graph, layout, colors, short, active, preview, onSelect
   }, [graph, focus]);
 
   // Fit the unit layout into the visible frustum at z = 0.
-  const sx = viewport.width * 0.44;
-  const sy = viewport.height * 0.44;
+  const sx = viewport.width * 0.41;
+  const sy = viewport.height * 0.41;
   const to3 = (p) => [p.x * sx, -p.y * sy, p.z];
 
   // ---- shared GPU resources (disposed on unmount) ----
@@ -243,8 +243,8 @@ function Constellation({ graph, layout, colors, short, active, preview, onSelect
             >
               <meshBasicMaterial transparent opacity={0} depthWrite={false} />
             </mesh>
-            <Html center position={[0, layout[h.id].y > 0.3 ? -0.26 : 0.24, 0]} style={{ pointerEvents: 'none' }} zIndexRange={[10, 0]}>
-              <div className={`skc-label${on ? ' is-on' : ''}`} style={{ '--c': colors[h.category] }}>
+            <Html center position={[layout[h.id].lx * 0.14 * sx, -layout[h.id].ly * 0.14 * sy, 0]} style={{ pointerEvents: 'none' }} zIndexRange={[10, 0]}>
+              <div className={`skc-label${on ? ' is-on' : ''}`} style={{ '--c': colors[h.category] }} data-lx={layout[h.id].lx} data-ly={layout[h.id].ly}>
                 {short[h.category] || h.category}
               </div>
             </Html>
@@ -252,10 +252,12 @@ function Constellation({ graph, layout, colors, short, active, preview, onSelect
         );
       })}
       {skills.map((n, i) =>
-        memberSet.has(n.id) || hoverSkill === i ? (
-          <Html key={n.id} center position={[to3(layout[n.id])[0], to3(layout[n.id])[1] + nodeRadius(n.weight) + 0.11, layout[n.id].z]}
+        // Label proven skills in the focused cluster, plus whatever is hovered;
+        // the panel beside the scene lists every skill, so the canvas stays legible.
+        (memberSet.has(n.id) && n.evidence.badges.length + n.evidence.repos.length > 0) || hoverSkill === i ? (
+          <Html key={n.id} position={[to3(layout[n.id])[0] + layout[n.id].lx * (nodeRadius(n.weight) + 0.05), to3(layout[n.id])[1] - layout[n.id].ly * (nodeRadius(n.weight) + 0.05), layout[n.id].z]}
             style={{ pointerEvents: 'none' }} zIndexRange={[9, 0]}>
-            <div className={`skc-skill${hoverSkill === i ? ' is-hover' : ''}`}>
+            <div className={`skc-skill${hoverSkill === i ? ' is-hover' : ''}`} style={{ transform: `translate(${Math.abs(layout[n.id].lx) < 0.35 ? '-50%' : layout[n.id].lx > 0 ? '0' : '-100%'}, -50%)` }}>
               {shortSkill(n.label)}
               {hoverSkill === i && (
                 <span>{proofLabel(n)}</span>
@@ -276,6 +278,7 @@ const LABEL_CSS = `
 .skc-skill { font: 500 11px var(--font-mono); color: #f4f7fb; white-space: nowrap; text-shadow: 0 1px 6px #000, 0 0 2px #000; user-select: none; }
 .skc-skill.is-hover { padding: 3px 7px; border-radius: 8px; background: rgba(7,7,15,.9); border: 1px solid rgba(0,212,255,.5); }
 .skc-skill span { color: #00ff88; }
+@media (max-width: 640px) { .skc-label { font-size: 11px; padding: 2px 6px; } .skc-skill { font-size: 9.5px; } }
 `;
 
 export default function SkillConstellation(props) {

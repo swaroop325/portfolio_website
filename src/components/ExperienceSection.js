@@ -83,7 +83,7 @@ const CSS = `
 .xp-co { margin: .2rem 0 0; font-weight: 600; color: var(--accent-a); font-size: .98rem; }
 .xp-when { text-align: right; font: .78rem/1.5 var(--font-mono); color: var(--fg-muted); white-space: nowrap; }
 .xp-when span { display: block; color: var(--fg-subtle); }
-.xp-now { display: inline-block; margin-bottom: .2rem; padding: .1rem .5rem; border-radius: 999px; font: 600 .66rem var(--font-mono);
+.xp-now { display: inline-block; margin: 0 .5rem .2rem 0; padding: .1rem .5rem; border-radius: 999px; font: 600 .66rem var(--font-mono);
   letter-spacing: .08em; text-transform: uppercase; color: var(--accent-b); border: 1px solid rgba(0,255,136,.4); background: rgba(0,255,136,.08); }
 .xp-desc { color: var(--fg-muted); line-height: 1.6; font-size: .95rem; margin: .9rem 0 .8rem; }
 .xp-tech { display: flex; flex-wrap: wrap; gap: .35rem; list-style: none; margin: 0; padding: 0; }
@@ -137,7 +137,7 @@ function Logo({ company }) {
   return (
     <div className="xp-logo" style={{ background: logo.bg || 'transparent' }}>
       <img src={logo.src} alt={company} width="56" height="56" loading="lazy" decoding="async"
-        style={{ objectFit: contain ? 'contain' : 'cover', padding: contain ? 3 : 0 }} />
+        style={{ objectFit: contain ? 'contain' : 'cover' }} />
     </div>
   )
 }
