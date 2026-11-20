@@ -2,7 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Helmet from 'react-helmet'
 import { StaticQuery, graphql } from 'gatsby'
-import ProfileImage from '../images/profile.jpeg'
+import ProfileImage from '../images/profile.png'
+import Depth3D from './Depth3D'
 
 const Layout = ({ children }) => {
   return (
@@ -78,6 +79,7 @@ const Layout = ({ children }) => {
               }
             `}</style>
           </Helmet>
+          <Depth3D />
           <div>{children}</div>
         </>
       )}

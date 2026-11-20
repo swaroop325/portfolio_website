@@ -499,3 +499,23 @@ a.tc:focus-visible,
     margin-top: -1rem;
   }
 }
+
+/* ---------- 3D depth layer (see components/Depth3D.js) ---------- */
+@media (prefers-reduced-motion: no-preference) {
+  .hx-btn, .ct-btn, .bw-btn, .sk-chip, .wr-chip, .xp-chip, .xp-toggle,
+  .ct-link, .sk-repo, .sk-badge, .ws-repo, .bw-share-item,
+  .ct-card, .sk-panel, .xp-card, .wr-li-block,
+  .ct-mark, .ws-ico, .xp-logo, .hx-tag {
+    transition: rotate 0.18s ease-out, translate 0.25s var(--ease-out), scale 0.2s var(--ease-out),
+      box-shadow 0.25s, border-color 0.25s, background 0.25s, filter 0.25s;
+  }
+  .d3-live { box-shadow: 0 22px 36px -14px rgba(0, 0, 0, 0.7), 0 0 26px -8px rgba(0, 212, 255, 0.4); z-index: 2; }
+  .ct-link, .sk-badge, .ws-repo, .bw-share-item, .xp-card, .hx-btn, .ct-btn { transform-style: preserve-3d; }
+  .d3-press { scale: 0.96; translate: 0 0 -6px !important; box-shadow: none; }
+  /* Icons and logos inside a lifted tile float above it. */
+  .d3-live .ct-mark, .d3-live .xp-logo, .d3-live .ws-ico, .d3-live .sk-badge img {
+    translate: 0 -2px 24px;
+    filter: drop-shadow(0 8px 8px rgba(0, 0, 0, 0.5));
+  }
+  .ct-mark, .ws-ico, .sk-badge img, .xp-logo { transition: translate 0.3s var(--ease-out), filter 0.3s; }
+}

@@ -55,7 +55,7 @@ function Constellation({ graph, layout, colors, short, active, preview, onSelect
   // Fit the unit layout into the visible frustum at z = 0.
   const sx = viewport.width * 0.41;
   const sy = viewport.height * 0.41;
-  const to3 = (p) => [p.x * sx, -p.y * sy, p.z];
+  const to3 = (p) => [p.x * sx, -p.y * sy, p.z * 1.6];
 
   // ---- shared GPU resources (disposed on unmount) ----
   const res = useMemo(() => {
@@ -63,14 +63,16 @@ function Constellation({ graph, layout, colors, short, active, preview, onSelect
     const sphere = new THREE.IcosahedronGeometry(1, 2);
     const hubCore = new THREE.IcosahedronGeometry(1, 1);
     const hubWire = new THREE.EdgesGeometry(new THREE.IcosahedronGeometry(1, 1));
-    const skillMat = new THREE.MeshBasicMaterial({ toneMapped: false });
+    const ringGeo = new THREE.TorusGeometry(1, 0.035, 8, 56);
+    const skillMat = new THREE.MeshStandardMaterial({ metalness: 0.25, roughness: 0.28, emissive: '#ffffff', emissiveIntensity: 0.12 });
     const lineMat = new THREE.LineBasicMaterial({ vertexColors: true, transparent: true, opacity: 1, blending: THREE.AdditiveBlending, depthWrite: false });
     const dustMat = new THREE.PointsMaterial({ size: 0.05, map: glow, transparent: true, opacity: 0.5, depthWrite: false, blending: THREE.AdditiveBlending, color: '#7fdcff' });
     const hubMats = {};
     for (const h of hubs) {
       const c = new THREE.Color(colors[h.category] || '#00d4ff');
       hubMats[h.category] = {
-        core: new THREE.MeshBasicMaterial({ color: c, toneMapped: false }),
+        core: new THREE.MeshStandardMaterial({ color: c, emissive: c, emissiveIntensity: 0.55, metalness: 0.6, roughness: 0.18, flatShading: true }),
+        ring: new THREE.MeshStandardMaterial({ color: c, emissive: c, emissiveIntensity: 0.9, metalness: 0.4, roughness: 0.3 }),
         wire: new THREE.LineBasicMaterial({ color: c, transparent: true, opacity: 0.6 }),
         halo: new THREE.SpriteMaterial({ map: glow, color: c, transparent: true, opacity: 0.5, depthWrite: false, blending: THREE.AdditiveBlending }),
       };
@@ -81,7 +83,7 @@ function Constellation({ graph, layout, colors, short, active, preview, onSelect
     for (let i = 0; i < n; i++) dust.set([(r() - 0.5) * 9, (r() - 0.5) * 7, -2.5 + r() * 2], i * 3);
     const dustGeo = new THREE.BufferGeometry();
     dustGeo.setAttribute('position', new THREE.BufferAttribute(dust, 3));
-    return { glow, sphere, hubCore, hubWire, skillMat, lineMat, dustMat, dustGeo, hubMats };
+    return { glow, sphere, hubCore, hubWire, ringGeo, skillMat, lineMat, dustMat, dustGeo, hubMats };
   }, [hubs, colors]);
 
   useEffect(
@@ -90,12 +92,14 @@ function Constellation({ graph, layout, colors, short, active, preview, onSelect
       res.sphere.dispose();
       res.hubCore.dispose();
       res.hubWire.dispose();
+      res.ringGeo.dispose();
       res.skillMat.dispose();
       res.lineMat.dispose();
       res.dustMat.dispose();
       res.dustGeo.dispose();
       Object.values(res.hubMats).forEach((m) => {
         m.core.dispose();
+        m.ring.dispose();
         m.wire.dispose();
         m.halo.dispose();
       });
@@ -151,6 +155,31 @@ function Constellation({ graph, layout, colors, short, active, preview, onSelect
   }, [skills, layout, memberSet, colors, hoverSkill, sx, sy]);
 
   const hubRefs = useRef({});
+  const light = useRef();
+  const drag = useRef({ down: false, x: 0, y: 0, px: 0, py: 0 });
+  const gl = useThree((st) => st.gl);
+  // Mouse drag spins the whole graph (it eases back when released). Touch is
+  // left alone so the page still scrolls.
+  useEffect(() => {
+    const el = gl.domElement;
+    const d = drag.current;
+    const down = (e) => { if (e.pointerType === 'mouse') { d.down = true; d.px = e.clientX; d.py = e.clientY; } };
+    const move = (e) => {
+      if (!d.down) return;
+      d.x = Math.max(-0.8, Math.min(0.8, d.x + (e.clientX - d.px) * 0.006));
+      d.y = Math.max(-0.5, Math.min(0.5, d.y + (e.clientY - d.py) * 0.006));
+      d.px = e.clientX; d.py = e.clientY;
+    };
+    const up = () => { d.down = false; };
+    el.addEventListener('pointerdown', down);
+    window.addEventListener('pointermove', move);
+    window.addEventListener('pointerup', up);
+    return () => {
+      el.removeEventListener('pointerdown', down);
+      window.removeEventListener('pointermove', move);
+      window.removeEventListener('pointerup', up);
+    };
+  }, [gl]);
   useFrame((state, delta) => {
     const dt = Math.min(delta, 0.05);
     time.current += dt;
@@ -159,13 +188,24 @@ function Constellation({ graph, layout, colors, short, active, preview, onSelect
     if (g) {
       // Gentle sway (not a full spin) so labels stay readable, plus pointer parallax.
       const k = 1 - Math.exp(-dt * 3);
-      g.rotation.y += (Math.sin(t * 0.18) * 0.22 + pointer.current.x * 0.25 - g.rotation.y) * k;
-      g.rotation.x += (-pointer.current.y * 0.18 - g.rotation.x) * k;
+      const d = drag.current;
+      if (!d.down) {
+        d.x *= 1 - Math.min(1, dt * 1.2);
+        d.y *= 1 - Math.min(1, dt * 1.2);
+      }
+      g.rotation.y += (Math.sin(t * 0.25) * 0.3 + pointer.current.x * 0.5 + d.x - g.rotation.y) * k;
+      g.rotation.x += (-pointer.current.y * 0.32 + d.y - g.rotation.x) * k;
+      // A light that follows the cursor makes the spheres read as solid.
+      if (light.current) light.current.position.set(pointer.current.x * 3, pointer.current.y * 2.2 + 0.6, 3.2);
     }
     for (const h of hubs) {
       const o = hubRefs.current[h.category];
       if (!o) continue;
       const on = h.category === focus;
+      if (o.ring) {
+        o.ring.rotation.x = 1.1 + Math.sin(t * 0.7) * 0.25;
+        o.ring.rotation.y = t * (on ? 1.4 : 0.5);
+      }
       o.wire.rotation.y = t * (on ? 0.9 : 0.3);
       o.wire.rotation.x = t * 0.2;
       const s = on ? 1 + Math.sin(t * 2.4) * 0.08 : 1;
@@ -181,6 +221,9 @@ function Constellation({ graph, layout, colors, short, active, preview, onSelect
 
   return (
     <group ref={group}>
+      <ambientLight intensity={0.55} />
+      <directionalLight position={[2, 3, 4]} intensity={1.1} />
+      <pointLight ref={light} intensity={14} distance={9} color="#9fe8ff" />
       <points geometry={res.dustGeo} material={res.dustMat} />
       <lineSegments geometry={lineGeo} material={res.lineMat} />
       <instancedMesh
@@ -214,7 +257,15 @@ function Constellation({ graph, layout, colors, short, active, preview, onSelect
               }}
               material={mats.halo}
             />
-            <mesh geometry={res.hubCore} material={mats.core} scale={size} />
+            <mesh geometry={res.hubCore} material={mats.core} scale={size * 1.15} />
+            <mesh
+              ref={(o) => {
+                hubRefs.current[h.category] = { ...(hubRefs.current[h.category] || {}), ring: o };
+              }}
+              geometry={res.ringGeo}
+              material={mats.ring}
+              scale={size * 2.5}
+            />
             <lineSegments
               ref={(o) => {
                 hubRefs.current[h.category] = { ...(hubRefs.current[h.category] || {}), wire: o };
@@ -255,7 +306,7 @@ function Constellation({ graph, layout, colors, short, active, preview, onSelect
         // Label proven skills in the focused cluster, plus whatever is hovered;
         // the panel beside the scene lists every skill, so the canvas stays legible.
         (memberSet.has(n.id) && n.evidence.badges.length + n.evidence.repos.length > 0) || hoverSkill === i ? (
-          <Html key={n.id} position={[to3(layout[n.id])[0] + layout[n.id].lx * (nodeRadius(n.weight) + 0.05), to3(layout[n.id])[1] - layout[n.id].ly * (nodeRadius(n.weight) + 0.05), layout[n.id].z]}
+          <Html key={n.id} position={[to3(layout[n.id])[0] + layout[n.id].lx * (nodeRadius(n.weight) + 0.05), to3(layout[n.id])[1] - layout[n.id].ly * (nodeRadius(n.weight) + 0.05), layout[n.id].z * 1.6]}
             style={{ pointerEvents: 'none' }} zIndexRange={[9, 0]}>
             <div className={`skc-skill${hoverSkill === i ? ' is-hover' : ''}`} style={{ transform: `translate(${Math.abs(layout[n.id].lx) < 0.35 ? '-50%' : layout[n.id].lx > 0 ? '0' : '-100%'}, -50%)` }}>
               {shortSkill(n.label)}

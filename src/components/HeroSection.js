@@ -1,6 +1,6 @@
 import React, { useRef } from 'react'
 import SceneGuard from './three/SceneGuard'
-import ProfileImage from '../images/profile.jpeg'
+import ProfileImage from '../images/profile.png'
 
 // three/r3f live only in this lazy chunk; SceneGuard never renders it on the server.
 const HeroScene = React.lazy(() => import('./three/HeroScene'))
