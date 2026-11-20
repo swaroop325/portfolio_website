@@ -100,10 +100,10 @@ const ScrollAssistant = ({ items = DEFAULT_NAV_ITEMS }) => {
                   height: '40px',
                   borderRadius: '50%',
                   border: activeSection === section.id
-                    ? '2px solid #667eea'
+                    ? '2px solid #00d4ff'
                     : '2px solid rgba(255, 255, 255, 0.2)',
                   background: activeSection === section.id
-                    ? 'linear-gradient(135deg, rgba(102, 126, 234, 0.3), rgba(118, 75, 162, 0.3))'
+                    ? 'linear-gradient(135deg, rgba(0, 212, 255, 0.3), rgba(0, 255, 136, 0.3))'
                     : 'rgba(255, 255, 255, 0.05)',
                   color: 'white',
                   cursor: 'pointer',
@@ -151,15 +151,15 @@ const ScrollAssistant = ({ items = DEFAULT_NAV_ITEMS }) => {
               width: '50px',
               height: '50px',
               borderRadius: '50%',
-              background: 'linear-gradient(135deg, #667eea, #764ba2)',
+              background: 'linear-gradient(135deg, #00d4ff, #00ff88)',
               border: 'none',
-              color: 'white',
+              color: '#04121a',
               cursor: 'pointer',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
               fontSize: '1.5rem',
-              boxShadow: '0 4px 20px rgba(102, 126, 234, 0.4)',
+              boxShadow: '0 4px 20px rgba(0, 212, 255, 0.4)',
               transition: 'all 0.3s ease'
             }}
             title="Scroll to top"

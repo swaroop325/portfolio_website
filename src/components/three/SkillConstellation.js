@@ -47,14 +47,24 @@ function Constellation({ graph, layout, colors, short, active, preview, onSelect
 
   const hubs = useMemo(() => graph.nodes.filter((n) => n.kind === 'category'), [graph]);
   const skills = useMemo(() => graph.nodes.filter((n) => n.kind === 'skill'), [graph]);
+  // Alternate how far each label sits from its node so neighbours don't collide.
+  const labelRank = useMemo(() => {
+    const seen = {};
+    const out = {};
+    for (const n of skills) {
+      seen[n.category] = (seen[n.category] || 0) + 1;
+      out[n.id] = (seen[n.category] - 1) % 3;
+    }
+    return out;
+  }, [skills]);
   const memberSet = useMemo(() => {
     const ids = new Set(graph.links.filter((l) => l.target === `cat:${focus}`).map((l) => l.source));
     return ids;
   }, [graph, focus]);
 
   // Fit the unit layout into the visible frustum at z = 0.
-  const sx = viewport.width * 0.41;
-  const sy = viewport.height * 0.41;
+  const sx = viewport.width * 0.37;
+  const sy = viewport.height * 0.36;
   const to3 = (p) => [p.x * sx, -p.y * sy, p.z * 1.6];
 
   // ---- shared GPU resources (disposed on unmount) ----
@@ -302,21 +312,26 @@ function Constellation({ graph, layout, colors, short, active, preview, onSelect
           </group>
         );
       })}
-      {skills.map((n, i) =>
+      {skills.map((n, i) => {
         // Label proven skills in the focused cluster, plus whatever is hovered;
         // the panel beside the scene lists every skill, so the canvas stays legible.
-        (memberSet.has(n.id) && n.evidence.badges.length + n.evidence.repos.length > 0) || hoverSkill === i ? (
-          <Html key={n.id} position={[to3(layout[n.id])[0] + layout[n.id].lx * (nodeRadius(n.weight) + 0.05), to3(layout[n.id])[1] - layout[n.id].ly * (nodeRadius(n.weight) + 0.05), layout[n.id].z * 1.6]}
+        if (!((memberSet.has(n.id) && n.evidence.badges.length + n.evidence.repos.length > 0) || hoverSkill === i)) return null;
+        const p = to3(layout[n.id]);
+        const L = layout[n.id];
+        // Near the left/right frame edge, label inward so text never clips.
+        const edge = Math.abs(p[0]) > sx * 0.62;
+        const dx = edge ? -Math.sign(p[0]) * Math.max(0.6, Math.abs(L.lx)) : L.lx;
+        const off = nodeRadius(n.weight) * 1.2 + 0.06 + (edge ? 0 : labelRank[n.id] * 0.16);
+        return (
+          <Html key={n.id} position={[p[0] + dx * off, p[1] - L.ly * off * (edge ? 0.4 : 1), L.z * 1.6]}
             style={{ pointerEvents: 'none' }} zIndexRange={[9, 0]}>
-            <div className={`skc-skill${hoverSkill === i ? ' is-hover' : ''}`} style={{ transform: `translate(${Math.abs(layout[n.id].lx) < 0.35 ? '-50%' : layout[n.id].lx > 0 ? '0' : '-100%'}, -50%)` }}>
+            <div className={`skc-skill${hoverSkill === i ? ' is-hover' : ''}`} style={{ transform: `translate(${Math.abs(dx) < 0.35 ? '-50%' : dx > 0 ? '0' : '-100%'}, -50%)` }}>
               {shortSkill(n.label)}
-              {hoverSkill === i && (
-                <span>{proofLabel(n)}</span>
-              )}
+              {hoverSkill === i && <span>{proofLabel(n)}</span>}
             </div>
           </Html>
-        ) : null
-      )}
+        );
+      })}
     </group>
   );
 }

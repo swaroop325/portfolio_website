@@ -55,9 +55,9 @@ const CSS = `
 .bw-3d.is-on { opacity: 1; }
 @media (prefers-reduced-motion: no-preference) {
   .bw-flat { transition: opacity .35s ease, transform .45s cubic-bezier(.2,.7,.2,1); }
-  .bw-flat.is-off { opacity: 0; transform: scale(.66); }
-  .bw-3d { transform: scale(1.18); transition: opacity .35s ease, transform .5s cubic-bezier(.2,.7,.2,1); }
-  .bw-3d.is-on { transform: none; }
+  .bw-flat.is-off { opacity: 0; }
+  .bw-3d { transform: scale(1.12); transition: opacity .35s ease, transform .5s cubic-bezier(.2,.7,.2,1); }
+  .bw-3d.is-on { transform: scale(1.08); }
 }
 @media (prefers-reduced-motion: reduce) { .bw-flat.is-off { opacity: 0; } }
 @media (prefers-reduced-motion: no-preference) {
@@ -192,6 +192,8 @@ function BadgeTile({ badge, accent, can3D, size = 110 }) {
 
 function FeaturedMedallion({ badge, accent, live }) {
   const size = 170;
+  const [ready, setReady] = useState(false);
+  const onReady = useCallback(() => setReady(true), []);
   return (
     <a
       href={badge.url}
@@ -201,13 +203,16 @@ function FeaturedMedallion({ badge, accent, live }) {
       className="bw-tile"
       style={{ '--accent': accent, padding: '1.4rem 1rem 1.2rem', boxShadow: `0 0 40px ${accent}1f` }}
     >
-      <div style={{ width: size, height: size }}>
-        {live && badge.image ? (
-          <SceneGuard fallback={<BadgeImage badge={badge} size={size} />}>
-            <BadgeMedallion badge={badge} accent={accent} size={size} />
-          </SceneGuard>
-        ) : (
+      <div className="bw-stage" style={{ width: size, height: size }}>
+        <div className={`bw-flat${ready ? ' is-off' : ''}`}>
           <BadgeImage badge={badge} size={size} />
+        </div>
+        {live && badge.image && (
+          <div className={`bw-3d${ready ? ' is-on' : ''}`}>
+            <SceneGuard fallback={null}>
+              <BadgeMedallion badge={badge} accent={accent} size={size} onReady={onReady} />
+            </SceneGuard>
+          </div>
         )}
       </div>
       <div style={{ fontSize: '.95rem', fontWeight: 700, textAlign: 'center', lineHeight: 1.3, maxWidth: 220 }}>{badge.name}</div>
@@ -399,8 +404,11 @@ export default function BadgeWall({ badges = badgesData, extraBadges = handSetBa
     [groups]
   );
 
+  // Featured badges are shown once, up top, not repeated in their group below.
+  const featuredIds = useMemo(() => new Set(featured.map(({ b }) => b.id)), [featured]);
+
   return (
-    <section id="badges" ref={ref} aria-labelledby="badges-heading" style={{ minHeight: '100vh', padding: '6rem 2rem' }}>
+    <section id="badges" ref={ref} aria-labelledby="badges-heading" style={{ minHeight: '100vh', padding: '6rem clamp(1rem, 4vw, 2rem)' }}>
       {/* dangerouslySetInnerHTML: React would escape quotes in a text child, causing an SSR hydration mismatch. */}
       <style dangerouslySetInnerHTML={{ __html: CSS }} />
       <div style={{ maxWidth: 1200, margin: '0 auto' }}>
@@ -465,6 +473,8 @@ export default function BadgeWall({ badges = badgesData, extraBadges = handSetBa
             {featured.length > 0 && (
               <div
                 style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '1.25rem', marginBottom: '3.5rem' }}
+                role="list"
+                aria-label="Top certifications"
               >
                 {featured.map(({ b, accent }) => (
                   <FeaturedMedallion key={b.id} badge={b} accent={accent} live={nearView} />
@@ -472,7 +482,7 @@ export default function BadgeWall({ badges = badgesData, extraBadges = handSetBa
               </div>
             )}
 
-            {groups.map((g) => (
+            {groups.map((g) => ({ ...g, badges: g.badges.filter((b) => !featuredIds.has(b.id)) })).filter((g) => g.badges.length > 0).map((g) => (
               <div key={g.title} style={{ marginBottom: '2.75rem' }}>
                 <h3
                   style={{
@@ -484,7 +494,7 @@ export default function BadgeWall({ badges = badgesData, extraBadges = handSetBa
                   {g.title}
                   <span style={{ fontSize: '.85rem', color: 'rgba(255,255,255,0.5)', fontWeight: 500 }}>{g.badges.length}</span>
                 </h3>
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))', gap: '1rem' }}>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 150px), 1fr))', gap: '1rem' }}>
                   {g.badges.map((b) => (
                     <BadgeTile key={b.id} badge={b} accent={accentFor(g.title)} can3D={can3D} />
                   ))}

@@ -1,8 +1,8 @@
 // Hand-curated inputs for the portfolio. CommonJS so node:test can load it.
 const curation = {
-  pinned: ['llmonaws', 'spammerLLM', 'SandraCore', 'cloudbox', 'S.U.N.D.A.Y', 'cv-processor', 'mac-llm-inference'],
+  pinned: ['llmonaws', 'spammerLLM', 'SandraCore',  'S.U.N.D.A.Y', 'cv-processor', 'mac-llm-inference'],
   // Own profile repo and this site are not portfolio work.
-  deny: ['swaroop325', 'portfolio_website'],
+  deny: ['cloudbox', 'swaroop325', 'portfolio_website'],
   // Descriptions written from each repo's README / file listing, fetched 2026-11-19.
   // cloudbox has only a template README; its description is inferred from
   // schema.json (infrastructure config form schema) and a Toolpad/rjsf Vite app.

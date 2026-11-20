@@ -192,10 +192,10 @@ END:VCARD`;
                   style={{
                     width: '100%',
                     padding: '1rem',
-                    background: 'linear-gradient(135deg, #667eea, #764ba2)',
+                    background: 'linear-gradient(135deg, #00d4ff, #00ff88)',
                     border: 'none',
                     borderRadius: '12px',
-                    color: 'white',
+                    color: '#04121a',
                     fontSize: '1rem',
                     fontWeight: '600',
                     cursor: 'pointer',
@@ -203,7 +203,7 @@ END:VCARD`;
                     alignItems: 'center',
                     justifyContent: 'center',
                     gap: '0.5rem',
-                    boxShadow: '0 4px 15px rgba(102, 126, 234, 0.3)',
+                    boxShadow: '0 4px 15px rgba(0, 212, 255, 0.3)',
                     transition: 'all 0.3s ease'
                   }}
                 >

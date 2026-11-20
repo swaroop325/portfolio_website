@@ -13,7 +13,7 @@ const LINKS = [
   { name: 'Medium', handle: '@swaroop325', url: 'https://medium.com/@swaroop325', mark: 'M', color: '#f4f7fb', note: 'Long-form writing' },
   { name: 'dev.to', handle: 'swaroop325', url: 'https://dev.to/swaroop325', mark: 'DEV', color: '#c9d1ff', note: 'Hands-on posts' },
   { name: 'Credly', handle: 'swaroop-a-s', url: 'https://www.credly.com/users/swaroop-a-s.02bfb71a', mark: 'cr', color: '#ff6b00', note: 'Verified credentials' },
-  { name: 'AWS Community Builder', handle: '@swaroop325', url: 'https://builder.aws.com/community/@swaroop325', mark: 'aws', color: '#ff9900', note: 'DevTools category' },
+  { name: 'Builder Center', handle: '@swaroop325', url: 'https://builder.aws.com/community/@swaroop325', mark: 'aws', color: '#ff9900', note: 'AWS Community Builder (DevTools)' },
 ]
 const VCARD = buildVCard({
   name: NAME,

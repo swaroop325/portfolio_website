@@ -16,6 +16,14 @@
     "excerpt": "When the right people, tools and experience come together, transformation moves faster Imagine building a house. You have the architect, the builders, the electricians and all the materials. Everyone…"
   },
   {
+    "source": "builder",
+    "title": "From Migration to Modernization: My AWS Transform Workshop Takeaways",
+    "url": "https://builder.aws.com/content/3Jp5SqD5F4i2uDUPAEuoCSYrmUu/from-migration-to-modernization-my-aws-transform-workshop-takeaways",
+    "date": "2026-09-25T15:06:36.097Z",
+    "excerpt": "Migration gets you to AWS, but it doesn't have to be the finish line. Here’s what I learned about turning a migration journey into an opportunity to modernize.",
+    "image": "https://builder.aws.com/og-images/3Jp5SqD5F4i2uDUPAEuoCSYrmUu/en.jpg?d=eyJhdXRob3IiOiJTd2Fyb29wIEFuYW5kIiwiaGFuZGxlIjoic3dhcm9vcDMyNSIsImF2YXRhciI6Imh0dHBzOi8vYXZhdGFycy5idWlsZGVycHJvZmlsZS5hd3MuZGV2LzNNTU84bjg5bE9RYWcwV2lYRHJJN1B1MzdzTy53ZWJwIiwiaGVybyI6Imh0dHBzOi8vcHJvZC1hc3NldHMuY29zbWljLmF3cy5kZXYvYS8zSnBDajM3T216MmtiZXZ4aEdmYXpuT2RlRWovQ2hhdC53ZWJwIiwibGlrZXMiOiIwIiwiY29tbWVudHMiOiIwIiwibG9jYWxlIjoiZW4ifQ&sig=f4119f1f383f3b92"
+  },
+  {
     "title": "I Almost Hired an Intern. Then Claude Code Showed Up.",
     "url": "https://medium.com/@swaroop325/i-almost-hired-an-intern-then-claude-code-showed-up-d8eb444e194b",
     "date": "2026-07-02T03:27:39.000Z",
@@ -30,6 +38,14 @@
     "source": "medium",
     "image": "https://cdn-images-1.medium.com/max/1024/1*hx9i3lE51esHOi0yNkSEsQ.png",
     "excerpt": "Gold crashed 3.1% on Friday. I found out an hour later when I randomly checked my broker app. By then the move was done. That was the last straw. I don’t follow financial Twitter. I don’t watch Bloom…"
+  },
+  {
+    "source": "builder",
+    "title": "Configuring Claude Code in VS Code with AWS Bedrock",
+    "url": "https://builder.aws.com/content/34BNVuMx0MTHNDjr07aVyWu5a4V/configuring-claude-code-in-vs-code-with-aws-bedrock",
+    "date": "2026-03-14T14:34:31.284Z",
+    "excerpt": "Configuring Claude Code in VS Code to use AWS Bedrock locally. Uses environment variables for a simple and consistent setup.",
+    "image": "https://builder.aws.com/og-images/34BNVuMx0MTHNDjr07aVyWu5a4V/en.jpg?d=eyJhdXRob3IiOiJTd2Fyb29wIEFuYW5kIiwiaGFuZGxlIjoic3dhcm9vcDMyNSIsImF2YXRhciI6Imh0dHBzOi8vYXZhdGFycy5idWlsZGVycHJvZmlsZS5hd3MuZGV2LzNNTU84bjg5bE9RYWcwV2lYRHJJN1B1MzdzTy53ZWJwIiwiaGVybyI6Imh0dHBzOi8vcHJvZC1hc3NldHMuY29zbWljLmF3cy5kZXYvYS8zQXdLc3p1c2l3b0tqTHJVRTliY1lXeGNvME8vaGZfMjAud2VicCIsImxpa2VzIjoiNCIsImNvbW1lbnRzIjoiMiIsImxvY2FsZSI6ImVuIn0&sig=002f28c4e37d253c"
   },
   {
     "title": "Why I Started Using AWS Lightsail for My Side Projects",

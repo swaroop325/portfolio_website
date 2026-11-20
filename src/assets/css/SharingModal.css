@@ -19,7 +19,7 @@
   right: auto !important;
   bottom: auto !important;
   transform: translate(-50%, -50%) !important;
-  background: linear-gradient(135deg, rgba(30, 30, 60, 0.98) 0%, rgba(20, 20, 40, 0.98) 100%);
+  background: linear-gradient(135deg, rgba(17, 18, 31, 0.98) 0%, rgba(8, 9, 18, 0.98) 100%);
   backdrop-filter: blur(20px);
   border-radius: 24px;
   border: 1px solid rgba(255, 255, 255, 0.15);
@@ -45,7 +45,7 @@
   margin: 0;
   font-size: 1.75rem;
   font-weight: 700;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #00d4ff 0%, #00ff88 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -101,8 +101,8 @@
 
 .tab-btn.active {
   color: white;
-  border-bottom-color: #667eea;
-  background: rgba(102, 126, 234, 0.1);
+  border-bottom-color: #00d4ff;
+  background: rgba(0, 212, 255, 0.1);
 }
 
 .tab-btn svg {
@@ -144,10 +144,10 @@
 }
 
 .qr-type-btn.active {
-  background: linear-gradient(135deg, rgba(102, 126, 234, 0.2) 0%, rgba(118, 75, 162, 0.2) 100%);
-  border-color: #667eea;
+  background: linear-gradient(135deg, rgba(0, 212, 255, 0.2) 0%, rgba(0, 255, 136, 0.2) 100%);
+  border-color: #00d4ff;
   color: white;
-  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+  box-shadow: 0 4px 15px rgba(0, 212, 255, 0.3);
 }
 
 .qr-type-icon {
@@ -182,7 +182,7 @@
   background: rgba(0, 0, 0, 0.2);
   border-radius: 12px;
   padding: 1rem;
-  border-left: 3px solid #667eea;
+  border-left: 3px solid #00d4ff;
 }
 
 .nfc-requirements p {
@@ -214,19 +214,19 @@
 }
 
 .sharing-modal::-webkit-scrollbar-thumb {
-  background: rgba(102, 126, 234, 0.4);
+  background: rgba(0, 212, 255, 0.4);
   border-radius: 10px;
   transition: background 0.3s ease;
 }
 
 .sharing-modal::-webkit-scrollbar-thumb:hover {
-  background: rgba(102, 126, 234, 0.6);
+  background: rgba(0, 212, 255, 0.6);
 }
 
 /* Firefox scrollbar styling */
 .sharing-modal {
   scrollbar-width: thin;
-  scrollbar-color: rgba(102, 126, 234, 0.4) transparent;
+  scrollbar-color: rgba(0, 212, 255, 0.4) transparent;
 }
 
 @media (max-width: 768px) {
@@ -363,4 +363,13 @@
   .qr-type-label {
     font-size: 0.7rem;
   }
+}
+
+/* Match the site's type: Space Grotesk for headings and buttons. */
+.sharing-modal h2,
+.qr-code-header h3,
+.qr-type-label,
+.download-qr-btn,
+.web-share-btn {
+  font-family: var(--font-display);
 }

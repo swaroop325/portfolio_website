@@ -5,10 +5,11 @@ import * as THREE from 'three';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { useTexture } from '@react-three/drei';
 
-const MAX_TILT = 0.45; // radians
+const MAX_TILT = 0.38; // radians
 
 function Medallion({ image, accent, target, invalidateRef, onReady }) {
   const group = useRef();
+  const sheen = useRef();
   const texture = useTexture(image);
   texture.colorSpace = THREE.SRGBColorSpace;
   texture.anisotropy = 4;
@@ -34,25 +35,28 @@ function Medallion({ image, accent, target, invalidateRef, onReady }) {
     const ty = target.current.x * MAX_TILT;
     g.rotation.x += (tx - g.rotation.x) * k;
     g.rotation.y += (ty - g.rotation.y) * k;
+    if (sheen.current) sheen.current.material.opacity = Math.min(0.35, Math.hypot(g.rotation.x, g.rotation.y) * 0.9);
     if (Math.abs(tx - g.rotation.x) > 0.001 || Math.abs(ty - g.rotation.y) > 0.001) state.invalidate();
   });
 
+  // The badge itself is the object: a slim glass-edged slab the same size as
+  // the flat image (so the cross-fade does not change its footprint), with a
+  // soft accent edge-light. No disc behind it, so transparent corners stay
+  // transparent and opaque artwork is never cropped or overhanging.
   return (
     <group ref={group}>
-      {/* Metal disc */}
-      <mesh rotation={[Math.PI / 2, 0, 0]}>
-        <cylinderGeometry args={[1, 1, 0.14, 64]} />
-        <meshStandardMaterial color="#121822" metalness={0.85} roughness={0.32} />
+      <mesh position={[0, 0, -0.03]}>
+        <planeGeometry args={[1.96, 1.96]} />
+        <meshBasicMaterial map={texture} transparent alphaTest={0.02} color="#0b0f18" />
       </mesh>
-      {/* Accent rim */}
-      <mesh position={[0, 0, 0.071]}>
-        <ringGeometry args={[0.92, 1, 64]} />
-        <meshStandardMaterial color={accent} emissive={accent} emissiveIntensity={0.55} metalness={0.6} roughness={0.25} />
+      <mesh position={[0, 0, 0.0]}>
+        <planeGeometry args={[2, 2]} />
+        <meshStandardMaterial map={texture} emissiveMap={texture} emissive="#ffffff" emissiveIntensity={0.45} transparent alphaTest={0.02} metalness={0} roughness={0.85} />
       </mesh>
-      {/* Badge face */}
-      <mesh position={[0, 0, 0.075]}>
-        <planeGeometry args={[1.42, 1.42]} />
-        <meshStandardMaterial map={texture} emissiveMap={texture} emissive="#ffffff" emissiveIntensity={0.5} transparent alphaTest={0.02} metalness={0} roughness={0.9} />
+      {/* Specular sheen that slides across the face as it tilts. */}
+      <mesh ref={sheen} position={[0, 0, 0.01]}>
+        <planeGeometry args={[2, 2]} />
+        <meshBasicMaterial map={texture} transparent alphaTest={0.4} color={accent} opacity={0.0} blending={THREE.AdditiveBlending} depthWrite={false} />
       </mesh>
     </group>
   );

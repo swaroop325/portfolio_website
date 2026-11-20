@@ -109,7 +109,7 @@ function unit(str) {
 function layoutConstellation(graph) {
   const hubs = graph.nodes.filter((n) => n.kind === 'category');
   const pos = {};
-  const R = 0.6;
+  const R = 0.58;
   hubs.forEach((h, i) => {
     // Offset half a step so one hub sits at the bottom and two share the top.
     const n = Math.max(1, hubs.length);
@@ -120,11 +120,11 @@ function layoutConstellation(graph) {
   for (const h of hubs) {
     const members = graph.nodes.filter((n) => n.kind === 'skill' && n.category === h.category);
     const { x, y, angle } = pos[h.id];
-    const spread = Math.min(1.7, 0.24 * members.length);
+    const spread = Math.min(2.0, 0.3 * members.length);
     members.forEach((m, j) => {
       const t = members.length === 1 ? 0 : j / (members.length - 1) - 0.5;
       const a = angle + t * spread;
-      const r = (j % 2 ? 0.34 : 0.23) + 0.03 * unit(m.id);
+      const r = (j % 2 ? 0.46 : 0.3) + 0.03 * unit(m.id);
       pos[m.id] = {
         x: clamp(x + Math.cos(a) * r),
         y: clamp(y + Math.sin(a) * r),
@@ -140,7 +140,7 @@ function layoutConstellation(graph) {
 
 // Presentation helpers shared by the 2D and 3D constellations.
 // Radius grows with log2 of the evidence so one 28-repo language does not swamp the rest.
-const nodeRadius = (weight) => 0.035 + 0.022 * Math.log2(Math.max(1, weight) + 1);
+const nodeRadius = (weight) => 0.03 + 0.016 * Math.log2(Math.max(1, weight) + 1);
 const shortSkill = (label) => String(label).replace(/ \(.*\)$/, '');
 
 module.exports = { buildSkillGraph, matchRolesByTech, layoutConstellation, nodeRadius, shortSkill };
