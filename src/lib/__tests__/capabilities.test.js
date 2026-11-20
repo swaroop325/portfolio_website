@@ -42,3 +42,14 @@ test('false when getContext throws', () => {
   const win = { document: { createElement: () => ({ getContext: () => { throw new Error('x'); } }) } };
   assert.strictEqual(canRender3D({ win }), false);
 });
+
+test('probes once per window and releases the probe context', () => {
+  let created = 0;
+  let lost = 0;
+  const ctx = { getExtension: (n) => (n === 'WEBGL_lose_context' ? { loseContext: () => { lost += 1; } } : null) };
+  const win = { document: { createElement: () => { created += 1; return { getContext: (t) => (t === 'webgl2' ? ctx : null) }; } } };
+  assert.strictEqual(canRender3D({ win }), true);
+  assert.strictEqual(canRender3D({ win }), true);
+  assert.strictEqual(created, 1);
+  assert.strictEqual(lost, 1);
+});
