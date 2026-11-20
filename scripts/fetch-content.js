@@ -1,9 +1,12 @@
 const fs = require('node:fs');
 const path = require('node:path');
+const { localizeBadgeImages } = require('./lib/localizeBadgeImages');
 const { normalizeBadges, normalizeRepos, normalizePosts, mergePosts } = require('./lib/normalize');
 
 const OUT_DIR = path.join(__dirname, '..', 'src', 'data', 'generated');
+const BADGE_DIR = path.join(__dirname, '..', 'static', 'badges');
 const TIMEOUT_MS = 15000;
+const MAX_IMAGE_BYTES = 2 * 1024 * 1024;
 const UA =
   'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0 Safari/537.36';
 
@@ -26,6 +29,32 @@ async function get(url, { json = true, headers = {} } = {}) {
 function write(file, data) {
   fs.mkdirSync(OUT_DIR, { recursive: true });
   fs.writeFileSync(path.join(OUT_DIR, file), JSON.stringify(data, null, 2) + '\n');
+}
+
+// Downloads an image over https (redirects must stay https), capped in size.
+async function downloadImage(url) {
+  const res = await fetch(url, {
+    headers: { 'User-Agent': UA },
+    signal: AbortSignal.timeout(TIMEOUT_MS),
+  });
+  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  if (!res.url.startsWith('https://')) throw new Error('redirected to non-https');
+  const len = Number(res.headers.get('content-length'));
+  if (len > MAX_IMAGE_BYTES) throw new Error('too large');
+  const buffer = Buffer.from(await res.arrayBuffer());
+  return { buffer, contentType: res.headers.get('content-type') || '' };
+}
+
+function localizeBadges(badges) {
+  fs.mkdirSync(BADGE_DIR, { recursive: true });
+  return localizeBadgeImages(badges, {
+    dir: BADGE_DIR,
+    publicPrefix: '/badges',
+    download: downloadImage,
+    exists: p => fs.existsSync(p),
+    write: (p, buf) => fs.writeFileSync(p, buf),
+    log: m => console.warn(`[fetch-content] WARN ${m}`),
+  });
 }
 
 // Runs one source; on error or empty result, warns and keeps the existing file.
@@ -65,7 +94,7 @@ async function main() {
   if (process.env.GITHUB_TOKEN) ghHeaders.Authorization = `Bearer ${process.env.GITHUB_TOKEN}`;
 
   await run('badges (Credly)', 'badges.json', async () =>
-    normalizeBadges(await getAllCredly())
+    await localizeBadges(normalizeBadges(await getAllCredly()))
   );
   await run('repos (GitHub)', 'repos.json', async () =>
     normalizeRepos(await get(URLS.github, { headers: ghHeaders }))

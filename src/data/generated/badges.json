@@ -5,8 +5,9 @@
     "issuer": "Amazon Web Services Training and Certification",
     "issuedAt": "2026-11-12",
     "expiresAt": "2027-11-12",
-    "image": "https://images.credly.com/images/1e9b7606-d621-4dc6-b85c-752e9cdc3a28/blob",
-    "url": "https://www.credly.com/org/amazon-web-services/badge/aws-partner-forward-deployed-engineer-fde-validated"
+    "image": "/badges/1e9b7606-d621-4dc6-b85c-752e9cdc3a28.png",
+    "url": "https://www.credly.com/org/amazon-web-services/badge/aws-partner-forward-deployed-engineer-fde-validated",
+    "sourceImage": "https://images.credly.com/images/1e9b7606-d621-4dc6-b85c-752e9cdc3a28/blob"
   },
   {
     "id": "852dcba6-88a9-48af-9cee-83e21909ab4b",
@@ -14,8 +15,9 @@
     "issuer": "Amazon Web Services Training and Certification",
     "issuedAt": "2026-11-10",
     "expiresAt": null,
-    "image": "https://images.credly.com/images/cb620644-88e4-4ee7-83a2-d33a6181e4b8/blob",
-    "url": "https://www.credly.com/org/amazon-web-services/badge/aws-partner-agentic-ai-essentials-training-badge"
+    "image": "/badges/cb620644-88e4-4ee7-83a2-d33a6181e4b8.png",
+    "url": "https://www.credly.com/org/amazon-web-services/badge/aws-partner-agentic-ai-essentials-training-badge",
+    "sourceImage": "https://images.credly.com/images/cb620644-88e4-4ee7-83a2-d33a6181e4b8/blob"
   },
   {
     "id": "02d2b8a2-5ce2-4608-bc23-4b5faac34115",
@@ -23,8 +25,9 @@
     "issuer": "Amazon Web Services Training and Certification",
     "issuedAt": "2026-11-09",
     "expiresAt": "2027-11-09",
-    "image": "https://images.credly.com/images/0376ad65-85fc-48a3-ac47-f4f74a19c929/blob",
-    "url": "https://www.credly.com/org/amazon-web-services/badge/aws-databases-for-agentic-ai-demonstrated"
+    "image": "/badges/0376ad65-85fc-48a3-ac47-f4f74a19c929.png",
+    "url": "https://www.credly.com/org/amazon-web-services/badge/aws-databases-for-agentic-ai-demonstrated",
+    "sourceImage": "https://images.credly.com/images/0376ad65-85fc-48a3-ac47-f4f74a19c929/blob"
   },
   {
     "id": "0716b0e9-e839-4d71-8a2e-302502ad1cee",
@@ -32,8 +35,9 @@
     "issuer": "Amazon Web Services Training and Certification",
     "issuedAt": "2026-11-07",
     "expiresAt": "2027-11-07",
-    "image": "https://images.credly.com/images/6c76e6fe-d95c-46b1-a824-1effb29d2ae9/blob",
-    "url": "https://www.credly.com/org/amazon-web-services/badge/aws-data-streaming-demonstrated"
+    "image": "/badges/6c76e6fe-d95c-46b1-a824-1effb29d2ae9.png",
+    "url": "https://www.credly.com/org/amazon-web-services/badge/aws-data-streaming-demonstrated",
+    "sourceImage": "https://images.credly.com/images/6c76e6fe-d95c-46b1-a824-1effb29d2ae9/blob"
   },
   {
     "id": "61da5bec-201c-4b50-b2bf-060646b789e2",
@@ -41,8 +45,9 @@
     "issuer": "Amazon Web Services Training and Certification",
     "issuedAt": "2026-11-07",
     "expiresAt": "2027-11-07",
-    "image": "https://images.credly.com/images/d5137ca1-d9a1-4afb-b0da-82711fcb16e9/blob",
-    "url": "https://www.credly.com/org/amazon-web-services/badge/aws-securing-agent-identities-demonstrated"
+    "image": "/badges/d5137ca1-d9a1-4afb-b0da-82711fcb16e9.png",
+    "url": "https://www.credly.com/org/amazon-web-services/badge/aws-securing-agent-identities-demonstrated",
+    "sourceImage": "https://images.credly.com/images/d5137ca1-d9a1-4afb-b0da-82711fcb16e9/blob"
   },
   {
     "id": "2b6cc4f7-b52d-4fc2-bbf2-5625df999196",
@@ -50,8 +55,9 @@
     "issuer": "Amazon Web Services Training and Certification",
     "issuedAt": "2026-11-03",
     "expiresAt": "2027-11-03",
-    "image": "https://images.credly.com/images/3e0dcc2b-b0d3-4f20-959a-5c16373d8ac3/blob",
-    "url": "https://www.credly.com/org/amazon-web-services/badge/aws-data-visualization-demonstrated"
+    "image": "/badges/3e0dcc2b-b0d3-4f20-959a-5c16373d8ac3.png",
+    "url": "https://www.credly.com/org/amazon-web-services/badge/aws-data-visualization-demonstrated",
+    "sourceImage": "https://images.credly.com/images/3e0dcc2b-b0d3-4f20-959a-5c16373d8ac3/blob"
   },
   {
     "id": "92249f61-9079-4b0a-a13d-fe5ab782002c",
@@ -59,8 +65,9 @@
     "issuer": "Amazon Web Services Training and Certification",
     "issuedAt": "2026-11-01",
     "expiresAt": "2027-11-01",
-    "image": "https://images.credly.com/images/505b2a51-5e9c-4587-a632-cfa238fc0db3/blob",
-    "url": "https://www.credly.com/org/amazon-web-services/badge/aws-data-lakehouse-demonstrated"
+    "image": "/badges/505b2a51-5e9c-4587-a632-cfa238fc0db3.png",
+    "url": "https://www.credly.com/org/amazon-web-services/badge/aws-data-lakehouse-demonstrated",
+    "sourceImage": "https://images.credly.com/images/505b2a51-5e9c-4587-a632-cfa238fc0db3/blob"
   },
   {
     "id": "2ec7e8a4-d6a9-4d5f-a719-51952c8b015e",
@@ -68,8 +75,9 @@
     "issuer": "Amazon Web Services Training and Certification",
     "issuedAt": "2026-10-30",
     "expiresAt": "2027-10-30",
-    "image": "https://images.credly.com/images/6f40bf38-1725-40d8-99a2-f6bb1bafec0e/blob",
-    "url": "https://www.credly.com/org/amazon-web-services/badge/aws-agentic-ai-demonstrated"
+    "image": "/badges/6f40bf38-1725-40d8-99a2-f6bb1bafec0e.png",
+    "url": "https://www.credly.com/org/amazon-web-services/badge/aws-agentic-ai-demonstrated",
+    "sourceImage": "https://images.credly.com/images/6f40bf38-1725-40d8-99a2-f6bb1bafec0e/blob"
   },
   {
     "id": "206e3dbe-b227-47b8-af05-3cd2d4e71f9d",
@@ -77,8 +85,9 @@
     "issuer": "Amazon Web Services Training and Certification",
     "issuedAt": "2026-07-25",
     "expiresAt": "2027-07-25",
-    "image": "https://images.credly.com/images/ed8cf03b-6269-4265-a65b-68e67e49ce6b/blob",
-    "url": "https://www.credly.com/org/amazon-web-services/badge/aws-application-networking-demonstrated"
+    "image": "/badges/ed8cf03b-6269-4265-a65b-68e67e49ce6b.png",
+    "url": "https://www.credly.com/org/amazon-web-services/badge/aws-application-networking-demonstrated",
+    "sourceImage": "https://images.credly.com/images/ed8cf03b-6269-4265-a65b-68e67e49ce6b/blob"
   },
   {
     "id": "6eb98dd9-e14f-4bad-a9b3-dd0d59ada2d8",
@@ -86,8 +95,9 @@
     "issuer": "Amazon Web Services Training and Certification",
     "issuedAt": "2026-07-25",
     "expiresAt": "2027-07-25",
-    "image": "https://images.credly.com/images/8dd6f516-0dd3-4b5e-aacf-8e86e737a95d/blob",
-    "url": "https://www.credly.com/org/amazon-web-services/badge/aws-incident-response-demonstrated"
+    "image": "/badges/8dd6f516-0dd3-4b5e-aacf-8e86e737a95d.png",
+    "url": "https://www.credly.com/org/amazon-web-services/badge/aws-incident-response-demonstrated",
+    "sourceImage": "https://images.credly.com/images/8dd6f516-0dd3-4b5e-aacf-8e86e737a95d/blob"
   },
   {
     "id": "349af639-3f03-4553-bab4-442be27c5170",
@@ -95,8 +105,9 @@
     "issuer": "Amazon Web Services Training and Certification",
     "issuedAt": "2026-07-25",
     "expiresAt": "2027-07-25",
-    "image": "https://images.credly.com/images/b3885091-25bc-42d0-8989-34cca82f3056/blob",
-    "url": "https://www.credly.com/org/amazon-web-services/badge/aws-serverless-demonstrated"
+    "image": "/badges/b3885091-25bc-42d0-8989-34cca82f3056.png",
+    "url": "https://www.credly.com/org/amazon-web-services/badge/aws-serverless-demonstrated",
+    "sourceImage": "https://images.credly.com/images/b3885091-25bc-42d0-8989-34cca82f3056/blob"
   },
   {
     "id": "8b4ea4e5-2b0e-49cf-8161-407309ffc7b9",
@@ -104,8 +115,9 @@
     "issuer": "Amazon Web Services Training and Certification",
     "issuedAt": "2026-05-02",
     "expiresAt": "2029-05-02",
-    "image": "https://images.credly.com/images/2d84e428-9078-49b6-a804-13c15383d0de/image.png",
-    "url": "https://www.credly.com/org/amazon-web-services/badge/aws-certified-solutions-architect-professional"
+    "image": "/badges/2d84e428-9078-49b6-a804-13c15383d0de.png",
+    "url": "https://www.credly.com/org/amazon-web-services/badge/aws-certified-solutions-architect-professional",
+    "sourceImage": "https://images.credly.com/images/2d84e428-9078-49b6-a804-13c15383d0de/image.png"
   },
   {
     "id": "8ddb20b5-81b0-42fb-a1c4-d8bb496c058f",
@@ -113,8 +125,9 @@
     "issuer": "The Linux Foundation",
     "issuedAt": "2026-02-18",
     "expiresAt": "2028-02-19",
-    "image": "https://images.credly.com/images/f28f1d88-428a-47f6-95b5-7da1dd6c1000/KCNA_badge.png",
-    "url": "https://www.credly.com/org/the-linux-foundation/badge/kcna-kubernetes-and-cloud-native-associate"
+    "image": "/badges/f28f1d88-428a-47f6-95b5-7da1dd6c1000.png",
+    "url": "https://www.credly.com/org/the-linux-foundation/badge/kcna-kubernetes-and-cloud-native-associate",
+    "sourceImage": "https://images.credly.com/images/f28f1d88-428a-47f6-95b5-7da1dd6c1000/KCNA_badge.png"
   },
   {
     "id": "0030fe7f-5ced-41d4-ae71-a76b71343f4f",
@@ -122,8 +135,9 @@
     "issuer": "Amazon Web Services Training and Certification",
     "issuedAt": "2025-11-29",
     "expiresAt": "2028-11-29",
-    "image": "https://images.credly.com/images/4d08274f-64c1-495e-986b-3143f51b1371/image.png",
-    "url": "https://www.credly.com/org/amazon-web-services/badge/aws-certified-advanced-networking-specialty"
+    "image": "/badges/4d08274f-64c1-495e-986b-3143f51b1371.png",
+    "url": "https://www.credly.com/org/amazon-web-services/badge/aws-certified-advanced-networking-specialty",
+    "sourceImage": "https://images.credly.com/images/4d08274f-64c1-495e-986b-3143f51b1371/image.png"
   },
   {
     "id": "3fa7b0f1-5adb-4964-b8e9-bb7898b29abc",
@@ -131,8 +145,9 @@
     "issuer": "Scrum.org",
     "issuedAt": "2025-05-05",
     "expiresAt": null,
-    "image": "https://images.credly.com/images/a2790314-008a-4c3d-9553-f5e84eb359ba/image.png",
-    "url": "https://www.credly.com/org/scrum-org/badge/professional-scrum-master-i-psm-i"
+    "image": "/badges/a2790314-008a-4c3d-9553-f5e84eb359ba.png",
+    "url": "https://www.credly.com/org/scrum-org/badge/professional-scrum-master-i-psm-i",
+    "sourceImage": "https://images.credly.com/images/a2790314-008a-4c3d-9553-f5e84eb359ba/image.png"
   },
   {
     "id": "f6917749-e04a-4d98-9cd4-6a7f8e1be17d",
@@ -140,8 +155,9 @@
     "issuer": "Amazon Web Services Training and Certification",
     "issuedAt": "2025-01-25",
     "expiresAt": null,
-    "image": "https://images.credly.com/images/519a6dba-f145-4c1a-85a2-1d173d6898d9/image.png",
-    "url": "https://www.credly.com/org/amazon-web-services/badge/aws-knowledge-architecting-retired"
+    "image": "/badges/519a6dba-f145-4c1a-85a2-1d173d6898d9.png",
+    "url": "https://www.credly.com/org/amazon-web-services/badge/aws-knowledge-architecting-retired",
+    "sourceImage": "https://images.credly.com/images/519a6dba-f145-4c1a-85a2-1d173d6898d9/image.png"
   },
   {
     "id": "f8c2f907-3bb5-4f42-a52c-c3b31f6dc4bb",
@@ -149,8 +165,9 @@
     "issuer": "Amazon Web Services Training and Certification",
     "issuedAt": "2025-01-24",
     "expiresAt": null,
-    "image": "https://images.credly.com/images/7cf036b0-c609-4378-a7be-9969e1dea7ab/blob",
-    "url": "https://www.credly.com/org/amazon-web-services/badge/aws-knowledge-cloud-essentials-training-badge"
+    "image": "/badges/7cf036b0-c609-4378-a7be-9969e1dea7ab.png",
+    "url": "https://www.credly.com/org/amazon-web-services/badge/aws-knowledge-cloud-essentials-training-badge",
+    "sourceImage": "https://images.credly.com/images/7cf036b0-c609-4378-a7be-9969e1dea7ab/blob"
   },
   {
     "id": "2fc82916-43eb-4d37-877c-e262df830d3c",
@@ -158,8 +175,9 @@
     "issuer": "Amazon Web Services Training and Certification",
     "issuedAt": "2024-12-14",
     "expiresAt": "2027-12-14",
-    "image": "https://images.credly.com/images/4d4693bb-530e-4bca-9327-de07f3aa2348/image.png",
-    "url": "https://www.credly.com/org/amazon-web-services/badge/aws-certified-ai-practitioner"
+    "image": "/badges/4d4693bb-530e-4bca-9327-de07f3aa2348.png",
+    "url": "https://www.credly.com/org/amazon-web-services/badge/aws-certified-ai-practitioner",
+    "sourceImage": "https://images.credly.com/images/4d4693bb-530e-4bca-9327-de07f3aa2348/image.png"
   },
   {
     "id": "4136c065-6026-4251-acb5-f3ce19786617",
@@ -167,8 +185,9 @@
     "issuer": "Amazon Web Services Training and Certification",
     "issuedAt": "2024-12-14",
     "expiresAt": null,
-    "image": "https://images.credly.com/images/834f2c8d-2d2c-4ce7-9580-02a351c31626/image.png",
-    "url": "https://www.credly.com/org/amazon-web-services/badge/aws-certified-ai-practitioner-early-adopter"
+    "image": "/badges/834f2c8d-2d2c-4ce7-9580-02a351c31626.png",
+    "url": "https://www.credly.com/org/amazon-web-services/badge/aws-certified-ai-practitioner-early-adopter",
+    "sourceImage": "https://images.credly.com/images/834f2c8d-2d2c-4ce7-9580-02a351c31626/image.png"
   },
   {
     "id": "abd362bb-6c10-4530-aefb-f724cde71566",
@@ -176,8 +195,9 @@
     "issuer": "Amazon Web Services Training and Certification",
     "issuedAt": "2024-08-11",
     "expiresAt": "2029-05-02",
-    "image": "https://images.credly.com/images/0e284c3f-5164-4b21-8660-0d84737941bc/image.png",
-    "url": "https://www.credly.com/org/amazon-web-services/badge/aws-certified-solutions-architect-associate"
+    "image": "/badges/0e284c3f-5164-4b21-8660-0d84737941bc.png",
+    "url": "https://www.credly.com/org/amazon-web-services/badge/aws-certified-solutions-architect-associate",
+    "sourceImage": "https://images.credly.com/images/0e284c3f-5164-4b21-8660-0d84737941bc/image.png"
   },
   {
     "id": "4758d519-3a70-468d-b7e8-dc874439a5da",
@@ -185,8 +205,9 @@
     "issuer": "Amazon Web Services Training and Certification",
     "issuedAt": "2024-08-07",
     "expiresAt": "2027-08-07",
-    "image": "https://images.credly.com/images/b9feab85-1a43-4f6c-99a5-631b88d5461b/image.png",
-    "url": "https://www.credly.com/org/amazon-web-services/badge/aws-certified-developer-associate"
+    "image": "/badges/b9feab85-1a43-4f6c-99a5-631b88d5461b.png",
+    "url": "https://www.credly.com/org/amazon-web-services/badge/aws-certified-developer-associate",
+    "sourceImage": "https://images.credly.com/images/b9feab85-1a43-4f6c-99a5-631b88d5461b/image.png"
   },
   {
     "id": "629fda75-c651-4789-a341-16de3991f634",
@@ -194,8 +215,9 @@
     "issuer": "Amazon Web Services Training and Certification",
     "issuedAt": "2023-01-21",
     "expiresAt": "2029-05-02",
-    "image": "https://images.credly.com/images/00634f82-b07f-4bbd-a6bb-53de397fc3a6/image.png",
-    "url": "https://www.credly.com/org/amazon-web-services/badge/aws-certified-cloud-practitioner"
+    "image": "/badges/00634f82-b07f-4bbd-a6bb-53de397fc3a6.png",
+    "url": "https://www.credly.com/org/amazon-web-services/badge/aws-certified-cloud-practitioner",
+    "sourceImage": "https://images.credly.com/images/00634f82-b07f-4bbd-a6bb-53de397fc3a6/image.png"
   },
   {
     "id": "bb3f0d5a-9a01-4b20-80ab-ac6212704c70",
@@ -203,8 +225,9 @@
     "issuer": "Microsoft",
     "issuedAt": "2022-03-26",
     "expiresAt": null,
-    "image": "https://images.credly.com/images/fc1352af-87fa-4947-ba54-398a0e63322e/security-compliance-and-identity-fundamentals-600x600.png",
-    "url": "https://www.credly.com/org/microsoft-certification/badge/microsoft-certified-security-compliance-and-identity-fundamentals"
+    "image": "/badges/fc1352af-87fa-4947-ba54-398a0e63322e.png",
+    "url": "https://www.credly.com/org/microsoft-certification/badge/microsoft-certified-security-compliance-and-identity-fundamentals",
+    "sourceImage": "https://images.credly.com/images/fc1352af-87fa-4947-ba54-398a0e63322e/security-compliance-and-identity-fundamentals-600x600.png"
   },
   {
     "id": "0447920b-7227-4740-82fc-27cb24138552",
@@ -212,8 +235,9 @@
     "issuer": "Microsoft",
     "issuedAt": "2021-09-23",
     "expiresAt": null,
-    "image": "https://images.credly.com/images/4136ced8-75d5-4afb-8677-40b6236e2672/azure-ai-fundamentals-600x600.png",
-    "url": "https://www.credly.com/org/microsoft-certification/badge/microsoft-certified-azure-ai-fundamentals"
+    "image": "/badges/4136ced8-75d5-4afb-8677-40b6236e2672.png",
+    "url": "https://www.credly.com/org/microsoft-certification/badge/microsoft-certified-azure-ai-fundamentals",
+    "sourceImage": "https://images.credly.com/images/4136ced8-75d5-4afb-8677-40b6236e2672/azure-ai-fundamentals-600x600.png"
   },
   {
     "id": "5e532afc-a06f-445e-892d-9c4c02ef79c2",
@@ -221,8 +245,9 @@
     "issuer": "Microsoft",
     "issuedAt": "2021-08-27",
     "expiresAt": null,
-    "image": "https://images.credly.com/images/70eb1e3f-d4de-4377-a062-b20fb29594ea/azure-data-fundamentals-600x600.png",
-    "url": "https://www.credly.com/org/microsoft-certification/badge/microsoft-certified-azure-data-fundamentals"
+    "image": "/badges/70eb1e3f-d4de-4377-a062-b20fb29594ea.png",
+    "url": "https://www.credly.com/org/microsoft-certification/badge/microsoft-certified-azure-data-fundamentals",
+    "sourceImage": "https://images.credly.com/images/70eb1e3f-d4de-4377-a062-b20fb29594ea/azure-data-fundamentals-600x600.png"
   },
   {
     "id": "7f9bd5ca-7670-4b69-b3e7-ee067b2b7c43",
@@ -230,8 +255,9 @@
     "issuer": "Microsoft",
     "issuedAt": "2021-08-13",
     "expiresAt": null,
-    "image": "https://images.credly.com/images/be8fcaeb-c769-4858-b567-ffaaa73ce8cf/image.png",
-    "url": "https://www.credly.com/org/microsoft-certification/badge/microsoft-certified-azure-fundamentals"
+    "image": "/badges/be8fcaeb-c769-4858-b567-ffaaa73ce8cf.png",
+    "url": "https://www.credly.com/org/microsoft-certification/badge/microsoft-certified-azure-fundamentals",
+    "sourceImage": "https://images.credly.com/images/be8fcaeb-c769-4858-b567-ffaaa73ce8cf/image.png"
   },
   {
     "id": "561ec0f8-ca8d-4a48-a60d-96063f76021d",
@@ -239,8 +265,9 @@
     "issuer": "Microsoft",
     "issuedAt": "2022-08-13",
     "expiresAt": "2023-08-13",
-    "image": "https://images.credly.com/images/61f56aa4-16fd-403c-90bc-1d90dba1fa99/image.png",
-    "url": "https://www.credly.com/org/microsoft-certification/badge/microsoft-certified-azure-ai-engineer-associate"
+    "image": "/badges/61f56aa4-16fd-403c-90bc-1d90dba1fa99.png",
+    "url": "https://www.credly.com/org/microsoft-certification/badge/microsoft-certified-azure-ai-engineer-associate",
+    "sourceImage": "https://images.credly.com/images/61f56aa4-16fd-403c-90bc-1d90dba1fa99/image.png"
   },
   {
     "id": "1f990898-de7a-46da-b181-8359aaf999c0",
@@ -248,8 +275,9 @@
     "issuer": "Microsoft",
     "issuedAt": "2022-04-09",
     "expiresAt": "2023-04-09",
-    "image": "https://images.credly.com/images/336eebfc-0ac3-4553-9a67-b402f491f185/azure-administrator-associate-600x600.png",
-    "url": "https://www.credly.com/org/microsoft-certification/badge/microsoft-certified-azure-administrator-associate.2"
+    "image": "/badges/336eebfc-0ac3-4553-9a67-b402f491f185.png",
+    "url": "https://www.credly.com/org/microsoft-certification/badge/microsoft-certified-azure-administrator-associate.2",
+    "sourceImage": "https://images.credly.com/images/336eebfc-0ac3-4553-9a67-b402f491f185/azure-administrator-associate-600x600.png"
   },
   {
     "id": "b402e9cd-73b0-4f9e-bcfd-f6cb25098324",
@@ -257,8 +285,9 @@
     "issuer": "Microsoft",
     "issuedAt": "2022-03-21",
     "expiresAt": "2023-03-21",
-    "image": "https://images.credly.com/images/ea009208-e2d6-432e-bbf6-d34d28b0835f/azure-virtual-desktop-specialty-600x600.png",
-    "url": "https://www.credly.com/org/microsoft-certification/badge/microsoft-certified-azure-virtual-desktop-specialty"
+    "image": "/badges/ea009208-e2d6-432e-bbf6-d34d28b0835f.png",
+    "url": "https://www.credly.com/org/microsoft-certification/badge/microsoft-certified-azure-virtual-desktop-specialty",
+    "sourceImage": "https://images.credly.com/images/ea009208-e2d6-432e-bbf6-d34d28b0835f/azure-virtual-desktop-specialty-600x600.png"
   },
   {
     "id": "078939b8-092b-46e1-bc44-b34276e26d56",
@@ -266,7 +295,8 @@
     "issuer": "Microsoft",
     "issuedAt": "2022-03-05",
     "expiresAt": "2023-03-05",
-    "image": "https://images.credly.com/images/63316b60-f62d-4e51-aacc-c23cb850089c/azure-developer-associate-600x600.png",
-    "url": "https://www.credly.com/org/microsoft-certification/badge/microsoft-certified-azure-developer-associate.1"
+    "image": "/badges/63316b60-f62d-4e51-aacc-c23cb850089c.png",
+    "url": "https://www.credly.com/org/microsoft-certification/badge/microsoft-certified-azure-developer-associate.1",
+    "sourceImage": "https://images.credly.com/images/63316b60-f62d-4e51-aacc-c23cb850089c/azure-developer-associate-600x600.png"
   }
 ]
